@@ -1,6 +1,6 @@
+import appLogo from "../assets/icons/logo.svg"
 import daiLogo from "../assets/icons/dai.svg"
 import renbtcLogo from "../assets/icons/renbtc.svg"
-import saddleLogo from "../assets/icons/logo.svg"
 import sbtcLogo from "../assets/icons/sbtc.svg"
 import susdLogo from "../assets/icons/susd.svg"
 import tbtcLogo from "../assets/icons/tbtc.svg"
@@ -76,8 +76,8 @@ export const BTC_SWAP_TOKEN = new Token(
   18,
   "BLPT",
   "blpt",
-  "Saddle BTC Pool LP Token",
-  saddleLogo,
+  "Rocky BTC Pool LP Token",
+  appLogo,
 )
 
 // Stablecoins
@@ -222,4 +222,11 @@ export const POOL_STATS_URL: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: "https://ipfs.saddle.exchange/pool-stats.json",
   [ChainId.HARDHAT]:
     "https://mehmeta-team-bucket.storage.fleek.co/pool-stats-dev.json",
+}
+
+export enum REFS {
+  TRANSACTION_INFO = "https://docs.saddle.finance/faq#what-are-saddles-liquidity-provider-rewards",
+  CONTRACT_INFO = "https://github.com/saddle-finance/saddle-contract",
+  AUDITS_INFO = "https://github.com/saddle-finance/saddle-audits",
+  GAS_FETCH = "https://www.gasnow.org/api/v3/gas/price?utm_source=saddle",
 }

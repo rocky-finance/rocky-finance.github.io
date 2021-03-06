@@ -19,6 +19,7 @@ import MyActivityCard from "./MyActivityCard"
 import MyShareCard from "./MyShareCard"
 import { PayloadAction } from "@reduxjs/toolkit"
 import PoolInfoCard from "./PoolInfoCard"
+import { REFS } from "../constants"
 import ReviewDeposit from "./ReviewDeposit"
 import SlippageField from "./SlippageField"
 import TokenInput from "./TokenInput"
@@ -103,7 +104,7 @@ const DepositPage = (props: Props): ReactElement => {
                 {poolData?.keepApr && (
                   <div className="transactionInfoItem">
                     <a
-                      href="https://docs.saddle.finance/faq#what-are-saddles-liquidity-provider-rewards"
+                      href={REFS.TRANSACTION_INFO}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
