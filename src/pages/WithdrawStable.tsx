@@ -1,5 +1,5 @@
-import { BTC_POOL_NAME, BTC_POOL_TOKENS } from "../constants"
 import React, { ReactElement, useEffect, useState } from "react"
+import { STABLECOIN_POOL_NAME, STABLECOIN_POOL_TOKENS } from "../constants"
 import WithdrawPage, { ReviewWithdrawData } from "../components/WithdrawPage"
 import { commify, formatUnits, parseUnits } from "@ethersproject/units"
 
@@ -14,17 +14,17 @@ import { useSelector } from "react-redux"
 import { useSwapContract } from "../hooks/useContract"
 import useWithdrawFormState from "../hooks/useWithdrawFormState"
 
-function WithdrawBTC(): ReactElement {
-  const [poolData, userShareData] = usePoolData(BTC_POOL_NAME)
+function WithdrawStable(): ReactElement {
+  const [poolData, userShareData] = usePoolData(STABLECOIN_POOL_NAME)
   const [withdrawFormState, updateWithdrawFormState] = useWithdrawFormState(
-    BTC_POOL_NAME,
+    STABLECOIN_POOL_NAME,
   )
   const { slippageCustom, slippageSelected } = useSelector(
     (state: AppState) => state.user,
   )
   const { tokenPricesUSD } = useSelector((state: AppState) => state.application)
-  const approveAndWithdraw = useApproveAndWithdraw(BTC_POOL_NAME)
-  const swapContract = useSwapContract(BTC_POOL_NAME)
+  const approveAndWithdraw = useApproveAndWithdraw(STABLECOIN_POOL_NAME)
+  const swapContract = useSwapContract(STABLECOIN_POOL_NAME)
   const { account } = useActiveWeb3React()
 
   const [estWithdrawBonus, setEstWithdrawBonus] = useState(BigNumber.from(0))
@@ -40,7 +40,7 @@ function WithdrawBTC(): ReactElement {
         return
       }
       const tokenInputSum = parseUnits(
-        BTC_POOL_TOKENS.reduce(
+        STABLECOIN_POOL_TOKENS.reduce(
           (sum, { symbol }) =>
             sum + (+withdrawFormState.tokenInputs[symbol].valueRaw || 0),
           0,
@@ -51,7 +51,7 @@ function WithdrawBTC(): ReactElement {
       if (poolData.totalLocked.gt(0) && tokenInputSum.gt(0)) {
         withdrawLPTokenAmount = await swapContract.calculateTokenAmount(
           account,
-          BTC_POOL_TOKENS.map(
+          STABLECOIN_POOL_TOKENS.map(
             ({ symbol }) => withdrawFormState.tokenInputs[symbol].valueSafe,
           ),
           false,
@@ -86,7 +86,7 @@ function WithdrawBTC(): ReactElement {
 
   const tokensData = React.useMemo(
     () =>
-      BTC_POOL_TOKENS.map(({ name, symbol, icon }) => ({
+      STABLECOIN_POOL_TOKENS.map(({ name, symbol, icon }) => ({
         name,
         symbol,
         icon,
@@ -101,7 +101,7 @@ function WithdrawBTC(): ReactElement {
     slippage: formatSlippageToString(slippageSelected, slippageCustom),
     priceImpact: estWithdrawBonus,
   }
-  BTC_POOL_TOKENS.forEach(({ name, decimals, icon, symbol }) => {
+  STABLECOIN_POOL_TOKENS.forEach(({ name, decimals, icon, symbol }) => {
     if (BigNumber.from(withdrawFormState.tokenInputs[symbol].valueSafe).gt(0)) {
       reviewWithdrawData.withdraw.push({
         name,
@@ -141,4 +141,4 @@ function WithdrawBTC(): ReactElement {
   )
 }
 
-export default WithdrawBTC
+export default WithdrawStable
