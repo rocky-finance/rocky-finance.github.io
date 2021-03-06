@@ -5,12 +5,12 @@ import { Route, Switch } from "react-router-dom"
 
 import { AppDispatch } from "../state"
 import { BLOCK_TIME } from "../constants"
-import DepositBTC from "./DepositBTC"
+import DepositStable from "./DepositStable"
 import Risk from "./Risk"
-import SwapBTC from "./SwapBTC"
+import SwapBTC from "./SwapStable"
 import ToastsProvider from "../providers/ToastsProvider"
 import Web3ReactManager from "../components/Web3ReactManager"
-import WithdrawBTC from "./WithdrawBTC"
+import WithdrawStable from "./WithdrawStable"
 import fetchGasPrices from "../utils/updateGasPrices"
 import fetchTokenPricesUSD from "../utils/updateTokenPrices"
 import { useDispatch } from "react-redux"
@@ -34,8 +34,8 @@ export default function App(): ReactElement {
         <ToastsProvider>
           <Switch>
             <Route exact path="/" component={SwapBTC} />
-            <Route exact path="/deposit" component={DepositBTC} />
-            <Route exact path="/withdraw" component={WithdrawBTC} />
+            <Route exact path="/deposit" component={DepositStable} />
+            <Route exact path="/withdraw" component={WithdrawStable} />
             <Route exact path="/risk" component={Risk} />
           </Switch>
         </ToastsProvider>
