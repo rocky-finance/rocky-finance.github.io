@@ -60,6 +60,9 @@ div.swapPage {
       svg {
         margin-left: 10px;
         transform: norotate(0deg);
+        #triangle {
+          fill: $black;
+        }
       }
       svg.upsideDown {
         transform: rotate(-180deg);
@@ -84,7 +87,7 @@ div.swapPage {
 
     button.exchange {
       border: none;
-      background: $primary;
+      background: $black;
       height: 24px;
       margin-left: 4px;
       padding: 0;
@@ -92,6 +95,10 @@ div.swapPage {
 
       &:hover {
         transform: none;
+      }
+
+      &>svg>#arrow {
+        fill: $white;
       }
     }
 
@@ -174,5 +181,28 @@ div.swapPage {
   .showInfo,
   .showError {
     display: block;
+  }
+}
+
+body.dark {
+  div.swapPage {
+    .priceTable {
+      button.exchange {
+        background: $primary;
+        &>svg>#arrow {
+          fill: $black;
+        }
+      }
+    }
+    
+    .infoSection {
+      .title {
+        svg {
+          #triangle {
+            fill: $white;
+          }
+        }
+      }
+    }
   }
 }

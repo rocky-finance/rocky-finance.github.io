@@ -10,6 +10,9 @@ const config: ThemeConfig = {
 }
 
 const colors = {
+  button: {
+    500: "#949494",
+  },
   red: {
     50: "#ffe3e3",
     100: "#ffb2b3",

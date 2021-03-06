@@ -18,7 +18,7 @@
     margin: 0;
     width: 20px;
     height: 20px;
-    stroke: var(--text-selected);
+    stroke: $black;
     transition: transform 0.1s ease-in 25ms;
     transform: scale(0);
     transform-origin: bottom left;
@@ -32,6 +32,19 @@
     display: none;
     &:checked + .checkboxControl svg {
       transform: scale(1);
+    }
+  }
+}
+
+body.dark {
+  .checkboxInput {
+    .checkboxControl {
+      border: 0.1em solid var(--outline);
+      background-color: $black;
+    }
+  
+    .checkboxControl > svg {
+      stroke: $white;
     }
   }
 }
