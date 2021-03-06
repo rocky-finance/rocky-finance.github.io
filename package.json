@@ -1,6 +1,6 @@
 {
-  "name": "saddle-frontend",
-  "description": "The frontend for saddle.finance 🤠",
+  "name": "rocky-frontend",
+  "description": "The frontend for rocky.finance",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -75,8 +75,8 @@
     "typechain": "^4.0.1"
   },
   "scripts": {
-    "lint": "eslint --max-warnings=0 --ext ts,tsx ./src/ && prettier --list-different ./src/**/*.{ts,tsx,scss}",
-    "lint:fix": "eslint --max-warnings=0 --ext ts,tsx --fix ./src/ && prettier --write ./src/**/*.{ts,tsx,scss}",
+    "lint": "eslint --max-warnings=0 --ext ts,tsx src/ && prettier --list-different 'src/**/*.{ts,tsx,scss}'",
+    "lint:fix": "eslint --max-warnings=0 --ext ts,tsx --fix src/ && prettier --write 'src/**/*.{ts,tsx,scss}'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -85,8 +85,8 @@
     "build-storybook": "build-storybook -s public --no-dll",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "postinstall": "typechain --target ethers-v5 ./src/constants/abis/*.json && npm run gen:theme-typings",
-    "gen:theme-typings": "chakra-cli tokens ./src/theme/index.ts"
+    "postinstall": "typechain --target ethers-v5 'src/constants/abis/*.json' && npm run gen:theme-typings",
+    "gen:theme-typings": "chakra-cli tokens src/theme/index.ts"
   },
   "homepage": ".",
   "husky": {
@@ -108,7 +108,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thesis/saddle-frontend.git"
+    "url": "git+https://github.com/rocky-finance/rocky-finance.github.io.git"
   },
   "keywords": [
     "cryptocurrency",
