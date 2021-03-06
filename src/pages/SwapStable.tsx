@@ -1,5 +1,10 @@
-import { BTC_POOL_NAME, BTC_POOL_TOKENS, TOKENS_MAP } from "../constants"
 import React, { ReactElement, useCallback, useState } from "react"
+import {
+  STABLECOIN_POOL_NAME,
+  STABLECOIN_POOL_TOKENS,
+  TOKENS_MAP,
+} from "../constants"
+
 import { formatUnits, parseUnits } from "@ethersproject/units"
 
 import { BigNumber } from "@ethersproject/bignumber"
@@ -10,6 +15,7 @@ import { debounce } from "lodash"
 import { useApproveAndSwap } from "../hooks/useApproveAndSwap"
 import usePoolData from "../hooks/usePoolData"
 import { usePoolTokenBalances } from "../state/wallet/hooks"
+
 import { useSwapContract } from "../hooks/useContract"
 import { useTranslation } from "react-i18next"
 
@@ -26,33 +32,35 @@ interface FormState {
   priceImpact: BigNumber
   exchangeRate: BigNumber
 }
-function SwapBTC(): ReactElement {
+function SwapStable(): ReactElement {
   const { t } = useTranslation()
-  const [poolData] = usePoolData(BTC_POOL_NAME)
-  const approveAndSwap = useApproveAndSwap(BTC_POOL_NAME)
-  const tokenBalances = usePoolTokenBalances(BTC_POOL_NAME)
-  const swapContract = useSwapContract(BTC_POOL_NAME)
+  const [poolData] = usePoolData(STABLECOIN_POOL_NAME)
+  const approveAndSwap = useApproveAndSwap(STABLECOIN_POOL_NAME)
+  const tokenBalances = usePoolTokenBalances(STABLECOIN_POOL_NAME)
+  const swapContract = useSwapContract(STABLECOIN_POOL_NAME)
   const [formState, setFormState] = useState<FormState>({
     error: null,
     from: {
-      symbol: BTC_POOL_TOKENS[0].symbol,
+      symbol: STABLECOIN_POOL_TOKENS[0].symbol,
       value: "0.0",
     },
     to: {
-      symbol: BTC_POOL_TOKENS[1].symbol,
+      symbol: STABLECOIN_POOL_TOKENS[1].symbol,
       value: BigNumber.from("0"),
     },
     priceImpact: BigNumber.from("0"),
     exchangeRate: BigNumber.from("0"),
   })
   // build a representation of pool tokens for the UI
-  const tokens = BTC_POOL_TOKENS.map(({ symbol, name, icon, decimals }) => ({
-    name,
-    icon,
-    symbol,
-    decimals,
-    value: tokenBalances ? tokenBalances[symbol] : BigNumber.from("0"),
-  }))
+  const tokens = STABLECOIN_POOL_TOKENS.map(
+    ({ symbol, name, icon, decimals }) => ({
+      name,
+      icon,
+      symbol,
+      decimals,
+      value: tokenBalances ? tokenBalances[symbol] : BigNumber.from("0"),
+    }),
+  )
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const calculateSwapAmount = useCallback(
     debounce(async (formStateArg: FormState) => {
@@ -71,10 +79,10 @@ function SwapBTC(): ReactElement {
         return
       }
       // TODO: improve the relationship between token / index
-      const tokenIndexFrom = BTC_POOL_TOKENS.findIndex(
+      const tokenIndexFrom = STABLECOIN_POOL_TOKENS.findIndex(
         ({ symbol }) => symbol === formStateArg.from.symbol,
       )
-      const tokenIndexTo = BTC_POOL_TOKENS.findIndex(
+      const tokenIndexTo = STABLECOIN_POOL_TOKENS.findIndex(
         ({ symbol }) => symbol === formStateArg.to.symbol,
       )
       const amountToGive = parseUnits(
@@ -246,4 +254,4 @@ function SwapBTC(): ReactElement {
   )
 }
 
-export default SwapBTC
+export default SwapStable
