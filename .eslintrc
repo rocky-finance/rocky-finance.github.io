@@ -1,5 +1,5 @@
 {
-  "extends":  [
+  "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -13,13 +13,18 @@
       "version": "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
     }
   },
-  "parser":  "@typescript-eslint/parser",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion":  2018,
-    "project": ["./tsconfig.json", "./cypress/tsconfig.json"],
+    "ecmaVersion": 2018,
+    "project": [
+      "./tsconfig.json",
+      "./cypress/tsconfig.json"
+    ],
     "sourceType": "module"
   },
-  "plugins": ["jest"],
+  "plugins": [
+    "jest"
+  ],
   "env": {
     "browser": true,
     "es6": true,
@@ -28,7 +33,15 @@
     "jest/globals": true
   },
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-unused-vars": [
+      "error"
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "no-invalid-this": 0,
     "no-unused-vars": "off",
     "sort-imports": "error"
