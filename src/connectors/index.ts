@@ -42,5 +42,5 @@ export const walletconnect = new WalletConnectConnector({
 
 export const walletlink = new WalletLinkConnector({
   url: NETWORK_URL,
-  appName: "Saddle",
+  appName: "Rocky",
 })

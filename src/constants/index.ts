@@ -1,5 +1,5 @@
+import appLogo from "../assets/icons/logo.svg"
 import daiLogo from "../assets/icons/dai.svg"
-import saddleLogo from "../assets/icons/logo.svg"
 import usdcLogo from "../assets/icons/usdc.svg"
 
 export const NetworkContextName = "NETWORK"
@@ -61,7 +61,7 @@ export const STABLECOIN_SWAP_TOKEN = new Token(
   "rUSDp",
   "rusdp",
   "Rocky USD primo",
-  saddleLogo,
+  appLogo,
 )
 
 // Stablecoins
@@ -150,4 +150,11 @@ export const POOL_STATS_URL: { [chainId in ChainId]: string } = {
   [ChainId.ROPSTEN]: "https://ipfs.saddle.exchange/pool-stats.json",
   [ChainId.HARDHAT]:
     "https://mehmeta-team-bucket.storage.fleek.co/pool-stats-dev.json",
+}
+
+export enum REFS {
+  TRANSACTION_INFO = "https://docs.saddle.finance/faq#what-are-saddles-liquidity-provider-rewards",
+  CONTRACT_INFO = "https://github.com/saddle-finance/saddle-contract",
+  AUDITS_INFO = "https://github.com/saddle-finance/saddle-audits",
+  GAS_FETCH = "https://www.gasnow.org/api/v3/gas/price?utm_source=saddle",
 }
