@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { AppDispatch } from "../state"
 import { AppState } from "../state"
+import { BigNumber } from "@ethersproject/bignumber"
 import ConfirmTransaction from "./ConfirmTransaction"
 import DeadlineField from "./DeadlineField"
 import { DepositTransaction } from "../interfaces/transactions"
@@ -19,6 +20,7 @@ import MyActivityCard from "./MyActivityCard"
 import MyShareCard from "./MyShareCard"
 import { PayloadAction } from "@reduxjs/toolkit"
 import PoolInfoCard from "./PoolInfoCard"
+import { REFS } from "../constants"
 import ReviewDeposit from "./ReviewDeposit"
 import SlippageField from "./SlippageField"
 import TokenInput from "./TokenInput"
@@ -103,14 +105,19 @@ const DepositPage = (props: Props): ReactElement => {
                 {poolData?.keepApr && (
                   <div className="transactionInfoItem">
                     <a
-                      href="https://docs.saddle.finance/faq#what-are-saddles-liquidity-provider-rewards"
+                      href={REFS.TRANSACTION_INFO}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <span>{`KEEP APR:`}</span>
+                      <span>{t("totalAPY")}: </span>
                     </a>{" "}
                     <span className="value">
-                      {formatBNToPercentString(poolData.keepApr, 18)}
+                      {formatBNToPercentString(
+                        poolData.totalAPY
+                          ? poolData.totalAPY
+                          : BigNumber.from(0),
+                        18,
+                      )}
                     </span>
                   </div>
                 )}
@@ -159,7 +166,7 @@ const DepositPage = (props: Props): ReactElement => {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M14.8252 0C16.077 0 16.3783 0.827943 15.487 1.86207L8.80565 9.61494C8.35999 10.1321 7.63098 10.1246 7.19174 9.61494L0.510262 1.86207C-0.376016 0.833678 -0.0777447 0 1.17205 0L14.8252 0Z"
-                  fill="#00f4d7"
+                  fill="#000000"
                 />
               </svg>
             </span>

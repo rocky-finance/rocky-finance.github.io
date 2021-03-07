@@ -31,6 +31,9 @@ export interface PoolDataType {
   volume: string // TODO: calculate
   keepApr: BigNumber
   lpTokenPriceUSD: BigNumber
+  poolAPY: BigNumber | null
+  rewardAPY: BigNumber | null
+  totalAPY: BigNumber | null
 }
 
 export interface UserShareType {
@@ -200,9 +203,12 @@ export default function usePoolData(
         swapFee: swapFee,
         volume: "XXX", // TODO
         utilization: "XXX", // TODO
-        apy: "XXX", // TODO
-        keepApr,
+        apy: "XXX", // obsolete
+        keepApr, // obsolete
         lpTokenPriceUSD,
+        poolAPY: null,
+        rewardAPY: null,
+        totalAPY: null,
       }
       const userShareData = account
         ? {
