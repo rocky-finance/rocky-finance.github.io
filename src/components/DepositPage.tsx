@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { AppDispatch } from "../state"
 import { AppState } from "../state"
+import { BigNumber } from "@ethersproject/bignumber"
 import ConfirmTransaction from "./ConfirmTransaction"
 import DeadlineField from "./DeadlineField"
 import { DepositTransaction } from "../interfaces/transactions"
@@ -108,10 +109,15 @@ const DepositPage = (props: Props): ReactElement => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <span>{`KEEP APR:`}</span>
+                      <span>{t("totalAPY")}: </span>
                     </a>{" "}
                     <span className="value">
-                      {formatBNToPercentString(poolData.keepApr, 18)}
+                      {formatBNToPercentString(
+                        poolData.totalAPY
+                          ? poolData.totalAPY
+                          : BigNumber.from(0),
+                        18,
+                      )}
                     </span>
                   </div>
                 )}
