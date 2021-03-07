@@ -1,17 +1,16 @@
 import "./index.css"
 import "./i18n"
+import "@fontsource/roboto"
 
-import { ChakraProvider, ColorModeScript } from "@chakra-ui/react"
 import { Web3ReactProvider, createWeb3ReactRoot } from "@web3-react/core"
 import { logError, sendWebVitalsToGA } from "./utils/googleAnalytics"
 
 import App from "./pages/App"
 import { NetworkContextName } from "./constants"
 import { Provider } from "react-redux"
-import React from "react"
+import React, { Suspense } from "react"
 import ReactDOM from "react-dom"
 import { HashRouter as Router } from "react-router-dom"
-import chakraTheme from "./theme/"
 import getLibrary from "./utils/getLibrary"
 import reportWebVitals from "./reportWebVitals"
 import store from "./state"
@@ -26,19 +25,18 @@ window.addEventListener("error", logError)
 
 ReactDOM.render(
   <>
-    <ColorModeScript initialColorMode={chakraTheme.config.initialColorMode} />
     <React.StrictMode>
-      <ChakraProvider theme={chakraTheme}>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <Web3ProviderNetwork getLibrary={getLibrary}>
-            <Provider store={store}>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <Web3ProviderNetwork getLibrary={getLibrary}>
+          <Provider store={store}>
+            <Suspense fallback={null}>
               <Router>
                 <App />
               </Router>
-            </Provider>
-          </Web3ProviderNetwork>
-        </Web3ReactProvider>
-      </ChakraProvider>
+            </Suspense>
+          </Provider>
+        </Web3ProviderNetwork>
+      </Web3ReactProvider>
     </React.StrictMode>
   </>,
   document.getElementById("root"),

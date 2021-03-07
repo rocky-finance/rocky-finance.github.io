@@ -17,7 +17,6 @@ import { PayloadAction } from "@reduxjs/toolkit"
 import ReviewSwap from "./ReviewSwap"
 import SlippageField from "./SlippageField"
 import SwapForm from "./SwapForm"
-import TopMenu from "./TopMenu"
 import classNames from "classnames"
 import { isHighPriceImpact } from "../utils/priceImpact"
 import { logEvent } from "../utils/googleAnalytics"
@@ -82,7 +81,6 @@ const SwapPage = (props: Props): ReactElement => {
 
   return (
     <div className="swapPage">
-      <TopMenu activeTab={"swap"} />
       <div className="content">
         <SwapForm
           isSwapFrom={true}

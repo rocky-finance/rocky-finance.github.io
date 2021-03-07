@@ -67,6 +67,11 @@ const fonts = {
   body: "Source Code Pro, monospace, sans-serif",
   heading: "Noe Display, Times, serif",
   mono: "Source Code Pro, monospace, sans-serif",
+
+  headline: "sans-serif",
+  subtitle: "sans-serif",
+  caption: "sans-serif",
+  button: "sans-serif",
 }
 
 const overrides = { config, colors, fonts, components }

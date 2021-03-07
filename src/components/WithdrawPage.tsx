@@ -23,7 +23,6 @@ import RadioButton from "./RadioButton"
 import ReviewWithdraw from "./ReviewWithdraw"
 import SlippageField from "./SlippageField"
 import TokenInput from "./TokenInput"
-import TopMenu from "./TopMenu"
 import { WithdrawFormState } from "../hooks/useWithdrawFormState"
 import classNames from "classnames"
 import { formatBNToPercentString } from "../utils"
@@ -93,7 +92,6 @@ const WithdrawPage = (props: Props): ReactElement => {
 
   return (
     <div className={"withdraw " + classNames({ noShare: noShare })}>
-      <TopMenu activeTab={"withdraw"} />
       {noShare ? (
         <NoShareContent />
       ) : (

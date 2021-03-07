@@ -9,10 +9,10 @@
 * {
   box-sizing: border-box;
 }
-
+/*
 p,
 span {
-  font-family: $font-family;
+  font-family: $font-body;
   line-height: 20px;
   size: 16px;
 }
@@ -22,9 +22,9 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: $font-family-title;
+  font-family: $font-headline;
 }
-
+*/
 svg,
 img {
   // TODO: get rid of this once chakra is more integrated

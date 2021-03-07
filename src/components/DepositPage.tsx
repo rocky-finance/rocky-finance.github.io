@@ -23,7 +23,6 @@ import { REFS } from "../constants"
 import ReviewDeposit from "./ReviewDeposit"
 import SlippageField from "./SlippageField"
 import TokenInput from "./TokenInput"
-import TopMenu from "./TopMenu"
 import classNames from "classnames"
 import { formatBNToPercentString } from "../utils"
 import { logEvent } from "../utils/googleAnalytics"
@@ -74,7 +73,6 @@ const DepositPage = (props: Props): ReactElement => {
 
   return (
     <div className="deposit">
-      <TopMenu activeTab={"deposit"} />
       {myShareData?.lpTokenBalance.gt(0) && <LPStakingBanner />}
 
       <div className="content">
