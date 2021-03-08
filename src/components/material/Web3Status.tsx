@@ -2,40 +2,65 @@ import "./Web3Status.scss"
 
 import React, { ReactElement, useState } from "react"
 
+import { withStyles } from "@material-ui/core/styles"
 import ConnectWallet from "../ConnectWallet"
 import Modal from "../Modal"
-import profile from "../../assets/icons/profile.svg"
 import { useTranslation } from "react-i18next"
 import { useWeb3React } from "@web3-react/core"
+import Chip from "@material-ui/core/Chip"
+import Grid from "@material-ui/core/Grid"
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet"
 
 // Todo: Link profile image to real account image
+
+const StyledChip = withStyles({
+  root: {
+    color: "rgba(255, 255, 255, 0.7)",
+    border: "1px solid rgba(255, 255, 255, 0.7)",
+    "& svg.MuiChip-deleteIcon": {
+      color: "rgba(255, 255, 255, 0.7)",
+    },
+    "&:hover": {
+      color: "white",
+      borderColor: "white",
+      "& svg.MuiChip-deleteIcon": {
+        color: "white",
+      },
+    },
+  },
+})(Chip)
 
 const Web3Status = (): ReactElement => {
   const { account } = useWeb3React()
   const [modalOpen, setModalOpen] = useState(false)
   const { t } = useTranslation()
 
-  return (
-    <div className="walletStatus">
-      <button type="button" onClick={(): void => setModalOpen(true)}>
-        {account ? (
-          <div className="hasAccount">
-            <span>
-              {account.substring(0, 6)}...
-              {account.substring(account.length - 4, account.length)}
-            </span>
+  const address = account ? (
+    <span>
+      {account.substring(0, 6)}...
+      {account.substring(account.length - 4, account.length)}
+    </span>
+  ) : (
+    <span>{t("connectWallet")}</span>
+  )
 
-            {/* Link real profile image here */}
-            <img alt="profile" src={profile} />
-          </div>
-        ) : (
-          <div className="noAccount">{t("connectWallet")}</div>
-        )}
-      </button>
+  const handleModalOpen = () => {
+    setModalOpen(true)
+  }
+
+  return (
+    <Grid>
+      <StyledChip
+        onClick={handleModalOpen}
+        label={address}
+        deleteIcon={<AccountBalanceWalletIcon />}
+        onDelete={handleModalOpen}
+        variant="outlined"
+      />
       <Modal isOpen={modalOpen} onClose={(): void => setModalOpen(false)}>
         <ConnectWallet onClose={(): void => setModalOpen(false)} />
       </Modal>
-    </div>
+    </Grid>
   )
 }
 
