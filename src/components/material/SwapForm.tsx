@@ -1,14 +1,13 @@
-import "./SwapForm.scss"
-
 import React, { ReactElement } from "react"
 
 import { BigNumber } from "@ethersproject/bignumber"
-import Button from "./Button"
-import ToolTip from "./ToolTip"
+import Button from "../Button"
+import ToolTip from "../ToolTip"
 import classNames from "classnames"
-import { formatBNToString } from "../utils"
+import { formatBNToString } from "../../utils"
 import { formatUnits } from "@ethersproject/units"
 import { useTranslation } from "react-i18next"
+import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
 
 interface Props {
   isSwapFrom: boolean
@@ -36,10 +35,10 @@ function SwapForm({
   const { t } = useTranslation()
 
   return (
-    <div className="swapForm">
-      <div className="head">
-        <h4 className="title">{isSwapFrom ? t("from") : t("to")}</h4>
-        <div className="inputField">
+    <div>
+      <div>
+        <h4>{isSwapFrom ? t("from") : t("to")}</h4>
+        <div>
           <input
             autoComplete="off"
             autoCorrect="off"
@@ -57,7 +56,7 @@ function SwapForm({
             readOnly={!isSwapFrom}
           />
           {isSwapFrom ? (
-            <div className="buttonWrapper">
+            <div>
               <Button
                 size="small"
                 kind="ternary"
@@ -76,32 +75,32 @@ function SwapForm({
           )}
         </div>
       </div>
-      <ul className="tokenList">
-        {tokens.map(({ symbol, value, icon, name, decimals }, i) => {
+      <List component="nav">
+        {tokens.map(({ symbol, value, icon, name, decimals }) => {
           const formattedShortBalance = formatBNToString(value, decimals, 6)
           const formattedLongBalance = formatBNToString(value, decimals)
           return (
-            <div
-              className={classNames("tokenListItem", {
-                active: selected === symbol,
-              })}
+            <ListItem
+              button
               key={symbol}
+              selected={selected === symbol}
               onClick={(): void => onChangeSelected(symbol)}
             >
-              <img className="tokenIcon" src={icon} alt="icon" />
-              <span className="tokenName">{name}</span>
+              <ListItemIcon>
+                <img src={icon} alt="icon" />
+              </ListItemIcon>
+              <ListItemText primary={name} />
               {isSwapFrom ? (
-                <span className="tokenValue">
+                <span>
                   <ToolTip content={formattedLongBalance}>
                     {formattedShortBalance}
                   </ToolTip>
                 </span>
               ) : null}
-              {i === tokens.length - 1 ? "" : <div className="divider"></div>}
-            </div>
+            </ListItem>
           )
         })}
-      </ul>
+      </List>
     </div>
   )
 }
