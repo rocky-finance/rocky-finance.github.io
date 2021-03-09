@@ -1,6 +1,6 @@
 import "../styles/global.scss"
 
-import React, { ReactElement, useCallback } from "react"
+import React, { ReactElement, useCallback, useState } from "react"
 import { Route, Switch } from "react-router-dom"
 
 import { AppDispatch } from "../state"
@@ -16,8 +16,21 @@ import fetchTokenPricesUSD from "../utils/updateTokenPrices"
 import { useDispatch } from "react-redux"
 import usePoller from "../hooks/usePoller"
 import Appbar from "../components/material/Appbar"
+import Grid from "@material-ui/core/Grid"
+import { makeStyles } from "@material-ui/core/styles"
+import { darkTheme, lightTheme } from "../components/material/RockyTheme"
+import { Button, MuiThemeProvider } from "@material-ui/core"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import { createMuiTheme } from "@material-ui/core/styles"
+
+const useStyles = makeStyles(() => ({
+  root: {
+    overflow: "hidden",
+  },
+}))
 
 export default function App(): ReactElement {
+  const classes = useStyles()
   const dispatch = useDispatch<AppDispatch>()
 
   const fetchAndUpdateGasPrice = useCallback(() => {
@@ -29,16 +42,31 @@ export default function App(): ReactElement {
   usePoller(fetchAndUpdateGasPrice, BLOCK_TIME)
   usePoller(fetchAndUpdateTokensPrice, BLOCK_TIME * 3)
 
+  const [theme, setTheme] = useState(lightTheme)
+
+  const toggleDarkTheme = () => {
+    const newPaletteType =
+      theme.palette?.type === "light" ? darkTheme : lightTheme
+    setTheme(newPaletteType)
+  }
+
+  const muiTheme = createMuiTheme(theme)
+
   return (
     <Web3ReactManager>
       <ToastsProvider>
-        <Appbar />
-        <Switch>
-          <Route exact path="/" component={SwapBTC} />
-          <Route exact path="/deposit" component={DepositBTC} />
-          <Route exact path="/withdraw" component={WithdrawBTC} />
-          <Route exact path="/risk" component={Risk} />
-        </Switch>
+        <MuiThemeProvider theme={muiTheme}>
+          <CssBaseline />
+          <Grid direction="column" className={classes.root}>
+            <Appbar onToggleDark={toggleDarkTheme} />
+            <Switch>
+              <Route exact path="/" component={SwapBTC} />
+              <Route exact path="/deposit" component={DepositBTC} />
+              <Route exact path="/withdraw" component={WithdrawBTC} />
+              <Route exact path="/risk" component={Risk} />
+            </Switch>
+          </Grid>
+        </MuiThemeProvider>
       </ToastsProvider>
     </Web3ReactManager>
   )

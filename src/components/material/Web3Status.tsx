@@ -13,22 +13,26 @@ import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet"
 
 // Todo: Link profile image to real account image
 
-const StyledChip = withStyles({
-  root: {
-    color: "rgba(255, 255, 255, 0.7)",
-    border: "1px solid rgba(255, 255, 255, 0.7)",
-    "& svg.MuiChip-deleteIcon": {
-      color: "rgba(255, 255, 255, 0.7)",
-    },
-    "&:hover": {
-      color: "white",
-      borderColor: "white",
+const StyledChip = withStyles(
+  (theme) => ({
+    root: {
+      color: theme.palette.text.primary,
+      border: "1px dashed",
+      borderColor: theme.palette.text.primary,
       "& svg.MuiChip-deleteIcon": {
+        color: theme.palette.text.primary,
+      },
+      "&:hover": {
         color: "white",
+        borderColor: "white",
+        "& svg.MuiChip-deleteIcon": {
+          color: "white",
+        },
       },
     },
-  },
-})(Chip)
+  }),
+  { withTheme: true },
+)(Chip)
 
 const Web3Status = (): ReactElement => {
   const { account } = useWeb3React()

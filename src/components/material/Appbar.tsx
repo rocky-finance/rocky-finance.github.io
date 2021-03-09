@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react"
 import { Link, useLocation } from "react-router-dom"
 
-import { makeStyles } from "@material-ui/core/styles"
+import { makeStyles, useTheme } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
@@ -12,7 +12,6 @@ import Typography from "@material-ui/core/Typography"
 import { useTranslation } from "react-i18next"
 import logo from "../../assets/icons/logo.svg"
 import Web3Status from "../../components/material/Web3Status"
-import ThemeChanger from "../../components/material/ThemeChanger"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,14 +26,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function Appbar(): ReactElement {
+interface AppbarProps {
+  onToggleDark: (() => void)
+}
+
+export default function Appbar(props:AppbarProps): ReactElement<AppbarProps> {
   const classes = useStyles()
+  const theme = useTheme()
   const { t } = useTranslation()
   const location = useLocation()
   const currentTab = location.pathname
 
   return (
-    <AppBar>
+    <AppBar position="relative">
       <Grid container component={Toolbar} direction="row" wrap="nowrap">
         <Grid item>
           <Grid container alignItems="center" wrap="nowrap">
@@ -86,7 +90,14 @@ export default function Appbar(): ReactElement {
         <Grid item>
           <Grid container alignItems="center" wrap="nowrap">
             <Web3Status />
-            <ThemeChanger />
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={props.onToggleDark}
+            >
+              {theme.palette.type === "dark" ? "☾" : "☀"}
+            </IconButton>
           </Grid>
         </Grid>
       </Grid>
