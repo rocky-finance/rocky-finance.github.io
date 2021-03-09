@@ -65,7 +65,7 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
   const currentTab = location.pathname
 
   return (
-    <AppBar position="relative" color="inherit" elevation={0}>
+    <AppBar position="fixed" color="inherit" elevation={0}>
       <Grid container component={Toolbar} direction="row" wrap="nowrap">
         <Grid item>
           <Grid container alignItems="center" wrap="nowrap">

@@ -23,10 +23,8 @@ import { MuiThemeProvider } from "@material-ui/core"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { createMuiTheme } from "@material-ui/core/styles"
 
-const useStyles = makeStyles(() => ({
-  root: {
-    overflow: "hidden",
-  },
+const useStyles = makeStyles((theme) => ({
+  offset: theme.mixins.toolbar,
 }))
 
 export default function App(): ReactElement {
@@ -57,8 +55,9 @@ export default function App(): ReactElement {
       <ToastsProvider>
         <MuiThemeProvider theme={muiTheme}>
           <CssBaseline />
-          <Grid direction="column" className={classes.root}>
+          <Grid direction="column">
             <Appbar onToggleDark={toggleDarkTheme} />
+            <div className={classes.offset} />
             <Switch>
               <Route exact path="/" component={SwapBTC} />
               <Route exact path="/deposit" component={DepositBTC} />

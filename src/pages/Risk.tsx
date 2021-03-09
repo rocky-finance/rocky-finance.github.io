@@ -1,15 +1,16 @@
-import "./Risk.scss"
+// import "./Risk.scss"
 
 import React, { ReactElement } from "react"
 import { REFS } from "../constants"
 
 import { useTranslation } from "react-i18next"
+import { Container } from "@material-ui/core"
 
 function Risk(): ReactElement {
   const { t } = useTranslation()
 
   return (
-    <div className="riskpage">
+    <Container maxWidth="md" className="riskpage">
       <div className="content">
         <p>
           {t("riskIntro")} <a href={REFS.CONTRACT_INFO}>{t("riskIntro2")}</a>{" "}
@@ -31,7 +32,7 @@ function Risk(): ReactElement {
         <h3>{t("lossOfPeg")}</h3>
         <p>{t("riskLossOfPeg")}</p>
       </div>
-    </div>
+    </Container>
   )
 }
 

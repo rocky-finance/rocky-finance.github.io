@@ -1,4 +1,4 @@
-import "./WithdrawPage.scss"
+// import "./WithdrawPage.scss"
 
 import { Button, Center } from "@chakra-ui/react"
 import { PoolDataType, UserShareType } from "../hooks/usePoolData"
@@ -29,6 +29,7 @@ import { formatBNToPercentString } from "../utils"
 import { logEvent } from "../utils/googleAnalytics"
 import { updatePoolAdvancedMode } from "../state/user"
 import { useTranslation } from "react-i18next"
+import { Container } from "@material-ui/core"
 
 export interface ReviewWithdrawData {
   withdraw: {
@@ -91,7 +92,10 @@ const WithdrawPage = (props: Props): ReactElement => {
     !myShareData || myShareData.lpTokenBalance.eq(BigNumber.from(0))
 
   return (
-    <div className={"withdraw " + classNames({ noShare: noShare })}>
+    <Container
+      maxWidth="md"
+      className={"withdraw " + classNames({ noShare: noShare })}
+    >
       {noShare ? (
         <NoShareContent />
       ) : (
@@ -286,7 +290,7 @@ const WithdrawPage = (props: Props): ReactElement => {
           </Modal>
         </div>
       )}
-    </div>
+    </Container>
   )
 }
 

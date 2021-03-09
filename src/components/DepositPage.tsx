@@ -1,4 +1,4 @@
-import "./DepositPage.scss"
+// import "./DepositPage.scss"
 
 import { Button, Center } from "@chakra-ui/react"
 import { PoolDataType, UserShareType } from "../hooks/usePoolData"
@@ -28,6 +28,7 @@ import { formatBNToPercentString } from "../utils"
 import { logEvent } from "../utils/googleAnalytics"
 import { updatePoolAdvancedMode } from "../state/user"
 import { useTranslation } from "react-i18next"
+import { Container } from "@material-ui/core"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Props {
@@ -72,7 +73,7 @@ const DepositPage = (props: Props): ReactElement => {
   const validDepositAmount = transactionData.to.totalAmount.gt(0)
 
   return (
-    <div className="deposit">
+    <Container maxWidth="md" className="deposit">
       {myShareData?.lpTokenBalance.gt(0) && <LPStakingBanner />}
 
       <div className="content">
@@ -231,7 +232,7 @@ const DepositPage = (props: Props): ReactElement => {
           {currentModal === "confirm" ? <ConfirmTransaction /> : null}
         </Modal>
       </div>
-    </div>
+    </Container>
   )
 }
 
