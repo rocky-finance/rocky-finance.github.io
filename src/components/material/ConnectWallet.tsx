@@ -81,6 +81,8 @@ const useStyles = makeStyles((theme) => ({
   },
   actions: {
     padding: theme.spacing(1, 2),
+    display: "flex",
+    justifyContent: "space-between",
   },
 }))
 
