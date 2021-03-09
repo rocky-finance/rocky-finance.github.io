@@ -1,10 +1,7 @@
-import "./Web3Status.scss"
-
-import React, { ReactElement, useState } from "react"
+import React, { ReactElement } from "react"
 
 import { withStyles } from "@material-ui/core/styles"
-import ConnectWallet from "../ConnectWallet"
-import Modal from "../Modal"
+import ConnectWallet from "./ConnectWallet"
 import { useTranslation } from "react-i18next"
 import { useWeb3React } from "@web3-react/core"
 import Chip from "@material-ui/core/Chip"
@@ -37,8 +34,8 @@ const StyledChip = withStyles(
 
 const Web3Status = (): ReactElement => {
   const { account } = useWeb3React()
-  const [modalOpen, setModalOpen] = useState(false)
   const { t } = useTranslation()
+  const [open, setOpen] = React.useState(false)
 
   const address = account ? (
     <span>
@@ -49,22 +46,24 @@ const Web3Status = (): ReactElement => {
     <span>{t("connectWallet")}</span>
   )
 
-  const handleModalOpen = () => {
-    setModalOpen(true)
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
   }
 
   return (
     <Grid>
       <StyledChip
-        onClick={handleModalOpen}
+        onClick={handleClickOpen}
         label={address}
         deleteIcon={<AccountBalanceWalletIcon />}
-        onDelete={handleModalOpen}
+        onDelete={handleClickOpen}
         variant="outlined"
       />
-      <Modal isOpen={modalOpen} onClose={(): void => setModalOpen(false)}>
-        <ConnectWallet onClose={(): void => setModalOpen(false)} />
-      </Modal>
+      <ConnectWallet onClose={handleClose} open={open} />
     </Grid>
   )
 }
