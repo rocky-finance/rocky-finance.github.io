@@ -19,7 +19,7 @@ import Appbar from "../components/material/Appbar"
 import Grid from "@material-ui/core/Grid"
 import { makeStyles } from "@material-ui/core/styles"
 import { darkTheme, lightTheme } from "../components/material/RockyTheme"
-import { Button, MuiThemeProvider } from "@material-ui/core"
+import { MuiThemeProvider } from "@material-ui/core"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { createMuiTheme } from "@material-ui/core/styles"
 

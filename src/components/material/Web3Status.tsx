@@ -16,18 +16,19 @@ import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet"
 const StyledChip = withStyles(
   (theme) => ({
     root: {
-      color: theme.palette.text.primary,
+      color: theme.palette.text.secondary,
       border: "1px dashed",
-      borderColor: theme.palette.text.primary,
-      "& svg.MuiChip-deleteIcon": {
-        color: theme.palette.text.primary,
-      },
+      borderColor: theme.palette.text.secondary,
       "&:hover": {
-        color: "white",
-        borderColor: "white",
-        "& svg.MuiChip-deleteIcon": {
-          color: "white",
-        },
+        color: theme.palette.text.primary,
+        borderColor: theme.palette.text.primary,
+      },
+    },
+    deleteIcon: {
+      marginRight: theme.spacing(4),
+      color: "inherit",
+      "&:hover": {
+        color: "inherit",
       },
     },
   }),

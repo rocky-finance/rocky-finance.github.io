@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react"
 import { Link, useLocation } from "react-router-dom"
 
-import { makeStyles, useTheme } from "@material-ui/core/styles"
+import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
@@ -12,25 +12,48 @@ import Typography from "@material-ui/core/Typography"
 import { useTranslation } from "react-i18next"
 import logo from "../../assets/icons/logo.svg"
 import Web3Status from "../../components/material/Web3Status"
+import Brightness7OutlinedIcon from '@material-ui/icons/Brightness7Outlined'
+import Brightness4Icon from '@material-ui/icons/Brightness4';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    alignSelf: "stretch",
-    "& div.MuiTabs-scroller": {
+const StyledTabs = withStyles(
+  (theme) => ({
+    root: {
+      alignSelf: "stretch",
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
+    },
+    indicator: {
+      height: "3px",
+      backgroundColor: theme.palette.text.primary,
+    },
+    scroller: {
       display: "inline-flex",
       justifyContent: "center",
     },
+    fixed: {
+      borderBottom: "1px dashed",
+      borderBottomColor: theme.palette.text.secondary,
+    },
+  }),
+  { withTheme: true },
+)(Tabs)
+
+const useStyles = makeStyles((theme) => ({
+  tab: {
+    "&.Mui-selected": {
+      fontWeight: "bold",
+    },
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
+  themer: {
+    marginLeft: theme.spacing(2),
   },
 }))
 
 interface AppbarProps {
-  onToggleDark: (() => void)
+  onToggleDark: () => void
 }
 
-export default function Appbar(props:AppbarProps): ReactElement<AppbarProps> {
+export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
   const classes = useStyles()
   const theme = useTheme()
   const { t } = useTranslation()
@@ -38,7 +61,7 @@ export default function Appbar(props:AppbarProps): ReactElement<AppbarProps> {
   const currentTab = location.pathname
 
   return (
-    <AppBar position="relative">
+    <AppBar position="relative" color="inherit" elevation={0}>
       <Grid container component={Toolbar} direction="row" wrap="nowrap">
         <Grid item>
           <Grid container alignItems="center" wrap="nowrap">
@@ -55,8 +78,7 @@ export default function Appbar(props:AppbarProps): ReactElement<AppbarProps> {
           alignItems="stretch"
           value={currentTab}
           centered
-          component={Tabs}
-          className={classes.root}
+          component={StyledTabs}
         >
           <Tab
             label={t("swap")}
@@ -64,6 +86,7 @@ export default function Appbar(props:AppbarProps): ReactElement<AppbarProps> {
             to="/"
             value="/"
             centerRipple
+            className={classes.tab}
           />
           <Tab
             label={t("deposit")}
@@ -71,6 +94,7 @@ export default function Appbar(props:AppbarProps): ReactElement<AppbarProps> {
             to="deposit"
             value="/deposit"
             centerRipple
+            className={classes.tab}
           />
           <Tab
             label={t("withdraw")}
@@ -78,6 +102,7 @@ export default function Appbar(props:AppbarProps): ReactElement<AppbarProps> {
             to="withdraw"
             value="/withdraw"
             centerRipple
+            className={classes.tab}
           />
           <Tab
             label={t("risk")}
@@ -85,6 +110,7 @@ export default function Appbar(props:AppbarProps): ReactElement<AppbarProps> {
             to="risk"
             value="/risk"
             centerRipple
+            className={classes.tab}
           />
         </Grid>
         <Grid item>
@@ -95,8 +121,12 @@ export default function Appbar(props:AppbarProps): ReactElement<AppbarProps> {
               color="inherit"
               aria-label="menu"
               onClick={props.onToggleDark}
+              className={classes.themer}
             >
-              {theme.palette.type === "dark" ? "☾" : "☀"}
+              {theme.palette.type === "dark"
+                ? <Brightness4Icon />
+                : <Brightness7OutlinedIcon />
+              }
             </IconButton>
           </Grid>
         </Grid>
