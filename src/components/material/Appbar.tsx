@@ -12,8 +12,8 @@ import Typography from "@material-ui/core/Typography"
 import { useTranslation } from "react-i18next"
 import logo from "../../assets/icons/logo.svg"
 import Web3Status from "../../components/material/Web3Status"
-import Brightness7OutlinedIcon from '@material-ui/icons/Brightness7Outlined'
-import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness7OutlinedIcon from "@material-ui/icons/Brightness7Outlined"
+import Brightness4Icon from "@material-ui/icons/Brightness4"
 
 const StyledTabs = withStyles(
   (theme) => ({
@@ -46,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
   },
   themer: {
     marginLeft: theme.spacing(2),
+    color: theme.palette.text.secondary,
+    "&:hover": {
+      color: theme.palette.text.primary,
+    }
   },
 }))
 
@@ -123,10 +127,11 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
               onClick={props.onToggleDark}
               className={classes.themer}
             >
-              {theme.palette.type === "dark"
-                ? <Brightness4Icon />
-                : <Brightness7OutlinedIcon />
-              }
+              {theme.palette.type === "dark" ? (
+                <Brightness4Icon />
+              ) : (
+                <Brightness7OutlinedIcon />
+              )}
             </IconButton>
           </Grid>
         </Grid>

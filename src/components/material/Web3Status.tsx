@@ -25,7 +25,7 @@ const StyledChip = withStyles(
       },
     },
     deleteIcon: {
-      marginRight: theme.spacing(4),
+      marginRight: theme.spacing(2),
       color: "inherit",
       "&:hover": {
         color: "inherit",
