@@ -7,6 +7,7 @@ import { formatBNToString } from "../../utils"
 import { formatUnits } from "@ethersproject/units"
 import { useTranslation } from "react-i18next"
 import {
+  Box,
   Button,
   createStyles,
   InputAdornment,
@@ -16,6 +17,7 @@ import {
   ListItemText,
   makeStyles,
   OutlinedInput,
+  Popover,
   Typography,
 } from "@material-ui/core"
 
@@ -39,6 +41,12 @@ const useStyles = makeStyles((theme) =>
     margin: {
       margin: theme.spacing(1),
     },
+    popover: {
+      pointerEvents: 'none',
+    },
+    paper: {
+      padding: theme.spacing(1),
+    },
   }),
 )
 
@@ -52,6 +60,17 @@ function SwapForm({
 }: Props): ReactElement {
   const { t } = useTranslation()
   const classes = useStyles()
+
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
+  const open = Boolean(anchorEl)
+
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null)
+  }
 
   return (
     <form noValidate autoComplete="off">
@@ -109,11 +128,35 @@ function SwapForm({
               </ListItemIcon>
               <ListItemText primary={name} />
               {isSwapFrom ? (
-                <span>
-                  <ToolTip content={formattedLongBalance}>
+                <Box>
+                  <Typography
+                    onMouseEnter={handlePopoverOpen}
+                    onMouseLeave={handlePopoverClose}
+                  >
                     {formattedShortBalance}
-                  </ToolTip>
-                </span>
+                  </Typography>
+                  <Popover
+                    id="mouse-over-popover"
+                    className={classes.popover}
+                    classes={{
+                      paper: classes.paper,
+                    }}
+                    open={open}
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                    }}
+                    onClose={handlePopoverClose}
+                    disableRestoreFocus
+                  >
+                    <Typography>{formattedLongBalance}</Typography>
+                  </Popover>
+                </Box>
               ) : null}
             </ListItem>
           )
