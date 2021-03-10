@@ -3,12 +3,18 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { AppDispatch } from "../../state"
 import { AppState } from "../../state/index"
-import CheckboxInput from "../CheckboxInput"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { updateInfiniteApproval } from "../../state/user"
 import { useTranslation } from "react-i18next"
 import CustomPopover from "./CustomPopover"
-import { Box, Typography } from "@material-ui/core"
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Typography,
+} from "@material-ui/core"
 
 export default function InfiniteApprovalField(): ReactElement {
   const { t } = useTranslation()
@@ -30,19 +36,26 @@ export default function InfiniteApprovalField(): ReactElement {
 
   return (
     <Box>
-      <Typography
-        component="span"
-        onMouseEnter={handlePopoverOpen}
-        onMouseLeave={handlePopoverClose}
-      >
-        {t("infiniteApproval")}
-      </Typography>
-      <CheckboxInput
-        checked={infiniteApproval}
-        onChange={(): PayloadAction<boolean> =>
-          dispatch(updateInfiniteApproval(!infiniteApproval))
-        }
-      />
+      <FormControl component="fieldset">
+        <FormGroup aria-label="position" row>
+          <FormControlLabel
+            value="end"
+            control={
+              <Checkbox
+                color="primary"
+                checked={infiniteApproval}
+                onChange={(): PayloadAction<boolean> =>
+                  dispatch(updateInfiniteApproval(!infiniteApproval))
+                }
+              />
+            }
+            label={t("infiniteApproval")}
+            labelPlacement="end"
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+          />
+        </FormGroup>
+      </FormControl>
       <CustomPopover
         open={open}
         anchorEl={anchorEl}

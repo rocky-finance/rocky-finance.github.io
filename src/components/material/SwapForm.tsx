@@ -9,6 +9,10 @@ import {
   Box,
   Button,
   createStyles,
+  FormControl,
+  FormGroup,
+  FormHelperText,
+  FormLabel,
   InputAdornment,
   List,
   ListItem,
@@ -38,6 +42,9 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     margin: {
       margin: theme.spacing(1),
+    },
+    helper: {
+      marginLeft: theme.spacing(1),
     },
     input: {
       width: "100%",
@@ -73,82 +80,92 @@ function SwapForm({
   }
 
   return (
-    <form noValidate autoComplete="off">
-      <Typography variant="h6" color="inherit">
+    <FormControl autoCorrect="false" fullWidth variant="outlined">
+      <FormLabel component="legend">
         {isSwapFrom ? t("from") : t("to")}
-      </Typography>
-      <OutlinedInput
-        autoComplete="off"
-        autoCorrect="off"
-        type="text"
-        className={classes.input}
-        value={inputValue}
-        placeholder="0.0"
-        spellCheck="false"
-        onChange={(e): void => onChangeAmount?.(e.target.value)}
-        readOnly={!isSwapFrom}
-        onFocus={(e): void => {
-          if (isSwapFrom) {
-            e.target.select()
-          }
-        }}
-        endAdornment={
-          isSwapFrom ? (
-            <InputAdornment position="end">
-              <Button
-                disableElevation
-                variant="contained"
-                color="secondary"
-                onClick={(): void => {
-                  const token = tokens.find((t) => t.symbol === selected)
-                  if (token) {
-                    onChangeAmount?.(formatUnits(token.value, token.decimals))
-                  }
-                }}
+      </FormLabel>
+      <FormGroup>
+        <List component="nav">
+          {tokens.map(({ symbol, value, icon, name, decimals }) => {
+            const formattedShortBalance = formatBNToString(value, decimals, 6)
+            const formattedLongBalance = formatBNToString(value, decimals)
+            return (
+              <ListItem
+                button
+                key={symbol}
+                selected={selected === symbol}
+                onClick={(): void => onChangeSelected(symbol)}
               >
-                {t("max")}
-              </Button>
-            </InputAdornment>
-          ) : undefined
-        }
-      />
-      <List component="nav">
-        {tokens.map(({ symbol, value, icon, name, decimals }) => {
-          const formattedShortBalance = formatBNToString(value, decimals, 6)
-          const formattedLongBalance = formatBNToString(value, decimals)
-          return (
-            <ListItem
-              button
-              key={symbol}
-              selected={selected === symbol}
-              onClick={(): void => onChangeSelected(symbol)}
-            >
-              <ListItemIcon>
-                <img src={icon} alt="icon" />
-              </ListItemIcon>
-              <ListItemText primary={name} />
-              {isSwapFrom ? (
-                <Box>
-                  <Typography
-                    onMouseEnter={handlePopoverOpen}
-                    onMouseLeave={handlePopoverClose}
+                <ListItemIcon>
+                  <img src={icon} alt="icon" />
+                </ListItemIcon>
+                <ListItemText primary={name} />
+                {isSwapFrom ? (
+                  <Box>
+                    <Typography
+                      onMouseEnter={handlePopoverOpen}
+                      onMouseLeave={handlePopoverClose}
+                    >
+                      {formattedShortBalance}
+                    </Typography>
+                    <CustomPopover
+                      open={open}
+                      anchorEl={anchorEl}
+                      onClose={handlePopoverClose}
+                    >
+                      <Typography>{formattedLongBalance}</Typography>
+                    </CustomPopover>
+                  </Box>
+                ) : null}
+              </ListItem>
+            )
+          })}
+        </List>
+        <FormControl>
+          <FormHelperText className={classes.helper} id="amount-helper-text">
+            {t("amount")}
+          </FormHelperText>
+          <OutlinedInput
+            autoComplete="off"
+            autoCorrect="off"
+            id="amount"
+            type="text"
+            className={classes.input}
+            value={inputValue}
+            placeholder="0.0"
+            spellCheck="false"
+            onChange={(e): void => onChangeAmount?.(e.target.value)}
+            readOnly={!isSwapFrom}
+            onFocus={(e): void => {
+              if (isSwapFrom) {
+                e.target.select()
+              }
+            }}
+            endAdornment={
+              isSwapFrom ? (
+                <InputAdornment position="end">
+                  <Button
+                    disableElevation
+                    variant="contained"
+                    color="secondary"
+                    onClick={(): void => {
+                      const token = tokens.find((t) => t.symbol === selected)
+                      if (token) {
+                        onChangeAmount?.(
+                          formatUnits(token.value, token.decimals),
+                        )
+                      }
+                    }}
                   >
-                    {formattedShortBalance}
-                  </Typography>
-                  <CustomPopover
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handlePopoverClose}
-                  >
-                    <Typography>{formattedLongBalance}</Typography>
-                  </CustomPopover>
-                </Box>
-              ) : null}
-            </ListItem>
-          )
-        })}
-      </List>
-    </form>
+                    {t("max")}
+                  </Button>
+                </InputAdornment>
+              ) : undefined
+            }
+          />
+        </FormControl>
+      </FormGroup>
+    </FormControl>
   )
 }
 
