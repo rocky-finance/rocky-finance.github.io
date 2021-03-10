@@ -1,7 +1,7 @@
 import "../styles/global.scss"
 
 import React, { ReactElement, useCallback, useState } from "react"
-import { Route, Switch } from "react-router-dom"
+import { Redirect, Route, Switch } from "react-router-dom"
 
 import { AppDispatch } from "../state"
 import { BLOCK_TIME } from "../constants"
@@ -50,19 +50,50 @@ export default function App(): ReactElement {
 
   const muiTheme = createMuiTheme(theme)
 
+  const routes = [
+    {
+      id: "swap",
+      component: SwapBTC,
+    },
+    {
+      id: "deposit",
+      component: DepositBTC,
+    },
+    {
+      id: "withdraw",
+      component: WithdrawBTC,
+    },
+    {
+      id: "risk",
+      component: Risk,
+    },
+  ]
+
   return (
     <Web3ReactManager>
       <ToastsProvider>
         <MuiThemeProvider theme={muiTheme}>
           <CssBaseline />
-          <Grid direction="column">
-            <Appbar onToggleDark={toggleDarkTheme} />
+          <Grid direction="column" container>
+            <Appbar
+              onToggleDark={toggleDarkTheme}
+              routes={routes.map((value) => value.id)}
+            />
             <div className={classes.offset} />
             <Switch>
-              <Route exact path="/" component={SwapBTC} />
-              <Route exact path="/deposit" component={DepositBTC} />
-              <Route exact path="/withdraw" component={WithdrawBTC} />
-              <Route exact path="/risk" component={Risk} />
+              <Route exact path="/">
+                <Redirect to="/swap" />
+              </Route>
+              {routes.map((value) => {
+                return (
+                  <Route
+                    key={value.id}
+                    exact
+                    path={`/${value.id}`}
+                    component={value.component}
+                  />
+                )
+              })}
             </Switch>
           </Grid>
         </MuiThemeProvider>

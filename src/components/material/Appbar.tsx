@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface AppbarProps {
   onToggleDark: () => void
+  routes: string[]
 }
 
 export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
@@ -64,13 +65,6 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
   const { t } = useTranslation()
   const location = useLocation()
   const currentTab = location.pathname
-
-  const routes = [
-    "swap",
-    "deposit",
-    "withdraw",
-    "risk",
-  ]
 
   return (
     <AppBar position="fixed" color="inherit" elevation={0}>
@@ -92,38 +86,19 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
           centered
           component={StyledTabs}
         >
-          <Tab
-            label={t("swap")}
-            component={Link}
-            to="/"
-            value="/"
-            centerRipple
-            classes={{ selected: classes.tab}}
-          />
-          <Tab
-            label={t("deposit")}
-            component={Link}
-            to="deposit"
-            value="/deposit"
-            centerRipple
-            classes={{ selected: classes.tab}}
-          />
-          <Tab
-            label={t("withdraw")}
-            component={Link}
-            to="withdraw"
-            value="/withdraw"
-            centerRipple
-            classes={{ selected: classes.tab}}
-          />
-          <Tab
-            label={t("risk")}
-            component={Link}
-            to="risk"
-            value="/risk"
-            centerRipple
-            classes={{ selected: classes.tab}}
-          />
+          {props.routes.map((value) => {
+            return (
+              <Tab
+                key={value}
+                label={t(value)}
+                component={Link}
+                to={`/${value}`}
+                value={`/${value}`}
+                centerRipple
+                classes={{ selected: classes.tab }}
+              />
+            )
+          })}
         </Grid>
         <Grid item>
           <Grid container alignItems="center" wrap="nowrap">

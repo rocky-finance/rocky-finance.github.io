@@ -23,7 +23,13 @@ import { logEvent } from "../utils/googleAnalytics"
 import { updateSwapAdvancedMode } from "../state/user"
 import { useActiveWeb3React } from "../hooks"
 import { useTranslation } from "react-i18next"
-import { Container, createStyles, Grid, makeStyles, Paper } from "@material-ui/core"
+import {
+  Container,
+  createStyles,
+  Grid,
+  makeStyles,
+  Paper,
+} from "@material-ui/core"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -94,17 +100,8 @@ const SwapPage = (props: Props): ReactElement => {
 
   return (
     <Container maxWidth="md">
-      <Grid
-        container
-        direction="row"
-        className={classes.root}
-        spacing={2}
-      >
-        <Grid
-          item
-          xs={12}
-          sm={6}
-        >
+      <Grid container direction="row" className={classes.root} spacing={2}>
+        <Grid item xs={12} sm={6}>
           <Paper variant="outlined" className={classes.paper}>
             <SwapForm
               isSwapFrom={true}
@@ -116,11 +113,7 @@ const SwapPage = (props: Props): ReactElement => {
             />
           </Paper>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={6}
-        >
+        <Grid item xs={12} sm={6}>
           <Paper variant="outlined" className={classes.paper}>
             <SwapForm
               isSwapFrom={false}
