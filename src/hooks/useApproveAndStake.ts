@@ -101,7 +101,7 @@ export function useApproveAndStake(): (
 
       const clearMessage = addToast({
         type: "pending",
-        title: `${getFormattedTimeString()} Starting your deposit...`,
+        title: `${getFormattedTimeString()} Starting your stake...`,
       })
 
       const spendTransaction = await masterChefContract.deposit(
