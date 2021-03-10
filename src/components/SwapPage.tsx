@@ -1,38 +1,27 @@
 import { Button, Center } from "@chakra-ui/react"
 import React, { ReactElement, useState } from "react"
 import { formatBNToPercentString, formatBNToString } from "../utils"
-import { useDispatch, useSelector } from "react-redux"
-
-import { AppDispatch } from "../state"
-import { AppState } from "../state/index"
 import { BigNumber } from "@ethersproject/bignumber"
 import ConfirmTransaction from "./ConfirmTransaction"
-import DeadlineField from "./DeadlineField"
-import GasField from "./GasField"
-import InfiniteApprovalField from "./material/InfiniteApprovalField"
+
 import Modal from "./Modal"
-import { PayloadAction } from "@reduxjs/toolkit"
 import ReviewSwap from "./ReviewSwap"
-import SlippageField from "./SlippageField"
 import SwapForm from "./material/SwapForm"
-import classNames from "classnames"
 import { isHighPriceImpact } from "../utils/priceImpact"
 import { logEvent } from "../utils/googleAnalytics"
-import { updateSwapAdvancedMode } from "../state/user"
 import { useActiveWeb3React } from "../hooks"
 import { useTranslation } from "react-i18next"
 import {
   Container,
   createStyles,
   Grid,
-  IconButton,
   makeStyles,
   Paper,
   Typography,
 } from "@material-ui/core"
 import SwapHorizontalCircleIcon from "@material-ui/icons/SwapHorizontalCircle"
-import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
+import { StyledChip } from "./material/StyledChip"
+import AdvancedPanel from "./material/AdvancedPanel"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -87,10 +76,6 @@ const SwapPage = (props: Props): ReactElement => {
   const [currentModal, setCurrentModal] = useState<string | null>(null)
   const classes = useStyles()
 
-  const dispatch = useDispatch<AppDispatch>()
-  const { userSwapAdvancedMode: advanced } = useSelector(
-    (state: AppState) => state.user,
-  )
   const formattedPriceImpact = formatBNToPercentString(
     exchangeRateInfo.priceImpact,
     18,
@@ -139,87 +124,38 @@ const SwapPage = (props: Props): ReactElement => {
           </div>
         ) : null}
         <Grid item>
-          <Grid
-            container
-            direction="column"
-            component={Paper}
-            variant="outlined"
-            className={classes.paper}
+          <AdvancedPanel
+            error={error}
+            actionComponent={
+              <Center width="100%" py={6}>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  width="240px"
+                  onClick={(): void => {
+                    setCurrentModal("review")
+                  }}
+                  disabled={!!error || +toState.value <= 0}
+                >
+                  {t("swap")}
+                </Button>
+              </Center>
+            }
           >
-            <Grid
-              container
-              direction="row"
-              justify="space-between"
-              alignItems="center"
-            >
-              <Grid item>
-                <Typography color="inherit" component="span">
-                  {t("price") + " "}
-                </Typography>
-                <Typography color="inherit" component="span">
-                  {exchangeRateInfo.pair}
-                </Typography>
-                <IconButton onClick={onClickReverseExchangeDirection}>
-                  <SwapHorizontalCircleIcon />
-                </IconButton>
-                <Typography color="inherit" component="span">
-                  {formattedExchangeRate}
-                </Typography>
-              </Grid>
-              <Grid item className="cost">
-                <Typography color="inherit" component="span">
-                  {"..."}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                onClick={(): PayloadAction<boolean> =>
-                  dispatch(updateSwapAdvancedMode(!advanced))
-                }
-              >
-                <Typography color="inherit" component="span">
-                  {t("advancedOptions")}
-                </Typography>
-                <IconButton>
-                  {advanced ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-                </IconButton>
-              </Grid>
+            <Grid item>
+              <StyledChip
+                onClick={onClickReverseExchangeDirection}
+                label={exchangeRateInfo.pair}
+                icon={<SwapHorizontalCircleIcon />}
+                variant="outlined"
+              />
             </Grid>
-            {advanced ? (
-              <Grid>
-                <div className="table">
-                  <div className="parameter">
-                    <InfiniteApprovalField />
-                  </div>
-                  <div className="parameter">
-                    <SlippageField />
-                  </div>
-                  <div className="parameter">
-                    <DeadlineField />
-                  </div>
-                  <div className="parameter">
-                    <GasField />
-                  </div>
-                </div>
-                <Center width="100%" py={6}>
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    width="240px"
-                    onClick={(): void => {
-                      setCurrentModal("review")
-                    }}
-                    disabled={!!error || +toState.value <= 0}
-                  >
-                    {t("swap")}
-                  </Button>
-                </Center>
-                <div className={"error " + classNames({ showError: !!error })}>
-                  {error}
-                </div>
-              </Grid>
-            ) : null}
-          </Grid>
+            <Grid item className="cost">
+              <Typography color="inherit" component="span">
+                {`${t("price")}: ${formattedExchangeRate}`}
+              </Typography>
+            </Grid>
+          </AdvancedPanel>
         </Grid>
       </Grid>
       <Modal
