@@ -1,4 +1,3 @@
-import { Button, Center } from "@chakra-ui/react"
 import React, { ReactElement, useState } from "react"
 import { formatBNToPercentString, formatBNToString } from "../utils"
 import { BigNumber } from "@ethersproject/bignumber"
@@ -12,6 +11,7 @@ import { logEvent } from "../utils/googleAnalytics"
 import { useActiveWeb3React } from "../hooks"
 import { useTranslation } from "react-i18next"
 import {
+  Button,
   Container,
   createStyles,
   Grid,
@@ -127,19 +127,15 @@ const SwapPage = (props: Props): ReactElement => {
           <AdvancedPanel
             error={error}
             actionComponent={
-              <Center width="100%" py={6}>
-                <Button
-                  variant="primary"
-                  size="lg"
-                  width="240px"
-                  onClick={(): void => {
-                    setCurrentModal("review")
-                  }}
-                  disabled={!!error || +toState.value <= 0}
-                >
-                  {t("swap")}
-                </Button>
-              </Center>
+              <Button
+                variant="contained"
+                onClick={(): void => {
+                  setCurrentModal("review")
+                }}
+                disabled={!!error || +toState.value <= 0}
+              >
+                {t("swap")}
+              </Button>
             }
           >
             <Grid item>

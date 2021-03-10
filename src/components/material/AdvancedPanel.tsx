@@ -55,7 +55,7 @@ export default function AdvancedPanel(props: Props): ReactElement {
       <Grid
         container
         direction="row"
-        justify="space-between"
+        justify={ children ? "space-between" : "flex-end" }
         alignItems="center"
       >
         {children}
@@ -94,12 +94,14 @@ export default function AdvancedPanel(props: Props): ReactElement {
               <GasField />
             </div>
           </div>
-          {actionComponent}
-          <div className={"error " + classNames({ showError: !!error })}>
-            {error}
-          </div>
         </Grid>
       ) : null}
+      <Grid container direction="row" justify="center">
+        {actionComponent}
+        <div className={"error " + classNames({ showError: !!error })}>
+          {error}
+        </div>
+      </Grid>
     </Grid>
   )
 }
