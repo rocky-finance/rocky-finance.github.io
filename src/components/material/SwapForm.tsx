@@ -1,13 +1,23 @@
 import React, { ReactElement } from "react"
 
 import { BigNumber } from "@ethersproject/bignumber"
-import Button from "../Button"
 import ToolTip from "../ToolTip"
 import classNames from "classnames"
 import { formatBNToString } from "../../utils"
 import { formatUnits } from "@ethersproject/units"
 import { useTranslation } from "react-i18next"
-import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
+import {
+  Button,
+  createStyles,
+  InputAdornment,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  makeStyles,
+  OutlinedInput,
+  Typography,
+} from "@material-ui/core"
 
 interface Props {
   isSwapFrom: boolean
@@ -24,6 +34,14 @@ interface Props {
   onChangeAmount?: (value: string) => void
 }
 
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    margin: {
+      margin: theme.spacing(1),
+    },
+  }),
+)
+
 function SwapForm({
   tokens,
   selected,
@@ -33,48 +51,48 @@ function SwapForm({
   onChangeAmount,
 }: Props): ReactElement {
   const { t } = useTranslation()
+  const classes = useStyles()
 
   return (
-    <div>
-      <div>
-        <h4>{isSwapFrom ? t("from") : t("to")}</h4>
-        <div>
-          <input
-            autoComplete="off"
-            autoCorrect="off"
-            type="text"
-            className={classNames({ hasMaxButton: isSwapFrom })}
-            value={inputValue}
-            placeholder="0.0"
-            spellCheck="false"
-            onChange={(e): void => onChangeAmount?.(e.target.value)}
-            onFocus={(e: React.ChangeEvent<HTMLInputElement>): void => {
-              if (isSwapFrom) {
-                e.target.select()
-              }
-            }}
-            readOnly={!isSwapFrom}
-          />
-          {isSwapFrom ? (
-            <div>
-              <Button
-                size="small"
-                kind="ternary"
-                onClick={(): void => {
-                  const token = tokens.find((t) => t.symbol === selected)
-                  if (token && onChangeAmount) {
-                    onChangeAmount(formatUnits(token.value, token.decimals))
-                  }
-                }}
-              >
-                {t("max")}
-              </Button>
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-      </div>
+    <form noValidate autoComplete="off">
+      <Typography variant="h6" color="inherit">
+        {isSwapFrom ? t("from") : t("to")}
+      </Typography>
+      <OutlinedInput
+        autoComplete="off"
+        autoCorrect="off"
+        type="text"
+        className={classNames({ hasMaxButton: isSwapFrom })}
+        value={inputValue}
+        placeholder="0.0"
+        spellCheck="false"
+        onChange={(e): void => onChangeAmount?.(e.target.value)}
+        readOnly={!isSwapFrom}
+        onFocus={(e): void => {
+          if (isSwapFrom) {
+            e.target.select()
+          }
+        }}
+        endAdornment={isSwapFrom ? (
+          <InputAdornment position="end">
+            <Button
+              disableElevation
+              variant="contained"
+              color="secondary"
+              onClick={(): void => {
+                const token = tokens.find((t) => t.symbol === selected)
+                if (token) {
+                  onChangeAmount?.(formatUnits(token.value, token.decimals))
+                }
+              }}
+            >
+              {t("max")}
+            </Button>
+          </InputAdornment>
+        ) : (
+          undefined
+        )}
+      />
       <List component="nav">
         {tokens.map(({ symbol, value, icon, name, decimals }) => {
           const formattedShortBalance = formatBNToString(value, decimals, 6)
@@ -101,7 +119,7 @@ function SwapForm({
           )
         })}
       </List>
-    </div>
+    </form>
   )
 }
 
