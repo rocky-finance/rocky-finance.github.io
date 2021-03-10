@@ -1,0 +1,61 @@
+@import "../styles/theme";
+
+div.stakePoolCard {
+  .harvest {
+    float: right;
+    padding: -40px;
+    margin: -30px;
+  }
+  .icon {
+    display: block !important;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    height: 40px;
+  }
+  .bold {
+    font-weight: $bold;
+  }
+  .actions {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    & > div {
+      width: 50%;
+      @media only screen and (max-width: 600px) {
+        width: 100%;
+      }
+    }
+  }
+  .actionButton {
+    padding-left: 8px;
+  }
+  .left,
+  .right {
+    display: flex;
+    align-items: center;
+  }
+  div.right {
+    & > div {
+      margin-right: 40px;
+
+      &.volume {
+        margin-right: 0;
+      }
+
+      span.label {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .plus {
+        font-weight: $medium;
+        color: var(--text-selected);
+      }
+      .minus {
+        font-weight: $medium;
+        color: $error;
+      }
+    }
+  }
+}

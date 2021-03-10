@@ -14,6 +14,7 @@ interface Props {
   inputValue: string
   onChange: (value: string) => void
   disabled?: boolean
+  disableSymbol?: boolean
 }
 
 function TokenInput({
@@ -23,6 +24,7 @@ function TokenInput({
   inputValue,
   onChange,
   disabled,
+  disableSymbol,
 }: Props): ReactElement {
   const { t } = useTranslation()
   function onClickMax(e: React.MouseEvent<HTMLButtonElement>): void {
@@ -44,8 +46,8 @@ function TokenInput({
 
   return (
     <div className="tokenInput">
-      <img alt="icon" src={icon} />
-      <span>{symbol}</span>
+      {icon ? <img alt="icon" src={icon} /> : null}
+      {disableSymbol ? null : <span>{symbol}</span>}
       <input
         disabled={disabled ? true : false}
         className={classNames({ hasMaxButton: max })}

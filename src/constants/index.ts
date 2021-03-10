@@ -1,5 +1,5 @@
+import appLogo from "../assets/icons/logo.svg"
 import daiLogo from "../assets/icons/dai.svg"
-import saddleLogo from "../assets/icons/logo.svg"
 import usdcLogo from "../assets/icons/usdc.svg"
 
 export const NetworkContextName = "NETWORK"
@@ -43,6 +43,10 @@ export class Token {
 
 export const BLOCK_TIME = 15000
 
+export const ROCKY_MASTERCHEF_ADDRESSES: { [chainId in ChainId]: string } = {
+  [ChainId.ROPSTEN]: "0x28c8b2b53f0676e9eef3b41e0d803db3e9026104",
+  [ChainId.HARDHAT]: "TODO",
+}
 export const STABLECOIN_SWAP_ADDRESSES: { [chainId in ChainId]: string } = {
   [ChainId.ROPSTEN]: "0x7603B0774d89DD1FdCbC9d5e6b68EBe9314B5c09",
   [ChainId.HARDHAT]: "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8",
@@ -61,7 +65,23 @@ export const STABLECOIN_SWAP_TOKEN = new Token(
   "rUSDp",
   "rusdp",
   "Rocky USD primo",
-  saddleLogo,
+  daiLogo,
+)
+
+export const ROCKY_TOKEN_CONTRACT_ADDRESSES: {
+  [chainId in ChainId]: string
+} = {
+  [ChainId.ROPSTEN]: "0x889755955b0a069111926c843892470390834eef",
+  [ChainId.HARDHAT]: "TODO",
+}
+
+export const ROCKY_TOKEN = new Token(
+  ROCKY_TOKEN_CONTRACT_ADDRESSES,
+  18,
+  "ROCKY",
+  "",
+  "ROCKY",
+  appLogo,
 )
 
 // Stablecoins
@@ -122,7 +142,7 @@ export const STABLECOIN_POOL_TOKENS = [WXDAI, USDC, BSC_DAI, BSC_USDC]
 // maps a symbol string to a token object
 export const TOKENS_MAP: {
   [symbol: string]: Token
-} = STABLECOIN_POOL_TOKENS.reduce(
+} = STABLECOIN_POOL_TOKENS.concat([ROCKY_TOKEN, STABLECOIN_SWAP_TOKEN]).reduce(
   (acc, token) => ({ ...acc, [token.symbol]: token }),
   {},
 )
@@ -132,6 +152,17 @@ export const POOLS_MAP: {
 } = {
   [STABLECOIN_POOL_NAME]: STABLECOIN_POOL_TOKENS,
 }
+
+export const MASTERCHEF_POOLS: Array<{ token: Token; contract_pid: number }> = [
+  {
+    token: STABLECOIN_SWAP_TOKEN,
+    contract_pid: 1,
+  },
+  {
+    token: ROCKY_TOKEN,
+    contract_pid: 0,
+  },
+]
 
 export const TRANSACTION_TYPES = {
   DEPOSIT: "DEPOSIT",
@@ -150,4 +181,11 @@ export const POOL_STATS_URL: { [chainId in ChainId]: string } = {
   [ChainId.ROPSTEN]: "https://ipfs.saddle.exchange/pool-stats.json",
   [ChainId.HARDHAT]:
     "https://mehmeta-team-bucket.storage.fleek.co/pool-stats-dev.json",
+}
+
+export enum REFS {
+  TRANSACTION_INFO = "https://docs.saddle.finance/faq#what-are-saddles-liquidity-provider-rewards",
+  CONTRACT_INFO = "https://github.com/saddle-finance/saddle-contract",
+  AUDITS_INFO = "https://github.com/saddle-finance/saddle-audits",
+  GAS_FETCH = "https://www.gasnow.org/api/v3/gas/price?utm_source=saddle",
 }
