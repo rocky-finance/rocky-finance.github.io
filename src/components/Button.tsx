@@ -7,7 +7,7 @@ import classNames from "classnames"
 type Props = {
   disabled?: boolean
   kind?: "primary" | "secondary" | "ternary"
-  size?: "large" | "small"
+  size?: "large" | "small" | "full"
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 export default function Button(
