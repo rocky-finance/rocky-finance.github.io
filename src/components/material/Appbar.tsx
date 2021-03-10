@@ -40,9 +40,7 @@ const StyledTabs = withStyles(
 
 const useStyles = makeStyles((theme) => ({
   tab: {
-    "&.Mui-selected": {
-      fontWeight: "bold",
-    },
+    fontWeight: "bold",
   },
   themer: {
     marginLeft: theme.spacing(2),
@@ -50,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       color: theme.palette.text.primary,
     },
+  },
+  icon: {
+    padding: 0,
   },
 }))
 
@@ -64,12 +65,19 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
   const location = useLocation()
   const currentTab = location.pathname
 
+  const routes = [
+    "swap",
+    "deposit",
+    "withdraw",
+    "risk",
+  ]
+
   return (
     <AppBar position="fixed" color="inherit" elevation={0}>
       <Grid container component={Toolbar} direction="row" wrap="nowrap">
         <Grid item>
           <Grid container alignItems="center" wrap="nowrap">
-            <IconButton edge="start" color="inherit" aria-label="menu">
+            <IconButton edge="start" color="inherit" className={classes.icon}>
               <img className="logo" alt="logo" src={logo} />
             </IconButton>
             <Typography variant="h6" color="inherit">
@@ -90,7 +98,7 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
             to="/"
             value="/"
             centerRipple
-            className={classes.tab}
+            classes={{ selected: classes.tab}}
           />
           <Tab
             label={t("deposit")}
@@ -98,7 +106,7 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
             to="deposit"
             value="/deposit"
             centerRipple
-            className={classes.tab}
+            classes={{ selected: classes.tab}}
           />
           <Tab
             label={t("withdraw")}
@@ -106,7 +114,7 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
             to="withdraw"
             value="/withdraw"
             centerRipple
-            className={classes.tab}
+            classes={{ selected: classes.tab}}
           />
           <Tab
             label={t("risk")}
@@ -114,7 +122,7 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
             to="risk"
             value="/risk"
             centerRipple
-            className={classes.tab}
+            classes={{ selected: classes.tab}}
           />
         </Grid>
         <Grid item>

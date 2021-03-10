@@ -1,7 +1,6 @@
 import React, { ReactElement } from "react"
 
 import { BigNumber } from "@ethersproject/bignumber"
-import classNames from "classnames"
 import { formatBNToString } from "../../utils"
 import { formatUnits } from "@ethersproject/units"
 import { useTranslation } from "react-i18next"
