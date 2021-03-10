@@ -1,5 +1,3 @@
-// import "./SwapPage.scss"
-
 import { Button, Center } from "@chakra-ui/react"
 import React, { ReactElement, useState } from "react"
 import { formatBNToPercentString, formatBNToString } from "../utils"
@@ -11,7 +9,7 @@ import { BigNumber } from "@ethersproject/bignumber"
 import ConfirmTransaction from "./ConfirmTransaction"
 import DeadlineField from "./DeadlineField"
 import GasField from "./GasField"
-import InfiniteApprovalField from "./InfiniteApprovalField"
+import InfiniteApprovalField from "./material/InfiniteApprovalField"
 import Modal from "./Modal"
 import { PayloadAction } from "@reduxjs/toolkit"
 import ReviewSwap from "./ReviewSwap"
@@ -189,27 +187,18 @@ const SwapPage = (props: Props): ReactElement => {
             </Grid>
             {advanced ? (
               <Grid>
-                <div className="advancedOptions">
-                  <div className="divider"></div>
-                  <div
-                    className={
-                      "tableContainer " + classNames({ show: advanced })
-                    }
-                  >
-                    <div className="table">
-                      <div className="parameter">
-                        <InfiniteApprovalField />
-                      </div>
-                      <div className="parameter">
-                        <SlippageField />
-                      </div>
-                      <div className="parameter">
-                        <DeadlineField />
-                      </div>
-                      <div className="parameter">
-                        <GasField />
-                      </div>
-                    </div>
+                <div className="table">
+                  <div className="parameter">
+                    <InfiniteApprovalField />
+                  </div>
+                  <div className="parameter">
+                    <SlippageField />
+                  </div>
+                  <div className="parameter">
+                    <DeadlineField />
+                  </div>
+                  <div className="parameter">
+                    <GasField />
                   </div>
                 </div>
                 <Center width="100%" py={6}>

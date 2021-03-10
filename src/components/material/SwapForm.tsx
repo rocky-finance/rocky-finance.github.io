@@ -4,6 +4,7 @@ import { BigNumber } from "@ethersproject/bignumber"
 import { formatBNToString } from "../../utils"
 import { formatUnits } from "@ethersproject/units"
 import { useTranslation } from "react-i18next"
+import CustomPopover from "./CustomPopover"
 import {
   Box,
   Button,
@@ -15,7 +16,6 @@ import {
   ListItemText,
   makeStyles,
   OutlinedInput,
-  Popover,
   Typography,
 } from "@material-ui/core"
 
@@ -41,9 +41,6 @@ const useStyles = makeStyles((theme) =>
     },
     input: {
       width: "100%",
-    },
-    popover: {
-      pointerEvents: "none",
     },
     paper: {
       padding: theme.spacing(1),
@@ -138,27 +135,13 @@ function SwapForm({
                   >
                     {formattedShortBalance}
                   </Typography>
-                  <Popover
-                    id="mouse-over-popover"
-                    className={classes.popover}
-                    classes={{
-                      paper: classes.paper,
-                    }}
+                  <CustomPopover
                     open={open}
                     anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    transformOrigin={{
-                      vertical: "bottom",
-                      horizontal: "right",
-                    }}
                     onClose={handlePopoverClose}
-                    disableRestoreFocus
                   >
                     <Typography>{formattedLongBalance}</Typography>
-                  </Popover>
+                  </CustomPopover>
                 </Box>
               ) : null}
             </ListItem>
