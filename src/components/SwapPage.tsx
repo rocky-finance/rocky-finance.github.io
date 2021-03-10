@@ -23,7 +23,18 @@ import { logEvent } from "../utils/googleAnalytics"
 import { updateSwapAdvancedMode } from "../state/user"
 import { useActiveWeb3React } from "../hooks"
 import { useTranslation } from "react-i18next"
-import { Container } from "@material-ui/core"
+import { Container, createStyles, Grid, makeStyles, Paper } from "@material-ui/core"
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+    },
+  }),
+)
 
 interface Props {
   tokens: Array<{
@@ -65,6 +76,7 @@ const SwapPage = (props: Props): ReactElement => {
   } = props
 
   const [currentModal, setCurrentModal] = useState<string | null>(null)
+  const classes = useStyles()
 
   const dispatch = useDispatch<AppDispatch>()
   const { userSwapAdvancedMode: advanced } = useSelector(
@@ -82,22 +94,44 @@ const SwapPage = (props: Props): ReactElement => {
 
   return (
     <Container maxWidth="md">
-      <SwapForm
-        isSwapFrom={true}
-        tokens={tokens}
-        onChangeSelected={onChangeFromToken}
-        onChangeAmount={onChangeFromAmount}
-        selected={fromState.symbol}
-        inputValue={fromState.value}
-      />
-      <div className="spacer" />
-      <SwapForm
-        isSwapFrom={false}
-        tokens={tokens}
-        onChangeSelected={onChangeToToken}
-        selected={toState.symbol}
-        inputValue={toState.value}
-      />
+      <Grid
+        container
+        direction="row"
+        className={classes.root}
+        spacing={2}
+      >
+        <Grid
+          item
+          xs={12}
+          sm={6}
+        >
+          <Paper variant="outlined" className={classes.paper}>
+            <SwapForm
+              isSwapFrom={true}
+              tokens={tokens}
+              onChangeSelected={onChangeFromToken}
+              onChangeAmount={onChangeFromAmount}
+              selected={fromState.symbol}
+              inputValue={fromState.value}
+            />
+          </Paper>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+        >
+          <Paper variant="outlined" className={classes.paper}>
+            <SwapForm
+              isSwapFrom={false}
+              tokens={tokens}
+              onChangeSelected={onChangeToToken}
+              selected={toState.symbol}
+              inputValue={toState.value}
+            />
+          </Paper>
+        </Grid>
+      </Grid>
       {account && isHighPriceImpact(exchangeRateInfo.priceImpact) ? (
         <div className="exchangeWarning">
           {t("highPriceImpact", {
