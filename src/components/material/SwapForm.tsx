@@ -1,7 +1,6 @@
 import React, { ReactElement } from "react"
 
 import { BigNumber } from "@ethersproject/bignumber"
-import ToolTip from "../ToolTip"
 import classNames from "classnames"
 import { formatBNToString } from "../../utils"
 import { formatUnits } from "@ethersproject/units"
@@ -42,7 +41,7 @@ const useStyles = makeStyles((theme) =>
       margin: theme.spacing(1),
     },
     popover: {
-      pointerEvents: 'none',
+      pointerEvents: "none",
     },
     paper: {
       padding: theme.spacing(1),
@@ -64,7 +63,9 @@ function SwapForm({
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
   const open = Boolean(anchorEl)
 
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handlePopoverOpen = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+  ) => {
     setAnchorEl(event.currentTarget)
   }
 
@@ -92,25 +93,25 @@ function SwapForm({
             e.target.select()
           }
         }}
-        endAdornment={isSwapFrom ? (
-          <InputAdornment position="end">
-            <Button
-              disableElevation
-              variant="contained"
-              color="secondary"
-              onClick={(): void => {
-                const token = tokens.find((t) => t.symbol === selected)
-                if (token) {
-                  onChangeAmount?.(formatUnits(token.value, token.decimals))
-                }
-              }}
-            >
-              {t("max")}
-            </Button>
-          </InputAdornment>
-        ) : (
-          undefined
-        )}
+        endAdornment={
+          isSwapFrom ? (
+            <InputAdornment position="end">
+              <Button
+                disableElevation
+                variant="contained"
+                color="secondary"
+                onClick={(): void => {
+                  const token = tokens.find((t) => t.symbol === selected)
+                  if (token) {
+                    onChangeAmount?.(formatUnits(token.value, token.decimals))
+                  }
+                }}
+              >
+                {t("max")}
+              </Button>
+            </InputAdornment>
+          ) : undefined
+        }
       />
       <List component="nav">
         {tokens.map(({ symbol, value, icon, name, decimals }) => {
@@ -144,12 +145,12 @@ function SwapForm({
                     open={open}
                     anchorEl={anchorEl}
                     anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
+                      vertical: "top",
+                      horizontal: "right",
                     }}
                     transformOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right',
+                      vertical: "bottom",
+                      horizontal: "right",
                     }}
                     onClose={handlePopoverClose}
                     disableRestoreFocus
