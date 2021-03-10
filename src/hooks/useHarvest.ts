@@ -37,7 +37,7 @@ export function useHarvest(): (pid: number) => Promise<void> {
 
       const clearMessage = addToast({
         type: "pending",
-        title: `${getFormattedTimeString()} Starting your deposit...`,
+        title: `${getFormattedTimeString()} Starting your harvest...`,
       })
 
       const spendTransaction = await masterChefContract.withdraw(

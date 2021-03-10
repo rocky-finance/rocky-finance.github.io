@@ -44,7 +44,7 @@ export class Token {
 export const BLOCK_TIME = 15000
 
 export const ROCKY_MASTERCHEF_ADDRESSES: { [chainId in ChainId]: string } = {
-  [ChainId.ROPSTEN]: "0x28c8b2b53f0676e9eef3b41e0d803db3e9026104",
+  [ChainId.ROPSTEN]: "0x1f4019cfa2751dc69393153Ef35216329A63773d",
   [ChainId.HARDHAT]: "TODO",
 }
 export const STABLECOIN_SWAP_ADDRESSES: { [chainId in ChainId]: string } = {
@@ -71,7 +71,7 @@ export const STABLECOIN_SWAP_TOKEN = new Token(
 export const ROCKY_TOKEN_CONTRACT_ADDRESSES: {
   [chainId in ChainId]: string
 } = {
-  [ChainId.ROPSTEN]: "0x889755955b0a069111926c843892470390834eef",
+  [ChainId.ROPSTEN]: "0x87470df63d3c2Fa95143626e861AB2471aaf0dCb",
   [ChainId.HARDHAT]: "TODO",
 }
 

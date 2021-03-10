@@ -62,7 +62,7 @@ export function useUnstake(): (args: UnstaketateArgument) => Promise<void> {
     try {
       const clearMessage = addToast({
         type: "pending",
-        title: `${getFormattedTimeString()} Starting your deposit...`,
+        title: `${getFormattedTimeString()} Starting your unstake...`,
       })
 
       const spendTransaction = await masterChefContract.withdraw(
