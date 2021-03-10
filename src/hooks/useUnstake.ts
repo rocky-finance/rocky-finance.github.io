@@ -66,7 +66,7 @@ export function useUnstake(): (args: UnstaketateArgument) => Promise<void> {
       })
 
       const spendTransaction = await masterChefContract.withdraw(
-        args.pid,
+        contract_pid,
         unstakingValue,
       )
 
