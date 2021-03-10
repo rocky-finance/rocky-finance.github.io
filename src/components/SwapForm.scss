@@ -77,15 +77,15 @@
     }
 
     &.active {
-      background: linear-gradient(
-        to bottom,
-        transparent 20%,
-        $divider-red 20% 80%,
-        transparent 80%
-      );
+      background: var(--active-li-bg);
       margin-left: -10px;
       margin-right: -10px;
       padding: 0 10px;
+
+      & > .tokenName,
+      & > .tokenValue {
+        color: var(--active-li-text);
+      }
     }
 
     & > img.tokenIcon {

@@ -1,4 +1,5 @@
 import { AppDispatch } from "../state"
+import { REFS } from "../constants"
 import retry from "async-retry"
 import { updateGasPrices } from "../state/application"
 
@@ -39,7 +40,7 @@ const fetchGasPricePOA = (): Promise<GenericGasReponse> =>
     })
 
 const fetchGasPriceGasNow = (): Promise<GenericGasReponse> =>
-  fetch("https://www.gasnow.org/api/v3/gas/price?utm_source=saddle")
+  fetch(REFS.GAS_FETCH)
     .then((res) => res.json())
     .then((body: GasNowGasResponse) => {
       const {

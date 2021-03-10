@@ -13,11 +13,11 @@ const variantPrimary = (
   const disabled = {
     opacity: "1",
     color: transparentColor,
-    bg: "teal.500",
+    bg: "button.500",
   }
   return {
     color: "black",
-    bg: "teal.500",
+    bg: "button.500",
     _hover: {
       color: "white",
       bg: "purple.500",
@@ -27,7 +27,11 @@ const variantPrimary = (
       color: "white",
       bg: "purple.500",
     },
-    _disabled: disabled,
+    _disabled: {
+      color: "gray.500",
+      bg: "button.500",
+      _disabled: disabled,
+    },
   }
 }
 

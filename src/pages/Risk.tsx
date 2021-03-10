@@ -1,6 +1,7 @@
 import "./Risk.scss"
 
 import React, { ReactElement } from "react"
+import { REFS } from "../constants"
 
 import TopMenu from "../components/TopMenu"
 import { useTranslation } from "react-i18next"
@@ -13,18 +14,12 @@ function Risk(): ReactElement {
       <TopMenu activeTab={t("risk")} />
       <div className="content">
         <p>
-          {t("riskIntro")}{" "}
-          <a href="https://github.com/saddle-finance/saddle-contract">
-            {t("riskIntro2")}
-          </a>{" "}
+          {t("riskIntro")} <a href={REFS.CONTRACT_INFO}>{t("riskIntro2")}</a>{" "}
           {t("riskIntro3")}
         </p>
         <h3>{t("audits")}</h3>
         <p>
-          {t("riskAudits")}{" "}
-          <a href="https://github.com/saddle-finance/saddle-audits">
-            {t("riskAudits2")}
-          </a>
+          {t("riskAudits")} <a href={REFS.AUDITS_INFO}>{t("riskAudits2")}</a>
           {"."}
           <br />
           <br />
