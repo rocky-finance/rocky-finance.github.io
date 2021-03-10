@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) =>
     margin: {
       margin: theme.spacing(1),
     },
+    input: {
+      width: "100%",
+    },
     popover: {
       pointerEvents: "none",
     },
@@ -82,7 +85,7 @@ function SwapForm({
         autoComplete="off"
         autoCorrect="off"
         type="text"
-        className={classNames({ hasMaxButton: isSwapFrom })}
+        className={classes.input}
         value={inputValue}
         placeholder="0.0"
         spellCheck="false"
