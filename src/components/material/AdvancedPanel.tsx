@@ -69,12 +69,7 @@ export default function AdvancedPanel(props: Props): ReactElement {
         className={classes.margin}
       >
         {children}
-        <Grid
-          item
-          container
-          xs
-          justify="flex-end"
-        >
+        <Grid item container xs justify="flex-end">
           <StyledChip
             onClick={(): PayloadAction<boolean> =>
               dispatch(updateSwapAdvancedMode(!advanced))

@@ -15,7 +15,14 @@ import classNames from "classnames"
 import { formatBNToPercentString } from "../utils"
 import { logEvent } from "../utils/googleAnalytics"
 import { useTranslation } from "react-i18next"
-import { Button, Container } from "@material-ui/core"
+import {
+  Button,
+  Container,
+  createStyles,
+  Grid,
+  makeStyles,
+  Typography,
+} from "@material-ui/core"
 import AdvancedPanel from "./material/AdvancedPanel"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -38,9 +45,21 @@ interface Props {
   transactionData: DepositTransaction
 }
 
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    bonus: {
+      color: theme.palette.success.main,
+    },
+    warn: {
+      color: theme.palette.warning.main,
+    },
+  }),
+)
+
 /* eslint-enable @typescript-eslint/no-explicit-any */
 const DepositPage = (props: Props): ReactElement => {
   const { t } = useTranslation()
+  const classes = useStyles()
   const {
     tokens,
     exceedsWallet,
@@ -97,28 +116,6 @@ const DepositPage = (props: Props): ReactElement => {
                     </span>
                   </div>
                 )}
-                <div className="transactionInfoItem">
-                  {transactionData.priceImpact.gte(0) ? (
-                    <span className="bonus">{`${t("bonus")}: `}</span>
-                  ) : (
-                    <span className="slippage">{t("priceImpact")}</span>
-                  )}
-                  <span
-                    className={
-                      "value " +
-                      (transactionData.priceImpact.gte(0)
-                        ? "bonus"
-                        : "slippage")
-                    }
-                  >
-                    {" "}
-                    {formatBNToPercentString(
-                      transactionData.priceImpact,
-                      18,
-                      4,
-                    )}
-                  </span>
-                </div>
               </div>
             </div>
           </div>
@@ -135,7 +132,31 @@ const DepositPage = (props: Props): ReactElement => {
                 {t("deposit")}
               </Button>
             }
-          />
+          >
+            <Grid item xs>
+              <Typography
+                color="inherit"
+                component="div"
+                className={
+                  transactionData.priceImpact.gte(0)
+                    ? classes.bonus
+                    : classes.warn
+                }
+              >
+                {transactionData.priceImpact.gte(0)
+                  ? `${t("bonus")}: ${formatBNToPercentString(
+                      transactionData.priceImpact,
+                      18,
+                      4,
+                    )}`
+                  : `${t("priceImpact")}: ${formatBNToPercentString(
+                      transactionData.priceImpact,
+                      18,
+                      4,
+                    )}`}
+              </Typography>
+            </Grid>
+          </AdvancedPanel>
         </div>
         <div className="infoPanels">
           <MyShareCard data={myShareData} />
