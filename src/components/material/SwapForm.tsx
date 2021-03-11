@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   createStyles,
+  Divider,
   FormControl,
   FormGroup,
   FormHelperText,
@@ -52,6 +53,12 @@ const useStyles = makeStyles((theme) =>
     paper: {
       padding: theme.spacing(1),
     },
+    divider: {
+      margin: theme.spacing(1, 0),
+      background: "none",
+      borderBottom: "1px dashed",
+      borderBottomColor: theme.palette.text.secondary,
+    },
   }),
 )
 
@@ -84,40 +91,43 @@ function SwapForm({
       <FormLabel component="legend">
         {isSwapFrom ? t("from") : t("to")}
       </FormLabel>
+      <Divider className={classes.divider} />
       <FormGroup>
         <List component="nav">
           {tokens.map(({ symbol, value, icon, name, decimals }) => {
             const formattedShortBalance = formatBNToString(value, decimals, 6)
             const formattedLongBalance = formatBNToString(value, decimals)
             return (
-              <ListItem
-                button
-                key={symbol}
-                selected={selected === symbol}
-                onClick={(): void => onChangeSelected(symbol)}
-              >
-                <ListItemIcon>
-                  <img src={icon} alt="icon" />
-                </ListItemIcon>
-                <ListItemText primary={name} />
-                {isSwapFrom ? (
-                  <Box>
-                    <Typography
-                      onMouseEnter={handlePopoverOpen}
-                      onMouseLeave={handlePopoverClose}
-                    >
-                      {formattedShortBalance}
-                    </Typography>
-                    <CustomPopover
-                      open={open}
-                      anchorEl={anchorEl}
-                      onClose={handlePopoverClose}
-                    >
-                      <Typography>{formattedLongBalance}</Typography>
-                    </CustomPopover>
-                  </Box>
-                ) : null}
-              </ListItem>
+              <Box key={symbol}>
+                <ListItem
+                  button
+                  selected={selected === symbol}
+                  onClick={(): void => onChangeSelected(symbol)}
+                >
+                  <ListItemIcon>
+                    <img src={icon} alt="icon" />
+                  </ListItemIcon>
+                  <ListItemText primary={name} />
+                  {isSwapFrom ? (
+                    <Box>
+                      <Typography
+                        onMouseEnter={handlePopoverOpen}
+                        onMouseLeave={handlePopoverClose}
+                      >
+                        {formattedShortBalance}
+                      </Typography>
+                      <CustomPopover
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handlePopoverClose}
+                      >
+                        <Typography>{formattedLongBalance}</Typography>
+                      </CustomPopover>
+                    </Box>
+                  ) : null}
+                </ListItem>
+                {/* <Divider className={classes.divider} light /> */}
+              </Box>
             )
           })}
         </List>

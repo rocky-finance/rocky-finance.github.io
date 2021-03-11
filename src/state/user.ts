@@ -15,12 +15,14 @@ export enum GasPrices {
 
 export enum Slippages {
   One = "ONE",
+  Three = "THREE",
   OneTenth = "ONE_TENTH",
   Custom = "CUSTOM",
 }
 
 export enum Deadlines {
   Ten = "TEN",
+  Twenty = "TWENTY",
   Thirty = "THIRTY",
   Custom = "CUSTOM",
 }

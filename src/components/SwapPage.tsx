@@ -89,31 +89,35 @@ const SwapPage = (props: Props): ReactElement => {
   return (
     <Container maxWidth="md">
       <Grid container direction="column" spacing={2}>
-        <Grid item>
-          <Grid container direction="row" className={classes.root} spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Paper variant="outlined" className={classes.paper}>
-                <SwapForm
-                  isSwapFrom={true}
-                  tokens={tokens}
-                  onChangeSelected={onChangeFromToken}
-                  onChangeAmount={onChangeFromAmount}
-                  selected={fromState.symbol}
-                  inputValue={fromState.value}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Paper variant="outlined" className={classes.paper}>
-                <SwapForm
-                  isSwapFrom={false}
-                  tokens={tokens}
-                  onChangeSelected={onChangeToToken}
-                  selected={toState.symbol}
-                  inputValue={toState.value}
-                />
-              </Paper>
-            </Grid>
+        <Grid
+          item
+          container
+          direction="row"
+          className={classes.root}
+          spacing={2}
+        >
+          <Grid item xs={12} sm={6}>
+            <Paper variant="outlined" className={classes.paper}>
+              <SwapForm
+                isSwapFrom={true}
+                tokens={tokens}
+                onChangeSelected={onChangeFromToken}
+                onChangeAmount={onChangeFromAmount}
+                selected={fromState.symbol}
+                inputValue={fromState.value}
+              />
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Paper variant="outlined" className={classes.paper}>
+              <SwapForm
+                isSwapFrom={false}
+                tokens={tokens}
+                onChangeSelected={onChangeToToken}
+                selected={toState.symbol}
+                inputValue={toState.value}
+              />
+            </Paper>
           </Grid>
         </Grid>
         {account && isHighPriceImpact(exchangeRateInfo.priceImpact) ? (
@@ -123,7 +127,7 @@ const SwapPage = (props: Props): ReactElement => {
             })}
           </div>
         ) : null}
-        <Grid item>
+        <Grid container item>
           <AdvancedPanel
             error={error}
             actionComponent={

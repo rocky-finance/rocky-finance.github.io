@@ -1,16 +1,9 @@
 import React, { ReactElement } from "react"
-import DeadlineField from "../DeadlineField"
-import GasField from "../GasField"
+import DeadlineField from "./DeadlineField"
+import GasField from "./GasField"
 import InfiniteApprovalField from "./InfiniteApprovalField"
-import SlippageField from "../SlippageField"
-import {
-  createStyles,
-  FormControl,
-  FormHelperText,
-  Grid,
-  makeStyles,
-  Paper,
-} from "@material-ui/core"
+import SlippageField from "./SlippageField"
+import { createStyles, Grid, makeStyles, Paper } from "@material-ui/core"
 import { useTranslation } from "react-i18next"
 import { StyledChip } from "./StyledChip"
 import { PayloadAction } from "@reduxjs/toolkit"
@@ -24,7 +17,10 @@ import classNames from "classnames"
 const useStyles = makeStyles((theme) =>
   createStyles({
     paper: {
-      padding: theme.spacing(1),
+      padding: theme.spacing(2),
+    },
+    margin: {
+      marginBottom: theme.spacing(1),
     },
   }),
 )
@@ -54,9 +50,11 @@ export default function AdvancedPanel(props: Props): ReactElement {
     >
       <Grid
         container
+        item
         direction="row"
-        justify={ children ? "space-between" : "flex-end" }
+        justify={children ? "space-between" : "flex-end"}
         alignItems="center"
+        className={classes.margin}
       >
         {children}
         <Grid item>
@@ -74,26 +72,43 @@ export default function AdvancedPanel(props: Props): ReactElement {
         </Grid>
       </Grid>
       {advanced ? (
-        <Grid>
-          <div className="table">
-            <div className="parameter">
-              <InfiniteApprovalField />
-            </div>
-            <FormControl>
-              <FormHelperText id="slippage-helper-text">
-                {t("maxSlippage")}
-              </FormHelperText>
-            </FormControl>
-            <div className="parameter">
+        <Grid item container>
+          <InfiniteApprovalField />
+          <Grid
+            container
+            item
+            direction="row"
+            justify="space-between"
+            className={classes.margin}
+          >
+            <Grid
+              item
+              component={Paper}
+              variant="outlined"
+              xs
+              className={classes.paper}
+            >
               <SlippageField />
-            </div>
-            <div className="parameter">
+            </Grid>
+            <Grid
+              item
+              component={Paper}
+              variant="outlined"
+              xs
+              className={classes.paper}
+            >
               <DeadlineField />
-            </div>
-            <div className="parameter">
+            </Grid>
+            <Grid
+              item
+              component={Paper}
+              variant="outlined"
+              xs
+              className={classes.paper}
+            >
               <GasField />
-            </div>
-          </div>
+            </Grid>
+          </Grid>
         </Grid>
       ) : null}
       <Grid container direction="row" justify="center">
