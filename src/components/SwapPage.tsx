@@ -132,6 +132,7 @@ const SwapPage = (props: Props): ReactElement => {
             error={error}
             actionComponent={
               <Button
+                fullWidth
                 variant="contained"
                 onClick={(): void => {
                   setCurrentModal("review")
@@ -142,7 +143,7 @@ const SwapPage = (props: Props): ReactElement => {
               </Button>
             }
           >
-            <Grid item>
+            <Grid item xs>
               <StyledChip
                 onClick={onClickReverseExchangeDirection}
                 label={exchangeRateInfo.pair}
@@ -150,8 +151,8 @@ const SwapPage = (props: Props): ReactElement => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item className="cost">
-              <Typography color="inherit" component="span">
+            <Grid item className="cost" xs={1}>
+              <Typography color="inherit" component="div" align="center">
                 {`${t("price")}: ${formattedExchangeRate}`}
               </Typography>
             </Grid>

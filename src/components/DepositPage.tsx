@@ -125,6 +125,7 @@ const DepositPage = (props: Props): ReactElement => {
           <AdvancedPanel
             actionComponent={
               <Button
+                fullWidth
                 variant="contained"
                 onClick={(): void => {
                   setCurrentModal("review")

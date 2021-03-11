@@ -3,7 +3,13 @@ import DeadlineField from "./DeadlineField"
 import GasField from "./GasField"
 import InfiniteApprovalField from "./InfiniteApprovalField"
 import SlippageField from "./SlippageField"
-import { createStyles, Grid, makeStyles, Paper } from "@material-ui/core"
+import {
+  createStyles,
+  Divider,
+  Grid,
+  makeStyles,
+  Paper,
+} from "@material-ui/core"
 import { useTranslation } from "react-i18next"
 import { StyledChip } from "./StyledChip"
 import { PayloadAction } from "@reduxjs/toolkit"
@@ -19,8 +25,15 @@ const useStyles = makeStyles((theme) =>
     paper: {
       padding: theme.spacing(2),
     },
+    group: {
+      padding: theme.spacing(1),
+    },
     margin: {
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacing(2),
+    },
+    advanced: {
+      marginBottom: theme.spacing(2),
+      padding: theme.spacing(0, 1),
     },
   }),
 )
@@ -52,12 +65,16 @@ export default function AdvancedPanel(props: Props): ReactElement {
         container
         item
         direction="row"
-        justify={children ? "space-between" : "flex-end"}
         alignItems="center"
         className={classes.margin}
       >
         {children}
-        <Grid item>
+        <Grid
+          item
+          container
+          xs
+          justify="flex-end"
+        >
           <StyledChip
             onClick={(): PayloadAction<boolean> =>
               dispatch(updateSwapAdvancedMode(!advanced))
@@ -72,40 +89,25 @@ export default function AdvancedPanel(props: Props): ReactElement {
         </Grid>
       </Grid>
       {advanced ? (
-        <Grid item container>
+        <Grid
+          item
+          container
+          component={Paper}
+          variant="outlined"
+          className={classes.advanced}
+        >
           <InfiniteApprovalField />
-          <Grid
-            container
-            item
-            direction="row"
-            justify="space-between"
-            className={classes.margin}
-          >
-            <Grid
-              item
-              component={Paper}
-              variant="outlined"
-              xs
-              className={classes.paper}
-            >
+          <Divider light />
+          <Grid container item direction="row" justify="space-between">
+            <Grid item xs className={classes.group}>
               <SlippageField />
             </Grid>
-            <Grid
-              item
-              component={Paper}
-              variant="outlined"
-              xs
-              className={classes.paper}
-            >
+            <Divider light flexItem orientation="vertical" />
+            <Grid item xs className={classes.group}>
               <DeadlineField />
             </Grid>
-            <Grid
-              item
-              component={Paper}
-              variant="outlined"
-              xs
-              className={classes.paper}
-            >
+            <Divider light flexItem orientation="vertical" />
+            <Grid item xs className={classes.group}>
               <GasField />
             </Grid>
           </Grid>

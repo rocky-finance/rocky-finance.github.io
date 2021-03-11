@@ -9,19 +9,34 @@ import { AppDispatch } from "../../state"
 import { AppState } from "../../state/index"
 import { Deadlines } from "../../state/user"
 import { PayloadAction } from "@reduxjs/toolkit"
-import classNames from "classnames"
 import { useTranslation } from "react-i18next"
 import {
+  createStyles,
   FormControl,
   FormGroup,
   FormLabel,
+  InputAdornment,
   List,
   ListItem,
   ListItemText,
+  makeStyles,
+  OutlinedInput,
 } from "@material-ui/core"
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    input: {
+      width: "100%",
+    },
+    nopad: {
+      padding: "0",
+    },
+  }),
+)
 
 export default function DeadlineField(): ReactElement {
   const { t } = useTranslation()
+  const classes = useStyles()
   const dispatch = useDispatch<AppDispatch>()
 
   const {
@@ -60,17 +75,19 @@ export default function DeadlineField(): ReactElement {
           >
             <ListItemText primary={`30 ${t("minutes")}`} />
           </ListItem>
-          <ListItem>
-            <input
+          <ListItem className={classes.nopad}>
+            <OutlinedInput
+              autoComplete="off"
+              autoCorrect="off"
+              id="amount"
               type="text"
-              className={classNames({
-                selected: transactionDeadlineSelected === Deadlines.Custom,
-              })}
+              className={classes.input}
+              value={transactionDeadlineCustom}
               placeholder="10"
+              spellCheck="false"
               onClick={(): PayloadAction<Deadlines> =>
                 dispatch(updateTransactionDeadlineSelected(Deadlines.Custom))
               }
-              value={transactionDeadlineCustom}
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                 const value = e.target.value
                 if (value && !isNaN(+value)) {
@@ -84,8 +101,10 @@ export default function DeadlineField(): ReactElement {
                   dispatch(updateTransactionDeadlineSelected(Deadlines.Ten))
                 }
               }}
+              endAdornment={
+                <InputAdornment position="end">{t("minutes")}</InputAdornment>
+              }
             />
-            &nbsp;{t("minutes")}
           </ListItem>
         </List>
       </FormGroup>

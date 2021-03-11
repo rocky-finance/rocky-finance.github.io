@@ -6,19 +6,34 @@ import { AppDispatch } from "../../state"
 import { AppState } from "../../state/index"
 import { GasPrices } from "../../state/user"
 import { PayloadAction } from "@reduxjs/toolkit"
-import classNames from "classnames"
 import { useTranslation } from "react-i18next"
 import {
+  createStyles,
   FormControl,
   FormGroup,
   FormLabel,
+  InputAdornment,
   List,
   ListItem,
   ListItemText,
+  makeStyles,
+  OutlinedInput,
 } from "@material-ui/core"
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    input: {
+      width: "100%",
+    },
+    nopad: {
+      padding: "0",
+    },
+  }),
+)
 
 export default function GasField(): ReactElement {
   const { t } = useTranslation()
+  const classes = useStyles()
   const dispatch = useDispatch<AppDispatch>()
   const { gasCustom, gasPriceSelected } = useSelector(
     (state: AppState) => state.user,
@@ -62,13 +77,16 @@ export default function GasField(): ReactElement {
               )
             },
           )}
-          <ListItem>
-            <input
+          <ListItem className={classes.nopad}>
+            <OutlinedInput
+              autoComplete="off"
+              autoCorrect="off"
+              id="amount"
               type="text"
-              className={classNames({
-                selected: gasPriceSelected === GasPrices.Custom,
-              })}
+              className={classes.input}
               value={gasCustom?.valueRaw}
+              placeholder="1"
+              spellCheck="false"
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                 const value = e.target.value
                 if (value && !isNaN(+value)) {
@@ -80,6 +98,9 @@ export default function GasField(): ReactElement {
                   dispatch(updateGasPriceSelected(GasPrices.Fast))
                 }
               }}
+              endAdornment={
+                <InputAdornment position="end">{t("feeUnit")}</InputAdornment>
+              }
             />
           </ListItem>
         </List>

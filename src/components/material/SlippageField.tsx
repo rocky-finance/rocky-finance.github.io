@@ -11,16 +11,32 @@ import { AppState } from "../../state/index"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { useTranslation } from "react-i18next"
 import {
+  createStyles,
   FormControl,
   FormGroup,
   FormLabel,
+  InputAdornment,
   List,
   ListItem,
   ListItemText,
+  makeStyles,
+  OutlinedInput,
 } from "@material-ui/core"
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    input: {
+      width: "100%",
+    },
+    nopad: {
+      padding: "0",
+    },
+  }),
+)
 
 export default function SlippageField(): ReactElement {
   const { t } = useTranslation()
+  const classes = useStyles()
   const dispatch = useDispatch<AppDispatch>()
   const { slippageCustom, slippageSelected } = useSelector(
     (state: AppState) => state.user,
@@ -57,9 +73,16 @@ export default function SlippageField(): ReactElement {
           >
             <ListItemText primary="3.0%" />
           </ListItem>
-          <ListItem>
-            <input
+          <ListItem className={classes.nopad}>
+            <OutlinedInput
+              autoComplete="off"
+              autoCorrect="off"
+              id="amount"
+              type="text"
+              className={classes.input}
               value={slippageCustom?.valueRaw}
+              placeholder="0.0"
+              spellCheck="false"
               onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                 const value = e.target.value
                 if (value && !isNaN(+value)) {
@@ -71,8 +94,8 @@ export default function SlippageField(): ReactElement {
                   dispatch(updateSlippageSelected(Slippages.OneTenth))
                 }
               }}
+              endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
-            &nbsp;%
           </ListItem>
         </List>
       </FormGroup>
