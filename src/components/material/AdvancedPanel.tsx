@@ -94,15 +94,13 @@ export default function AdvancedPanel(props: Props): ReactElement {
           <InfiniteApprovalField />
           <Divider light />
           <Grid container item direction="row" justify="space-between">
-            <Grid item xs className={classes.group}>
+            <Grid item xs={12} md={4} className={classes.group}>
               <SlippageField />
             </Grid>
-            <Divider light flexItem orientation="vertical" />
-            <Grid item xs className={classes.group}>
+            <Grid item xs={12} md={4} className={classes.group}>
               <DeadlineField />
             </Grid>
-            <Divider light flexItem orientation="vertical" />
-            <Grid item xs className={classes.group}>
+            <Grid item xs={12} md={4} className={classes.group}>
               <GasField />
             </Grid>
           </Grid>

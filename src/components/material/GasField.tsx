@@ -8,10 +8,13 @@ import { GasPrices } from "../../state/user"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { useTranslation } from "react-i18next"
 import {
+  Box,
   createStyles,
+  Divider,
   FormControl,
   FormGroup,
   FormLabel,
+  Grid,
   InputAdornment,
   List,
   ListItem,
@@ -20,13 +23,34 @@ import {
   OutlinedInput,
 } from "@material-ui/core"
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
+    root: {
+      height: "100%",
+    },
+    grow: {
+      flex: "1",
+    },
+    topRow: {
+      flex: "1",
+      margin: "8px 0",
+    },
     input: {
       width: "100%",
     },
     nopad: {
       padding: "0",
+    },
+    button: {
+      width: "auto",
+      flex: "1",
+      textAlign: "center",
+    },
+    primary: {
+      display: "inline",
+    },
+    secondary: {
+      fontSize: theme.typography.caption.fontSize,
     },
   }),
 )
@@ -42,41 +66,89 @@ export default function GasField(): ReactElement {
     (state: AppState) => state.application,
   )
   return (
-    <FormControl component="fieldset" fullWidth>
+    <Grid
+      container
+      alignItems="stretch"
+      direction="column"
+      component={FormControl}
+      fullWidth
+      className={classes.root}
+    >
       <FormLabel component="legend">{t("gas")}</FormLabel>
-      <FormGroup>
-        <List component="nav">
-          {[GasPrices.Standard, GasPrices.Fast, GasPrices.Instant].map(
-            (gasPriceConst) => {
-              let priceValue
-              let text
-              if (gasPriceConst === GasPrices.Standard) {
-                priceValue = gasStandard
-                text = t("standard")
-              } else if (gasPriceConst === GasPrices.Fast) {
-                priceValue = gasFast
-                text = t("fast")
-              } else {
-                priceValue = gasInstant
-                text = t("instant")
+      <Grid container component={FormGroup} className={classes.grow}>
+        <List
+          component={Box}
+          display="flex"
+          flexDirection="column"
+          flexGrow="1"
+        >
+          <Grid container direction="row" className={classes.topRow}>
+            <Grid
+              item
+              component={ListItem}
+              button
+              dense
+              className={classes.button}
+              alignItems="center"
+              selected={gasPriceSelected === GasPrices.Standard}
+              onClick={(): PayloadAction<GasPrices> =>
+                dispatch(updateGasPriceSelected(GasPrices.Standard))
               }
-
-              return (
-                <ListItem
-                  button
-                  key={gasPriceConst}
-                  selected={gasPriceSelected === gasPriceConst}
-                  onClick={(): PayloadAction<GasPrices> =>
-                    dispatch(updateGasPriceSelected(gasPriceConst))
-                  }
-                >
-                  <ListItemText
-                    primary={`${String(priceValue)} ${String(text)}`}
-                  />
-                </ListItem>
-              )
-            },
-          )}
+            >
+              <ListItemText
+                primary={gasStandard}
+                secondary={t("standard")}
+                classes={{
+                  secondary: classes.secondary,
+                  primary: classes.primary,
+                }}
+              />
+            </Grid>
+            <Divider light orientation="vertical" />
+            <Grid
+              item
+              component={ListItem}
+              button
+              dense
+              className={classes.button}
+              alignItems="center"
+              selected={gasPriceSelected === GasPrices.Fast}
+              onClick={(): PayloadAction<GasPrices> =>
+                dispatch(updateGasPriceSelected(GasPrices.Fast))
+              }
+            >
+              <ListItemText
+                primary={gasFast}
+                secondary={t("fast")}
+                classes={{
+                  secondary: classes.secondary,
+                  primary: classes.primary,
+                }}
+              />
+            </Grid>
+            <Divider light orientation="vertical" />
+            <Grid
+              item
+              component={ListItem}
+              button
+              dense
+              className={classes.button}
+              alignItems="center"
+              selected={gasPriceSelected === GasPrices.Instant}
+              onClick={(): PayloadAction<GasPrices> =>
+                dispatch(updateGasPriceSelected(GasPrices.Instant))
+              }
+            >
+              <ListItemText
+                primary={gasInstant}
+                secondary={t("instant")}
+                classes={{
+                  secondary: classes.secondary,
+                  primary: classes.primary,
+                }}
+              />
+            </Grid>
+          </Grid>
           <ListItem className={classes.nopad}>
             <OutlinedInput
               autoComplete="off"
@@ -104,7 +176,7 @@ export default function GasField(): ReactElement {
             />
           </ListItem>
         </List>
-      </FormGroup>
-    </FormControl>
+      </Grid>
+    </Grid>
   )
 }
