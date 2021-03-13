@@ -8,7 +8,6 @@ import Tab from "@material-ui/core/Tab"
 import Grid from "@material-ui/core/Grid"
 import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
-import Typography from "@material-ui/core/Typography"
 import { useTranslation } from "react-i18next"
 import logo from "../../assets/icons/logo.svg"
 import Web3Status from "../../components/material/Web3Status"
@@ -69,17 +68,16 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
   return (
     <AppBar position="fixed" color="inherit" elevation={0}>
       <Grid container component={Toolbar} direction="row" wrap="nowrap">
-        <Grid item>
+        <Grid item xs>
           <Grid container alignItems="center" wrap="nowrap">
             <IconButton edge="start" color="inherit" className={classes.icon}>
               <img className="logo" alt="logo" src={logo} />
             </IconButton>
-            <Typography variant="h6" color="inherit">
-              rocky.finance
-            </Typography>
           </Grid>
         </Grid>
         <Grid
+          xs={8}
+          item
           container
           alignItems="stretch"
           value={currentTab}
@@ -100,8 +98,8 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
             )
           })}
         </Grid>
-        <Grid item>
-          <Grid container alignItems="center" wrap="nowrap">
+        <Grid item xs>
+          <Grid container alignItems="center" wrap="nowrap" justify="flex-end">
             <Web3Status />
             <IconButton
               edge="end"
