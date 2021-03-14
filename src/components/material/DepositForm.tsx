@@ -59,9 +59,6 @@ export default function DepositForm(props: Props): ReactElement {
   return (
     <FormControl autoCorrect="false" fullWidth variant="outlined">
       <FormLabel component="legend">{t("addLiquidity")}</FormLabel>
-      {exceedsWallet ? (
-        <div className="error">{t("depositBalanceExceeded")}</div>
-      ) : null}
       <Divider className={classes.divider} />
       <FormGroup>
         <List component="nav">
@@ -90,6 +87,9 @@ export default function DepositForm(props: Props): ReactElement {
           })}
         </List>
       </FormGroup>
+      {exceedsWallet ? (
+        <div className="error">{t("depositBalanceExceeded")}</div>
+      ) : null}
     </FormControl>
   )
 }
