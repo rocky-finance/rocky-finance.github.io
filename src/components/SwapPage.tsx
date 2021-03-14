@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) =>
     },
     paper: {
       padding: theme.spacing(2),
+      flexGrow: 1,
     },
   }),
 )
@@ -96,7 +97,7 @@ const SwapPage = (props: Props): ReactElement => {
           className={classes.root}
           spacing={2}
         >
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} container>
             <Paper variant="outlined" className={classes.paper}>
               <SwapForm
                 isSwapFrom={true}
@@ -108,7 +109,7 @@ const SwapPage = (props: Props): ReactElement => {
               />
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} container>
             <Paper variant="outlined" className={classes.paper}>
               <SwapForm
                 isSwapFrom={false}

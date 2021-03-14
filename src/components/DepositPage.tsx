@@ -10,7 +10,6 @@ import MyShareCard from "./MyShareCard"
 import PoolInfoCard from "./PoolInfoCard"
 import { REFS } from "../constants"
 import ReviewDeposit from "./ReviewDeposit"
-import TokenInput from "./TokenInput"
 import classNames from "classnames"
 import { formatBNToPercentString } from "../utils"
 import { logEvent } from "../utils/googleAnalytics"
@@ -21,9 +20,11 @@ import {
   createStyles,
   Grid,
   makeStyles,
+  Paper,
   Typography,
 } from "@material-ui/core"
 import AdvancedPanel from "./material/AdvancedPanel"
+import DepositForm from "./material/DepositForm"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Props {
@@ -47,6 +48,13 @@ interface Props {
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      flexGrow: 1,
+    },
     bonus: {
       color: theme.palette.success.main,
     },
@@ -77,48 +85,62 @@ const DepositPage = (props: Props): ReactElement => {
   return (
     <Container maxWidth="md" className="deposit">
       {myShareData?.lpTokenBalance.gt(0) && <LPStakingBanner />}
-
-      <div className="content">
-        <div className="left">
-          <div className="form">
-            <h3>{t("addLiquidity")}</h3>
-            {exceedsWallet ? (
-              <div className="error">{t("depositBalanceExceeded")}</div>
-            ) : null}
-            {tokens.map((token, index) => (
-              <div key={index}>
-                <TokenInput
-                  {...token}
-                  onChange={(value): void =>
-                    onChangeTokenInputValue(token.symbol, value)
-                  }
-                />
-                {index === tokens.length - 1 ? (
-                  ""
-                ) : (
-                  <div className="divider"></div>
-                )}
+      <Grid container direction="column" spacing={2}>
+        <Grid
+          item
+          container
+          direction="row"
+          className={classes.root}
+          spacing={2}
+        >
+          <Grid item xs={12} sm={6} container>
+            <Paper variant="outlined" className={classes.paper}>
+              <DepositForm
+                exceedsWallet={exceedsWallet}
+                tokens={tokens}
+                onChangeTokenInputValue={onChangeTokenInputValue}
+              />
+              <div className={classNames("transactionInfoContainer", "show")}>
+                <div className="transactionInfo">
+                  {poolData?.keepApr && (
+                    <div className="transactionInfoItem">
+                      <a
+                        href={REFS.TRANSACTION_INFO}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>{`KEEP APR:`}</span>
+                      </a>{" "}
+                      <span className="value">
+                        {formatBNToPercentString(poolData.keepApr, 18)}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
-            ))}
-            <div className={classNames("transactionInfoContainer", "show")}>
-              <div className="transactionInfo">
-                {poolData?.keepApr && (
-                  <div className="transactionInfoItem">
-                    <a
-                      href={REFS.TRANSACTION_INFO}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span>{`KEEP APR:`}</span>
-                    </a>{" "}
-                    <span className="value">
-                      {formatBNToPercentString(poolData.keepApr, 18)}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} container>
+            <Paper variant="outlined" className={classes.paper}>
+              <MyShareCard data={myShareData} />
+              <div
+                style={{
+                  display: myShareData ? "block" : "none",
+                }}
+                className="divider"
+              ></div>{" "}
+              <MyActivityCard historicalPoolData={historicalPoolData} />
+              <div
+                style={{
+                  display: historicalPoolData ? "block" : "none",
+                }}
+                className="divider"
+              ></div>{" "}
+              <PoolInfoCard data={poolData} />
+            </Paper>
+          </Grid>
+        </Grid>
+        <Grid container item>
           <AdvancedPanel
             actionComponent={
               <Button
@@ -156,47 +178,43 @@ const DepositPage = (props: Props): ReactElement => {
                     )}`}
               </Typography>
             </Grid>
+            {poolData?.keepApr && (
+              <Grid item xs>
+                <Typography color="inherit" component="div">
+                  <a
+                    href={REFS.TRANSACTION_INFO}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>{`KEEP APR:`}</span>
+                  </a>{" "}
+                  <span className="value">
+                    {formatBNToPercentString(poolData.keepApr, 18)}
+                  </span>
+                </Typography>
+              </Grid>
+            )}
           </AdvancedPanel>
-        </div>
-        <div className="infoPanels">
-          <MyShareCard data={myShareData} />
-          <div
-            style={{
-              display: myShareData ? "block" : "none",
+        </Grid>
+      </Grid>
+      <Modal
+        isOpen={!!currentModal}
+        onClose={(): void => setCurrentModal(null)}
+      >
+        {currentModal === "review" ? (
+          <ReviewDeposit
+            transactionData={transactionData}
+            onConfirm={async (): Promise<void> => {
+              setCurrentModal("confirm")
+              logEvent("deposit", (poolData && { pool: poolData?.name }) || {})
+              await onConfirmTransaction?.()
+              setCurrentModal(null)
             }}
-            className="divider"
-          ></div>{" "}
-          <MyActivityCard historicalPoolData={historicalPoolData} />
-          <div
-            style={{
-              display: historicalPoolData ? "block" : "none",
-            }}
-            className="divider"
-          ></div>{" "}
-          <PoolInfoCard data={poolData} />
-        </div>
-        <Modal
-          isOpen={!!currentModal}
-          onClose={(): void => setCurrentModal(null)}
-        >
-          {currentModal === "review" ? (
-            <ReviewDeposit
-              transactionData={transactionData}
-              onConfirm={async (): Promise<void> => {
-                setCurrentModal("confirm")
-                logEvent(
-                  "deposit",
-                  (poolData && { pool: poolData?.name }) || {},
-                )
-                await onConfirmTransaction?.()
-                setCurrentModal(null)
-              }}
-              onClose={(): void => setCurrentModal(null)}
-            />
-          ) : null}
-          {currentModal === "confirm" ? <ConfirmTransaction /> : null}
-        </Modal>
-      </div>
+            onClose={(): void => setCurrentModal(null)}
+          />
+        ) : null}
+        {currentModal === "confirm" ? <ConfirmTransaction /> : null}
+      </Modal>
     </Container>
   )
 }
