@@ -93,7 +93,7 @@ const DepositPage = (props: Props): ReactElement => {
           className={classes.root}
           spacing={2}
         >
-          <Grid item xs={12} sm={6} container>
+          <Grid item xs={12} sm container>
             <Paper variant="outlined" className={classes.paper}>
               <DepositForm
                 exceedsWallet={exceedsWallet}
@@ -120,7 +120,7 @@ const DepositPage = (props: Props): ReactElement => {
               </div>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={6} container>
+          <Grid item xs={12} sm={4} container>
             <Paper variant="outlined" className={classes.paper}>
               <MyShareCard data={myShareData} />
               <div

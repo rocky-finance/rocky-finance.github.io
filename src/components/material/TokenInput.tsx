@@ -4,35 +4,10 @@ import { TOKENS_MAP } from "../../constants"
 import { useTranslation } from "react-i18next"
 import {
   Button,
-  createStyles,
   FormControl,
   InputAdornment,
-  makeStyles,
   OutlinedInput,
 } from "@material-ui/core"
-
-const useStyles = makeStyles((theme) =>
-  createStyles({
-    margin: {
-      margin: theme.spacing(1),
-    },
-    helper: {
-      marginLeft: theme.spacing(1),
-    },
-    input: {
-      width: "100%",
-    },
-    paper: {
-      padding: theme.spacing(1),
-    },
-    divider: {
-      margin: theme.spacing(1, 0),
-      background: "none",
-      borderBottom: "1px dashed",
-      borderBottomColor: theme.palette.text.secondary,
-    },
-  }),
-)
 
 interface Props {
   symbol: string
@@ -51,7 +26,6 @@ export default function TokenInput({
   disabled,
 }: Props): ReactElement {
   const { t } = useTranslation()
-  const classes = useStyles()
   function onClickMax(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault()
     onChange(String(max))
@@ -70,13 +44,13 @@ export default function TokenInput({
   }
 
   return (
-    <FormControl>
+    <FormControl fullWidth>
       <OutlinedInput
         autoComplete="off"
         autoCorrect="off"
         id="amount"
         type="text"
-        className={classes.input}
+        fullWidth
         value={inputValue}
         placeholder={max || "0"}
         spellCheck="false"

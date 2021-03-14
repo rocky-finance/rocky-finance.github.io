@@ -67,12 +67,17 @@ export default function DepositForm(props: Props): ReactElement {
         <List component="nav">
           {tokens.map((token, index) => {
             return (
-              <ListItem key={index}>
-                <Grid item component={ListItemIcon} xs={1}>
+              <ListItem key={index} disableGutters>
+                <Grid item component={ListItemIcon}>
                   <img src={token.icon} alt="icon" />
                 </Grid>
-                <Grid item component={ListItemText} primary={token.name} />
-                <Grid item xs={8}>
+                <Grid
+                  item
+                  xs={2}
+                  component={ListItemText}
+                  primary={token.name}
+                />
+                <Grid item xs>
                   <TokenInput
                     {...token}
                     onChange={(value): void =>
