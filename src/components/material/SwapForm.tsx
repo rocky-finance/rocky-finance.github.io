@@ -74,15 +74,18 @@ function SwapForm({
   const classes = useStyles()
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
-  const open = Boolean(anchorEl)
+  const [ttSymbol, setTtSymbol] = React.useState<string | null>(null)
 
   const handlePopoverOpen = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
+    symbol: string,
   ) => {
+    setTtSymbol(symbol)
     setAnchorEl(event.currentTarget)
   }
 
   const handlePopoverClose = () => {
+    setTtSymbol(null)
     setAnchorEl(null)
   }
 
@@ -109,24 +112,21 @@ function SwapForm({
                   </ListItemIcon>
                   <ListItemText primary={name} />
                   {isSwapFrom ? (
-                    <Box>
-                      <Typography
-                        onMouseEnter={handlePopoverOpen}
-                        onMouseLeave={handlePopoverClose}
-                      >
-                        {formattedShortBalance}
-                      </Typography>
-                      <CustomPopover
-                        open={open}
-                        anchorEl={anchorEl}
-                        onClose={handlePopoverClose}
-                      >
-                        <Typography>{formattedLongBalance}</Typography>
-                      </CustomPopover>
-                    </Box>
+                    <Typography
+                      onMouseEnter={(event) => handlePopoverOpen(event, symbol)}
+                      onMouseLeave={handlePopoverClose}
+                    >
+                      {formattedShortBalance}
+                    </Typography>
                   ) : null}
                 </ListItem>
-                {/* <Divider className={classes.divider} light /> */}
+                <CustomPopover
+                  open={Boolean(anchorEl && ttSymbol === symbol)}
+                  anchorEl={anchorEl}
+                  onClose={handlePopoverClose}
+                >
+                  <Typography>{formattedLongBalance}</Typography>
+                </CustomPopover>
               </Box>
             )
           })}
