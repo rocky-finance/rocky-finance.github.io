@@ -30,6 +30,12 @@ function PoolInfoCard({ data }: Props): ReactElement {
       ? commify(formatBNToString(data.reserve, 18, 2))
       : "0",
     adminFee: swapFee && adminFee ? `${adminFee} of ${swapFee}` : null,
+    poolAPY: data?.poolAPY
+      ? `${commify(formatBNToString(data.poolAPY, 18, 2))}%`
+      : "0%",
+    rewardAPY: data?.rewardAPY
+      ? `${commify(formatBNToString(data.rewardAPY, 18, 2))}%`
+      : "0%",
     volume: data?.volume,
     tokens:
       data?.tokens.map((coin) => {
@@ -60,10 +66,18 @@ function PoolInfoCard({ data }: Props): ReactElement {
           <span className="label bold">{`${t("totalLocked")}: `}</span>
           <span className="value">{`$${formattedData.reserve}`}</span>
         </div>
-        <div className="twoColumn">
+        <div className="">
           <div className="infoItem">
-            <span className="label bold">{`${t("adminFee")}: `}</span>
-            <span className="value">{formattedData.adminFee}</span>
+            <span className="label bold">{`${t("totalAPY")}: `}</span>
+            <span className="value">{formattedData.poolAPY}</span>
+          </div>
+          <div className="infoItem">
+            <span className="label bold">{`${t("poolAPY")}: `}</span>
+            <span className="value">{formattedData.rewardAPY}</span>
+          </div>
+          <div className="infoItem">
+            <span className="label bold">{`${t("rewardAPY")}: `}</span>
+            <span className="value">{formattedData.poolAPY}</span>
           </div>
           {/* <div className="infoItem">
             <span className="label bold">{t("dailyVolume") + ": "}</span>

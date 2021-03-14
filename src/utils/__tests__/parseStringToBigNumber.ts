@@ -3,7 +3,7 @@ import parseStringToBigNumber, {
 } from "../parseStringToBigNumber"
 
 import { BigNumber } from "@ethersproject/bignumber"
-import { WBTC } from "../../constants"
+import { WXDAI } from "../../constants"
 
 describe("parseStringToBigNumber", () => {
   it("correctly parses a string", () => {
@@ -37,7 +37,7 @@ describe("parseStringAndTokenToBigNumber", () => {
   it("returns the correct precision for a token", () => {
     const input = 1.23
     expect(parseStringAndTokenToBigNumber(input.toString(), "WBTC")).toEqual({
-      value: BigNumber.from((input * 10 ** WBTC.decimals).toString()),
+      value: BigNumber.from((input * 10 ** WXDAI.decimals).toString()),
       isFallback: false,
     })
   })

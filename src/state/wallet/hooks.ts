@@ -1,11 +1,11 @@
 import { BLOCK_TIME, Token } from "../../constants"
 import {
-  BTC_POOL_NAME,
+  BSC_DAI,
+  BSC_USDC,
   PoolName,
-  RENBTC,
-  SBTC,
-  TBTC,
-  WBTC,
+  STABLECOIN_POOL_NAME,
+  USDC,
+  WXDAI,
 } from "../../constants"
 
 import { BigNumber } from "@ethersproject/bignumber"
@@ -42,21 +42,21 @@ export function useTokenBalance(t: Token): BigNumber {
 export function usePoolTokenBalances(
   poolName: PoolName,
 ): { [token: string]: BigNumber } | null {
-  const tbtcTokenBalance = useTokenBalance(TBTC)
-  const wtcTokenBalance = useTokenBalance(WBTC)
-  const renbtcTokenBalance = useTokenBalance(RENBTC)
-  const sbtcTokenBalance = useTokenBalance(SBTC)
+  const tbtcTokenBalance = useTokenBalance(WXDAI)
+  const wtcTokenBalance = useTokenBalance(USDC)
+  const renbtcTokenBalance = useTokenBalance(BSC_DAI)
+  const sbtcTokenBalance = useTokenBalance(BSC_USDC)
   const btcPoolTokenBalances = useMemo(
     () => ({
-      [TBTC.symbol]: tbtcTokenBalance,
-      [WBTC.symbol]: wtcTokenBalance,
-      [RENBTC.symbol]: renbtcTokenBalance,
-      [SBTC.symbol]: sbtcTokenBalance,
+      [WXDAI.symbol]: tbtcTokenBalance,
+      [USDC.symbol]: wtcTokenBalance,
+      [BSC_DAI.symbol]: renbtcTokenBalance,
+      [BSC_USDC.symbol]: sbtcTokenBalance,
     }),
     [tbtcTokenBalance, wtcTokenBalance, renbtcTokenBalance, sbtcTokenBalance],
   )
 
-  if (poolName === BTC_POOL_NAME) {
+  if (poolName === STABLECOIN_POOL_NAME) {
     return btcPoolTokenBalances
   }
   return null

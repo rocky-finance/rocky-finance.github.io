@@ -98,7 +98,7 @@ div.swapPage {
         transform: none;
       }
 
-      &>svg>#arrow {
+      & > svg > #arrow {
         fill: $white;
       }
     }
@@ -190,12 +190,12 @@ body.dark {
     .priceTable {
       button.exchange {
         background: $primary;
-        &>svg>#arrow {
+        & > svg > #arrow {
           fill: $black;
         }
       }
     }
-    
+
     .infoSection {
       .title {
         svg {

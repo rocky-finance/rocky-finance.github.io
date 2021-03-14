@@ -1,6 +1,4 @@
 import {
-  BTC_POOL_NAME,
-  BTC_POOL_TOKENS,
   PoolName,
   STABLECOIN_POOL_NAME,
   STABLECOIN_POOL_TOKENS,
@@ -53,9 +51,7 @@ export function useApproveAndSwap(
     infiniteApproval,
   } = useSelector((state: AppState) => state.user)
   let POOL_TOKENS: Token[]
-  if (poolName === BTC_POOL_NAME) {
-    POOL_TOKENS = BTC_POOL_TOKENS
-  } else if (poolName === STABLECOIN_POOL_NAME) {
+  if (poolName === STABLECOIN_POOL_NAME) {
     POOL_TOKENS = STABLECOIN_POOL_TOKENS
   } else {
     throw new Error("useApproveAndSwap requires a valid pool name")

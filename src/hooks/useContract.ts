@@ -1,18 +1,15 @@
 import {
-  BTC_POOL_NAME,
-  BTC_SWAP_ADDRESSES,
-  BTC_SWAP_TOKEN,
-  DAI,
+  BSC_DAI,
+  BSC_USDC,
   PoolName,
-  RENBTC,
-  SBTC,
+  ROCKY_MASTERCHEF_ADDRESSES,
+  ROCKY_TOKEN,
+  STABLECOIN_POOL_NAME,
   STABLECOIN_SWAP_ADDRESSES,
-  SUSD,
-  TBTC,
+  STABLECOIN_SWAP_TOKEN,
   Token,
   USDC,
-  USDT,
-  WBTC,
+  WXDAI,
 } from "../constants"
 import { useMemo, useState } from "react"
 
@@ -21,6 +18,8 @@ import ERC20_ABI from "../constants/abis/erc20.json"
 import { Erc20 } from "../../types/ethers-contracts/Erc20"
 import LPTOKEN_ABI from "../constants/abis/lpToken.json"
 import { LpToken } from "../../types/ethers-contracts/LpToken"
+import ROCKY_MASTERCHEF_ABI from "../constants/abis/rockyMasterChef.json"
+import { RockyMasterChef } from "../../types/ethers-contracts/RockyMasterChef"
 import SWAP_ABI from "../constants/abis/swap.json"
 import { Swap } from "../../types/ethers-contracts/Swap"
 import { getContract } from "../utils"
@@ -50,6 +49,17 @@ function useContract(
   }, [address, ABI, library, withSignerIfPossible, account])
 }
 
+export function useRockyMasterChefContract(): RockyMasterChef | null {
+  const withSignerIfPossible = true
+  const { chainId } = useActiveWeb3React()
+  const masterChefContract = useContract(
+    chainId ? ROCKY_MASTERCHEF_ADDRESSES[chainId] : undefined,
+    ROCKY_MASTERCHEF_ABI,
+    withSignerIfPossible,
+  )
+  return masterChefContract as RockyMasterChef
+}
+
 export function useTokenContract(
   t: Token,
   withSignerIfPossible?: boolean,
@@ -67,18 +77,13 @@ export function useSwapContract(poolName: PoolName): Swap | null {
     SWAP_ABI,
     withSignerIfPossible,
   )
-  const btcSwapContract = useContract(
-    chainId ? BTC_SWAP_ADDRESSES[chainId] : undefined,
-    SWAP_ABI,
-    withSignerIfPossible,
-  )
   return useMemo(() => {
-    if (poolName === BTC_POOL_NAME) {
-      return btcSwapContract as Swap
+    if (poolName === STABLECOIN_POOL_NAME) {
+      return stablecoinSwapContract as Swap
     } else {
       return stablecoinSwapContract as Swap
     }
-  }, [stablecoinSwapContract, btcSwapContract, poolName])
+  }, [stablecoinSwapContract, poolName])
 }
 
 export function useLPTokenContract(poolName: PoolName): LpToken | null {
@@ -94,51 +99,41 @@ interface AllContractsObject {
   [x: string]: Swap | Erc20 | null
 }
 export function useAllContracts(): AllContractsObject | null {
-  const tbtcContract = useTokenContract(TBTC) as Erc20
-  const wbtcContract = useTokenContract(WBTC) as Erc20
-  const renbtcContract = useTokenContract(RENBTC) as Erc20
-  const sbtcContract = useTokenContract(SBTC) as Erc20
-  const daiContract = useTokenContract(DAI) as Erc20
+  const wxdaiContract = useTokenContract(WXDAI) as Erc20
   const usdcContract = useTokenContract(USDC) as Erc20
-  const usdtContract = useTokenContract(USDT) as Erc20
-  const susdContract = useTokenContract(SUSD) as Erc20
-  const btcSwapTokenContract = useTokenContract(BTC_SWAP_TOKEN) as Swap
+  const bscDaiContract = useTokenContract(BSC_DAI) as Erc20
+  const bscUSDCContract = useTokenContract(BSC_USDC) as Erc20
+  const rockyTokenContract = useTokenContract(ROCKY_TOKEN) as Erc20
+  const stablecoinSwapTokenContract = useTokenContract(
+    STABLECOIN_SWAP_TOKEN,
+  ) as Swap
 
   return useMemo(() => {
     if (
       ![
-        tbtcContract,
-        wbtcContract,
-        renbtcContract,
-        sbtcContract,
-        daiContract,
+        wxdaiContract,
         usdcContract,
-        usdtContract,
-        susdContract,
-        btcSwapTokenContract,
+        bscDaiContract,
+        bscUSDCContract,
+        rockyTokenContract,
+        stablecoinSwapTokenContract,
       ].some(Boolean)
     )
       return null
     return {
-      [TBTC.symbol]: tbtcContract,
-      [WBTC.symbol]: wbtcContract,
-      [RENBTC.symbol]: renbtcContract,
-      [SBTC.symbol]: sbtcContract,
-      [DAI.symbol]: daiContract,
+      [WXDAI.symbol]: wxdaiContract,
       [USDC.symbol]: usdcContract,
-      [USDT.symbol]: usdtContract,
-      [SUSD.symbol]: susdContract,
-      [BTC_SWAP_TOKEN.symbol]: btcSwapTokenContract,
+      [BSC_DAI.symbol]: bscDaiContract,
+      [BSC_USDC.symbol]: bscUSDCContract,
+      [ROCKY_TOKEN.symbol]: rockyTokenContract,
+      [STABLECOIN_SWAP_TOKEN.symbol]: stablecoinSwapTokenContract,
     }
   }, [
-    tbtcContract,
-    wbtcContract,
-    renbtcContract,
-    sbtcContract,
-    daiContract,
+    wxdaiContract,
     usdcContract,
-    usdtContract,
-    susdContract,
-    btcSwapTokenContract,
+    bscDaiContract,
+    bscUSDCContract,
+    rockyTokenContract,
+    stablecoinSwapTokenContract,
   ])
 }

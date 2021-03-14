@@ -25,6 +25,7 @@ import {
 } from "@material-ui/core"
 import AdvancedPanel from "./material/AdvancedPanel"
 import DepositForm from "./material/DepositForm"
+import { BigNumber } from "@ethersproject/bignumber"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Props {
@@ -100,24 +101,6 @@ const DepositPage = (props: Props): ReactElement => {
                 tokens={tokens}
                 onChangeTokenInputValue={onChangeTokenInputValue}
               />
-              <div className={classNames("transactionInfoContainer", "show")}>
-                <div className="transactionInfo">
-                  {poolData?.keepApr && (
-                    <div className="transactionInfoItem">
-                      <a
-                        href={REFS.TRANSACTION_INFO}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <span>{`KEEP APR:`}</span>
-                      </a>{" "}
-                      <span className="value">
-                        {formatBNToPercentString(poolData.keepApr, 18)}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={4} container>
@@ -186,10 +169,15 @@ const DepositPage = (props: Props): ReactElement => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <span>{`KEEP APR:`}</span>
-                  </a>{" "}
+                    <span>{`${t("totalAPY")}: `}</span>
+                  </a>
                   <span className="value">
-                    {formatBNToPercentString(poolData.keepApr, 18)}
+                    {formatBNToPercentString(
+                      poolData.totalAPY
+                        ? poolData.totalAPY
+                        : BigNumber.from(0),
+                      18,
+                    )}
                   </span>
                 </Typography>
               </Grid>
