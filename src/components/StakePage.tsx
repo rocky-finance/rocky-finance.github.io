@@ -1,4 +1,3 @@
-import "./DepositPage.scss"
 import { ROCKY_TOKEN, STABLECOIN_SWAP_TOKEN } from "../constants"
 import React, { ReactElement } from "react"
 import StakePool from "./StakePoolCard"
@@ -13,7 +12,6 @@ import { useUnstake } from "../hooks/useUnstake"
 // }
 
 /* eslint-enable @typescript-eslint/no-explicit-any */
-
 const pools = [
   {
     title: "USD LP",

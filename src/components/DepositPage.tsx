@@ -10,7 +10,6 @@ import MyShareCard from "./MyShareCard"
 import PoolInfoCard from "./PoolInfoCard"
 import { REFS } from "../constants"
 import ReviewDeposit from "./ReviewDeposit"
-import classNames from "classnames"
 import { formatBNToPercentString } from "../utils"
 import { logEvent } from "../utils/googleAnalytics"
 import { useTranslation } from "react-i18next"
@@ -103,7 +102,7 @@ const DepositPage = (props: Props): ReactElement => {
               />
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={4} container>
+          <Grid item xs={12} md={5} container>
             <Paper variant="outlined" className={classes.paper}>
               <MyShareCard data={myShareData} />
               <div
@@ -173,9 +172,7 @@ const DepositPage = (props: Props): ReactElement => {
                   </a>
                   <span className="value">
                     {formatBNToPercentString(
-                      poolData.totalAPY
-                        ? poolData.totalAPY
-                        : BigNumber.from(0),
+                      poolData.totalAPY ? poolData.totalAPY : BigNumber.from(0),
                       18,
                     )}
                   </span>

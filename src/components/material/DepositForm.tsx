@@ -7,11 +7,8 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
-  Grid,
   List,
   ListItem,
-  ListItemIcon,
-  ListItemText,
   makeStyles,
 } from "@material-ui/core"
 import TokenInput from "./TokenInput"
@@ -65,23 +62,12 @@ export default function DepositForm(props: Props): ReactElement {
           {tokens.map((token, index) => {
             return (
               <ListItem key={index} disableGutters>
-                <Grid item component={ListItemIcon}>
-                  <img src={token.icon} alt="icon" />
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  component={ListItemText}
-                  primary={token.name}
+                <TokenInput
+                  {...token}
+                  onChange={(value): void =>
+                    onChangeTokenInputValue(token.symbol, value)
+                  }
                 />
-                <Grid item xs>
-                  <TokenInput
-                    {...token}
-                    onChange={(value): void =>
-                      onChangeTokenInputValue(token.symbol, value)
-                    }
-                  />
-                </Grid>
               </ListItem>
             )
           })}
