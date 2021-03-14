@@ -1,4 +1,4 @@
-import { ROCKY_TOKEN, STABLECOIN_SWAP_TOKEN } from "../constants"
+import { POOLS } from "../constants"
 import React, { ReactElement } from "react"
 import StakePool from "./StakePoolCard"
 import { logEvent } from "../utils/googleAnalytics"
@@ -10,28 +10,6 @@ import { useUnstake } from "../hooks/useUnstake"
 // interface Props {
 //   title: string
 // }
-
-/* eslint-enable @typescript-eslint/no-explicit-any */
-const pools = [
-  {
-    title: "USD LP",
-    token: {
-      symbol: STABLECOIN_SWAP_TOKEN.symbol,
-      name: STABLECOIN_SWAP_TOKEN.name,
-      icon: STABLECOIN_SWAP_TOKEN.icon,
-      max: "0",
-    },
-  },
-  {
-    title: "ROCKY",
-    token: {
-      symbol: ROCKY_TOKEN.symbol,
-      name: ROCKY_TOKEN.name,
-      icon: ROCKY_TOKEN.icon,
-      max: "0",
-    },
-  },
-]
 
 const StakePage = (): ReactElement => {
   const harvest = useHarvest()
@@ -64,7 +42,7 @@ const StakePage = (): ReactElement => {
   return (
     <div className="deposit">
       <div className="content">
-        {pools.map((pool, index) => (
+        {POOLS.map((pool, index) => (
           <div className={index % 2 == 0 ? "left" : "right"} key={index}>
             <StakePool
               title={pool.title}
