@@ -7,7 +7,8 @@ import { AppDispatch } from "../state"
 import { BLOCK_TIME } from "../constants"
 import DepositStable from "./DepositStable"
 import Risk from "./Risk"
-import SwapBTC from "./SwapStable"
+import Stake from "./Stake"
+import SwapStable from "./SwapStable"
 import ToastsProvider from "../providers/ToastsProvider"
 import Web3ReactManager from "../components/Web3ReactManager"
 import WithdrawStable from "./WithdrawStable"
@@ -33,9 +34,10 @@ export default function App(): ReactElement {
       <Web3ReactManager>
         <ToastsProvider>
           <Switch>
-            <Route exact path="/" component={SwapBTC} />
+            <Route exact path="/" component={SwapStable} />
             <Route exact path="/deposit" component={DepositStable} />
             <Route exact path="/withdraw" component={WithdrawStable} />
+            <Route exact path="/stake" component={Stake} />
             <Route exact path="/risk" component={Risk} />
           </Switch>
         </ToastsProvider>
