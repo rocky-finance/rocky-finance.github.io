@@ -92,7 +92,6 @@ export default function DeadlineField(): ReactElement {
               button
               dense
               className={classes.button}
-              alignItems="center"
               selected={transactionDeadlineSelected === Deadlines.Ten}
               onClick={(): PayloadAction<Deadlines> =>
                 dispatch(updateTransactionDeadlineSelected(Deadlines.Ten))
@@ -114,7 +113,6 @@ export default function DeadlineField(): ReactElement {
               button
               dense
               className={classes.button}
-              alignItems="center"
               selected={transactionDeadlineSelected === Deadlines.Twenty}
               onClick={(): PayloadAction<Deadlines> =>
                 dispatch(updateTransactionDeadlineSelected(Deadlines.Twenty))
@@ -136,7 +134,6 @@ export default function DeadlineField(): ReactElement {
               button
               dense
               className={classes.button}
-              alignItems="center"
               selected={transactionDeadlineSelected === Deadlines.Thirty}
               onClick={(): PayloadAction<Deadlines> =>
                 dispatch(updateTransactionDeadlineSelected(Deadlines.Thirty))

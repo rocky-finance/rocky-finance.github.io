@@ -1,4 +1,4 @@
-import React, { FocusEventHandler, ReactElement } from "react"
+import React, { ReactElement } from "react"
 
 import { TOKENS_MAP } from "../../constants"
 import { useTranslation } from "react-i18next"
@@ -81,12 +81,14 @@ export default function TokenInput({
         placeholder={max || "0"}
         spellCheck="false"
         onChange={onChangeInput}
-        onFocus={(event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+        onFocus={(
+          event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+        ): void => {
           event.target.select()
         }}
         disabled={disabled ? true : false}
         startAdornment={
-          <Grid 
+          <Grid
             item
             container
             wrap="nowrap"
@@ -104,7 +106,7 @@ export default function TokenInput({
         }
         endAdornment={
           max != null && (
-            <Grid 
+            <Grid
               item
               container
               wrap="nowrap"

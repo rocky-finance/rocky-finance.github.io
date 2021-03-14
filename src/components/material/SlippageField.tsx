@@ -90,7 +90,6 @@ export default function SlippageField(): ReactElement {
               button
               dense
               className={classes.button}
-              alignItems="center"
               selected={slippageSelected === Slippages.OneTenth}
               onClick={(): PayloadAction<Slippages> =>
                 dispatch(updateSlippageSelected(Slippages.OneTenth))
@@ -112,7 +111,6 @@ export default function SlippageField(): ReactElement {
               button
               dense
               className={classes.button}
-              alignItems="center"
               selected={slippageSelected === Slippages.One}
               onClick={(): PayloadAction<Slippages> =>
                 dispatch(updateSlippageSelected(Slippages.One))
@@ -134,7 +132,6 @@ export default function SlippageField(): ReactElement {
               button
               dense
               className={classes.button}
-              alignItems="center"
               selected={slippageSelected === Slippages.Three}
               onClick={(): PayloadAction<Slippages> =>
                 dispatch(updateSlippageSelected(Slippages.Three))

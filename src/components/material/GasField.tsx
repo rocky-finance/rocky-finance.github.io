@@ -89,7 +89,6 @@ export default function GasField(): ReactElement {
               button
               dense
               className={classes.button}
-              alignItems="center"
               selected={gasPriceSelected === GasPrices.Standard}
               onClick={(): PayloadAction<GasPrices> =>
                 dispatch(updateGasPriceSelected(GasPrices.Standard))
@@ -111,7 +110,6 @@ export default function GasField(): ReactElement {
               button
               dense
               className={classes.button}
-              alignItems="center"
               selected={gasPriceSelected === GasPrices.Fast}
               onClick={(): PayloadAction<GasPrices> =>
                 dispatch(updateGasPriceSelected(GasPrices.Fast))
@@ -133,7 +131,6 @@ export default function GasField(): ReactElement {
               button
               dense
               className={classes.button}
-              alignItems="center"
               selected={gasPriceSelected === GasPrices.Instant}
               onClick={(): PayloadAction<GasPrices> =>
                 dispatch(updateGasPriceSelected(GasPrices.Instant))
