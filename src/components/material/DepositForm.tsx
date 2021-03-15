@@ -19,6 +19,7 @@ interface Props {
     name: string
     icon: string
     max: string
+    isZeroBalance: boolean
     inputValue: string
   }>
   onChangeTokenInputValue: (tokenSymbol: string, value: string) => void
@@ -65,6 +66,7 @@ export default function DepositForm(props: Props): ReactElement {
                 <TokenInput
                   {...token}
                   exceedsWallet={exceedsWallet}
+                  disabled={token.isZeroBalance}
                   onChange={(value): void =>
                     onChangeTokenInputValue(token.symbol, value)
                   }

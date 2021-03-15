@@ -82,6 +82,7 @@ function DepositStable(): ReactElement | null {
     }
     void calculateMaxDeposits()
   }, [poolData, tokenFormState, swapContract, userShareData, account])
+  
   // Account Token balances
   const tokenBalances = {
     [WXDAI.symbol]: useTokenBalance(WXDAI),
@@ -89,6 +90,7 @@ function DepositStable(): ReactElement | null {
     [BSC_DAI.symbol]: useTokenBalance(BSC_DAI),
     [BSC_USDC.symbol]: useTokenBalance(BSC_USDC),
   }
+
   // A represention of tokens used for UI
   const tokens = STABLECOIN_POOL_TOKENS.map(
     ({ symbol, name, icon, decimals }) => ({
@@ -96,6 +98,7 @@ function DepositStable(): ReactElement | null {
       name,
       icon,
       max: formatBNToString(tokenBalances[symbol], decimals),
+      isZeroBalance: tokenBalances[symbol].isZero(),
       inputValue: tokenFormState[symbol].valueRaw,
     }),
   )
@@ -116,9 +119,11 @@ function DepositStable(): ReactElement | null {
       ),
     )
   }
+
   function updateTokenFormValue(symbol: string, value: string): void {
     updateTokenFormState({ [symbol]: value })
   }
+
   const depositTransaction = buildTransactionData(
     tokenFormState,
     poolData,

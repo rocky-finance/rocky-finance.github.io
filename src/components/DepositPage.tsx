@@ -34,6 +34,7 @@ interface Props {
     name: string
     icon: string
     max: string
+    isZeroBalance: boolean
     inputValue: string
   }>
   selected?: { [key: string]: any }
