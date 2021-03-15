@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from "react"
 import ConfirmTransaction from "./ConfirmTransaction"
 import { DepositTransaction } from "../interfaces/transactions"
 import { HistoricalPoolDataType } from "../hooks/useHistoricalPoolData"
-import LPStakingBanner from "./LPStakingBanner"
+import LPStakingBanner from "./material/LPStakingBanner"
 import Modal from "./Modal"
 import MyActivityCard from "./MyActivityCard"
 import MyShareCard from "./MyShareCard"
@@ -84,8 +84,12 @@ const DepositPage = (props: Props): ReactElement => {
 
   return (
     <Container maxWidth="md" className="deposit">
-      {myShareData?.lpTokenBalance.gt(0) && <LPStakingBanner />}
       <Grid container direction="column" spacing={2}>
+        {myShareData?.lpTokenBalance.gt(0) && (
+          <Grid container item>
+            <Grid item xs={12} component={LPStakingBanner} />
+          </Grid>
+        )}
         <Grid
           item
           container
@@ -102,7 +106,7 @@ const DepositPage = (props: Props): ReactElement => {
               />
             </Paper>
           </Grid>
-          <Grid item xs={12} md={5} container>
+          <Grid item xs={12} md container>
             <Paper variant="outlined" className={classes.paper}>
               <MyShareCard data={myShareData} />
               <div
