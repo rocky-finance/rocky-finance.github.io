@@ -73,20 +73,20 @@ function SwapForm({
   const { t } = useTranslation()
   const classes = useStyles()
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
-  const [ttSymbol, setTtSymbol] = React.useState<string | null>(null)
-
+  const [popover, setPopover] = React.useState<{
+    symbol: string,
+    anchor: HTMLElement | null,
+  } | null>(null)
+  
   const handlePopoverOpen = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
     symbol: string,
   ) => {
-    setTtSymbol(symbol)
-    setAnchorEl(event.currentTarget)
+    setPopover({symbol: symbol, anchor: event.currentTarget})
   }
 
   const handlePopoverClose = () => {
-    setTtSymbol(null)
-    setAnchorEl(null)
+    setPopover(null)
   }
 
   return (
@@ -121,8 +121,8 @@ function SwapForm({
                   ) : null}
                 </ListItem>
                 <CustomPopover
-                  open={Boolean(anchorEl && ttSymbol === symbol)}
-                  anchorEl={anchorEl}
+                  open={Boolean(popover?.anchor && popover.symbol === symbol)}
+                  anchorEl={popover?.anchor ? popover.anchor : null}
                   onClose={handlePopoverClose}
                 >
                   <Typography>{formattedLongBalance}</Typography>
