@@ -29,8 +29,6 @@ import { BigNumber } from "@ethersproject/bignumber"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Props {
   title: string
-  onConfirmTransaction: () => Promise<void>
-  onChangeTokenInputValue: (tokenSymbol: string, value: string) => void
   tokens: Array<{
     symbol: string
     name: string
@@ -38,12 +36,15 @@ interface Props {
     max: string
     inputValue: string
   }>
-  exceedsWallet: (tokenSymbol: string) => boolean
   selected?: { [key: string]: any }
   poolData: PoolDataType | null
   historicalPoolData: HistoricalPoolDataType | null
   myShareData: UserShareType | null
   transactionData: DepositTransaction
+  canDeposit: boolean
+  onConfirmTransaction: () => Promise<void>
+  onChangeTokenInputValue: (tokenSymbol: string, value: string) => void
+  exceedsWallet: (tokenSymbol: string) => boolean
 }
 
 const useStyles = makeStyles((theme) =>
@@ -70,11 +71,12 @@ const DepositPage = (props: Props): ReactElement => {
   const classes = useStyles()
   const {
     tokens,
-    exceedsWallet,
     poolData,
     historicalPoolData,
     myShareData,
     transactionData,
+    canDeposit,
+    exceedsWallet,
     onChangeTokenInputValue,
     onConfirmTransaction,
   } = props
@@ -135,7 +137,7 @@ const DepositPage = (props: Props): ReactElement => {
                 onClick={(): void => {
                   setCurrentModal("review")
                 }}
-                disabled={!validDepositAmount}
+                disabled={!canDeposit}
               >
                 {t("deposit")}
               </Button>

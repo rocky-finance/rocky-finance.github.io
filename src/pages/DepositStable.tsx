@@ -127,6 +127,14 @@ function DepositStable(): ReactElement | null {
     tokenPricesUSD,
   )
 
+  const canDeposit =
+    !STABLECOIN_POOL_TOKENS.some(({ symbol }) => {
+      const exceedsBoolean = tokenBalances[symbol].lt(
+        BigNumber.from(tokenFormState[symbol].valueSafe),
+      )
+      return exceedsBoolean
+    }) && depositTransaction.to.totalAmount.gt(0)
+
   return (
     <DepositPage
       onConfirmTransaction={onConfirmTransaction}
@@ -138,6 +146,7 @@ function DepositStable(): ReactElement | null {
       historicalPoolData={null}
       myShareData={userShareData}
       transactionData={depositTransaction}
+      canDeposit={canDeposit}
     />
   )
 }
