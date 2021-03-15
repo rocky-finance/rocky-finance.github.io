@@ -12,7 +12,7 @@ interface Props {
   data: PoolDataType | null
 }
 
-function PoolInfoCard({ data }: Props): ReactElement {
+export default function PoolInfoCard({ data }: Props): ReactElement {
   const { t } = useTranslation()
   const swapFee = data?.swapFee
     ? formatBNToPercentString(data.swapFee, POOL_FEE_PRECISION)
@@ -102,5 +102,3 @@ function PoolInfoCard({ data }: Props): ReactElement {
     </div>
   )
 }
-
-export default PoolInfoCard

@@ -82,7 +82,7 @@ function DepositStable(): ReactElement | null {
     }
     void calculateMaxDeposits()
   }, [poolData, tokenFormState, swapContract, userShareData, account])
-  
+
   // Account Token balances
   const tokenBalances = {
     [WXDAI.symbol]: useTokenBalance(WXDAI),
