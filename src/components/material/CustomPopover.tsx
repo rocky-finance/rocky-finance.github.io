@@ -26,12 +26,9 @@ export default function CustomPopover(props: Props): ReactElement {
   return (
     <Popover
       id="mouse-over-popover"
-      className={classes.popover}
-      classes={{
-        paper: classes.paper,
-      }}
       open={open}
       anchorEl={anchorEl}
+      onClose={onClose}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
@@ -40,7 +37,10 @@ export default function CustomPopover(props: Props): ReactElement {
         vertical: "bottom",
         horizontal: "right",
       }}
-      onClose={onClose}
+      className={classes.popover}
+      classes={{
+        paper: classes.paper,
+      }}
       disableRestoreFocus
     >
       {children}
