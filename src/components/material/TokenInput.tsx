@@ -52,7 +52,10 @@ export default function TokenInput({
 
   function onClickMax(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault()
-    onChange(String(max))
+    const parsedValue = parseFloat("0" + String(max))
+    const isValidInput = !isNaN(parsedValue) && parsedValue != 0
+    if (isValidInput) updateValue(String(max))
+    else updateValue("")
   }
 
   function onChangeInput(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -64,8 +67,13 @@ export default function TokenInput({
       periodIndex === -1 || e.target.value.length - 1 - periodIndex <= decimals
     if (isValidInput && isValidPrecision) {
       // don't allow input longer than the token allows
-      onChange(e.target.value)
+      updateValue(e.target.value)
     }
+  }
+
+  function updateValue(v: string): void {
+    inputValue = v
+    onChange(v)
   }
 
   function hasError(symbol: string): boolean {
@@ -90,7 +98,7 @@ export default function TokenInput({
         label={`${t("balance")}: ${String(max)}`}
         fullWidth
         value={inputValue}
-        placeholder="0"
+        placeholder="0.0"
         spellCheck="false"
         onChange={onChangeInput}
         onFocus={(

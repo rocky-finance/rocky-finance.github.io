@@ -82,7 +82,6 @@ const DepositPage = (props: Props): ReactElement => {
   } = props
 
   const [currentModal, setCurrentModal] = useState<string | null>(null)
-  const validDepositAmount = transactionData.to.totalAmount.gt(0)
 
   return (
     <Container maxWidth="md" className="deposit">
