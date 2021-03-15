@@ -74,15 +74,15 @@ function SwapForm({
   const classes = useStyles()
 
   const [popover, setPopover] = React.useState<{
-    symbol: string,
-    anchor: HTMLElement | null,
+    symbol: string
+    anchor: HTMLElement | null
   } | null>(null)
-  
+
   const handlePopoverOpen = (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
     symbol: string,
   ) => {
-    setPopover({symbol: symbol, anchor: event.currentTarget})
+    setPopover({ symbol: symbol, anchor: event.currentTarget })
   }
 
   const handlePopoverClose = () => {

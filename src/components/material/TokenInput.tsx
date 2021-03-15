@@ -139,10 +139,11 @@ export default function TokenInput({
           )
         }
       />
-      <FormHelperText id="component-error-text" variant="outlined">
-        {hasError(symbol)
-          ? t("depositBalanceExceeded")
-          : " "
+      <FormHelperText variant="outlined">
+        {
+          hasError(symbol)
+            ? t("depositBalanceExceeded")
+            : String.fromCharCode(160) // &nbsp;
         }
       </FormHelperText>
     </FormControl>
