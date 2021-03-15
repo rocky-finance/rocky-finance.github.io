@@ -14,7 +14,6 @@ import {
 import TokenInput from "./TokenInput"
 
 interface Props {
-  exceedsWallet: boolean
   tokens: Array<{
     symbol: string
     name: string
@@ -23,6 +22,7 @@ interface Props {
     inputValue: string
   }>
   onChangeTokenInputValue: (tokenSymbol: string, value: string) => void
+  exceedsWallet: (tokenSymbol: string) => boolean
 }
 
 const useStyles = makeStyles((theme) =>
@@ -64,6 +64,7 @@ export default function DepositForm(props: Props): ReactElement {
               <ListItem key={index} disableGutters>
                 <TokenInput
                   {...token}
+                  exceedsWallet={exceedsWallet}
                   onChange={(value): void =>
                     onChangeTokenInputValue(token.symbol, value)
                   }
@@ -73,9 +74,6 @@ export default function DepositForm(props: Props): ReactElement {
           })}
         </List>
       </FormGroup>
-      {exceedsWallet ? (
-        <div className="error">{t("depositBalanceExceeded")}</div>
-      ) : null}
     </FormControl>
   )
 }

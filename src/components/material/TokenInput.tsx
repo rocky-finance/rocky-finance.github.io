@@ -7,8 +7,10 @@ import {
   createStyles,
   Divider,
   FormControl,
+  FormHelperText,
   Grid,
   InputAdornment,
+  InputLabel,
   ListItemIcon,
   makeStyles,
   OutlinedInput,
@@ -30,8 +32,9 @@ interface Props {
   name: string
   max?: string
   inputValue: string
-  onChange: (value: string) => void
   disabled?: boolean
+  onChange: (value: string) => void
+  exceedsWallet: (tokenSymbol: string) => boolean
 }
 
 export default function TokenInput({
@@ -40,8 +43,9 @@ export default function TokenInput({
   name,
   max,
   inputValue,
-  onChange,
   disabled,
+  onChange,
+  exceedsWallet,
 }: Props): ReactElement {
   const { t } = useTranslation()
   const classes = useStyles()
@@ -64,21 +68,29 @@ export default function TokenInput({
     }
   }
 
+  function hasError(symbol: string): boolean {
+    return exceedsWallet(symbol)
+  }
+
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth error={hasError(symbol)}>
+      <InputLabel htmlFor={`amount-${symbol}`} variant="outlined">
+        {t("balance")}: {max}
+      </InputLabel>
       <Grid
         container
         direction="row"
         wrap="nowrap"
         component={OutlinedInput}
         autoComplete="off"
+        id={`amount-${symbol}`}
         className={classes.input}
         autoCorrect="off"
-        id="amount"
         type="text"
+        label={`${t("balance")}: ${String(max)}`}
         fullWidth
         value={inputValue}
-        placeholder={max || "0"}
+        placeholder="0"
         spellCheck="false"
         onChange={onChangeInput}
         onFocus={(
@@ -127,6 +139,12 @@ export default function TokenInput({
           )
         }
       />
+      <FormHelperText id="component-error-text" variant="outlined">
+        {hasError(symbol)
+          ? t("depositBalanceExceeded")
+          : " "
+        }
+      </FormHelperText>
     </FormControl>
   )
 }

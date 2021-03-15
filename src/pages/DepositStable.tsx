@@ -4,6 +4,7 @@ import {
   STABLECOIN_POOL_NAME,
   STABLECOIN_POOL_TOKENS,
   STABLECOIN_SWAP_TOKEN,
+  TOKENS_MAP,
   USDC,
   WXDAI,
 } from "../constants"
@@ -100,12 +101,9 @@ function DepositStable(): ReactElement | null {
     }),
   )
 
-  const exceedsWallet = STABLECOIN_POOL_TOKENS.some(({ symbol }) => {
-    const exceedsBoolean = tokenBalances[symbol].lt(
-      BigNumber.from(tokenFormState[symbol].valueSafe),
-    )
-    return exceedsBoolean
-  })
+  const exceedsWallet = (symbol: string)=> tokenBalances[symbol].lt(
+    BigNumber.from(tokenFormState[symbol].valueSafe),
+  )
 
   async function onConfirmTransaction(): Promise<void> {
     await approveAndDeposit(tokenFormState)

@@ -38,7 +38,7 @@ interface Props {
     max: string
     inputValue: string
   }>
-  exceedsWallet: boolean
+  exceedsWallet: (tokenSymbol: string) => boolean
   selected?: { [key: string]: any }
   poolData: PoolDataType | null
   historicalPoolData: HistoricalPoolDataType | null
