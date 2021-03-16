@@ -13,7 +13,6 @@ import {
   FormControl,
   FormGroup,
   FormHelperText,
-  FormLabel,
   InputAdornment,
   List,
   ListItem,
@@ -91,9 +90,9 @@ function SwapForm({
 
   return (
     <FormControl autoCorrect="false" fullWidth variant="outlined">
-      <FormLabel component="legend">
+      <Typography variant="subtitle1">
         {isSwapFrom ? t("from") : t("to")}
-      </FormLabel>
+      </Typography>
       <Divider className={classes.divider} />
       <FormGroup>
         <List component="nav">

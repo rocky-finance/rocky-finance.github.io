@@ -6,7 +6,7 @@ import { HistoricalPoolDataType } from "../hooks/useHistoricalPoolData"
 import LPStakingBanner from "./material/LPStakingBanner"
 import Modal from "./Modal"
 import MyActivityCard from "./MyActivityCard"
-import MyShareCard from "./MyShareCard"
+import MyShareCard from "./material/MyShareCard"
 import PoolInfoCard from "./PoolInfoCard"
 import { REFS } from "../constants"
 import ReviewDeposit from "./ReviewDeposit"
@@ -109,14 +109,14 @@ const DepositPage = (props: Props): ReactElement => {
             </Paper>
           </Grid>
           {myShareData ? (
-            <Grid item xs={12} md container>
+            <Grid item xs={12} md={6} container>
               <Paper variant="outlined" className={classes.paper}>
                 <MyShareCard data={myShareData} />
               </Paper>
             </Grid>
           ) : null}
           {historicalPoolData ? (
-            <Grid item xs={12} md container>
+            <Grid item xs={12} container>
               <Paper variant="outlined" className={classes.paper}>
                 <MyActivityCard historicalPoolData={historicalPoolData} />
               </Paper>

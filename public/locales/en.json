@@ -90,6 +90,7 @@
   "tokenValue": "token value",
   "total": "Total",
   "totalAmount": "Total amount",
+  "poolTokens": "Pool tokens",
   "totalLocked": "Total locked",
   "totalStaked": "Total staked",
   "usdBalance": "USD balance",

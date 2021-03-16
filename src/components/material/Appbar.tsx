@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react"
 import { Link, useLocation } from "react-router-dom"
 
-import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles"
+import { makeStyles, useTheme, withStyles } from "@material-ui/core"
 import AppBar from "@material-ui/core/AppBar"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"

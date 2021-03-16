@@ -6,10 +6,10 @@ import {
   Divider,
   FormControl,
   FormGroup,
-  FormLabel,
   List,
   ListItem,
   makeStyles,
+  Typography,
 } from "@material-ui/core"
 import TokenInput from "./TokenInput"
 
@@ -56,7 +56,7 @@ export default function DepositForm(props: Props): ReactElement {
 
   return (
     <FormControl autoCorrect="false" fullWidth variant="outlined">
-      <FormLabel component="legend">{t("addLiquidity")}</FormLabel>
+      <Typography variant="subtitle1">{t("addLiquidity")}</Typography>
       <Divider className={classes.divider} />
       <FormGroup>
         <List component="nav">
