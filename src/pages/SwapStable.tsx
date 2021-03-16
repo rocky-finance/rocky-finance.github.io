@@ -14,7 +14,7 @@ import { calculatePriceImpact } from "../utils/priceImpact"
 import { debounce } from "lodash"
 import { useApproveAndSwap } from "../hooks/useApproveAndSwap"
 import usePoolData from "../hooks/usePoolData"
-import { usePoolTokenBalances } from "../state/wallet/hooks"
+import { useStablePoolTokenBalances } from "../state/wallet/hooks"
 
 import { useSwapContract } from "../hooks/useContract"
 import { useTranslation } from "react-i18next"
@@ -36,7 +36,7 @@ function SwapStable(): ReactElement {
   const { t } = useTranslation()
   const [poolData] = usePoolData(STABLECOIN_POOL_NAME)
   const approveAndSwap = useApproveAndSwap(STABLECOIN_POOL_NAME)
-  const tokenBalances = usePoolTokenBalances(STABLECOIN_POOL_NAME)
+  const tokenBalances = useStablePoolTokenBalances()
   const swapContract = useSwapContract(STABLECOIN_POOL_NAME)
   const [formState, setFormState] = useState<FormState>({
     error: null,
