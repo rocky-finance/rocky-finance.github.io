@@ -99,7 +99,7 @@ const DepositPage = (props: Props): ReactElement => {
           className={classes.root}
           spacing={2}
         >
-          <Grid item xs={12} md={6} container>
+          <Grid item xs={12} md container>
             <Paper variant="outlined" className={classes.paper}>
               <DepositForm
                 exceedsWallet={exceedsWallet}
@@ -122,11 +122,13 @@ const DepositPage = (props: Props): ReactElement => {
               </Paper>
             </Grid>
           ) : null}
-          <Grid item xs={12} md container>
-            <Paper variant="outlined" className={classes.paper}>
-              <PoolInfoCard data={poolData} />
-            </Paper>
-          </Grid>
+          {poolData ? (
+            <Grid item xs={12} md container>
+              <Paper variant="outlined" className={classes.paper}>
+                <PoolInfoCard data={poolData} />
+              </Paper>
+            </Grid>
+          ) : null}
         </Grid>
         <Grid container item>
           <AdvancedPanel

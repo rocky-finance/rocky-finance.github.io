@@ -78,8 +78,8 @@ export default function PoolInfoCard({ data }: Props): ReactElement {
 
   return (
     <Box>
-      <Grid container spacing={2}>
-        <Grid item container direction="column" spacing={1} xs={6}>
+      <Grid container spacing={2} justify="space-between">
+        <Grid item container direction="column" spacing={1} xs={12} sm={6}>
           <Grid item container direction="column">
             <Grid item container component={Typography} variant="subtitle1">
               {formattedData.name}
@@ -110,7 +110,7 @@ export default function PoolInfoCard({ data }: Props): ReactElement {
             </Grid> */}
           </Grid>
         </Grid>
-        <Grid item container direction="column" spacing={1} xs={6}>
+        <Grid item container direction="column" spacing={1} xs={12} sm={6}>
           <Grid item container direction="column">
             <Grid item container component={Typography} variant="subtitle1">
               {t("currencyReserves")}
