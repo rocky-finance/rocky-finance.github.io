@@ -1,13 +1,5 @@
 import { BLOCK_TIME, Token } from "../../constants"
-import {
-  BSC_DAI,
-  BSC_USDC,
-  PoolName,
-  STABLECOIN_POOL_NAME,
-  USDC,
-  WXDAI,
-} from "../../constants"
-
+import { BSC_DAI, BSC_USDC, USDC, WXDAI } from "../../constants"
 import { BigNumber } from "@ethersproject/bignumber"
 import { Erc20 } from "../../../types/ethers-contracts/Erc20"
 import { useActiveWeb3React } from "../../hooks"
@@ -33,31 +25,33 @@ export function useTokenBalance(t: Token): BigNumber {
     }
     if (account && chainId) {
       void pollBalance()
+    } else {
+      setBalance(BigNumber.from(0))
     }
   }, BLOCK_TIME)
 
   return balance
 }
 
-export function usePoolTokenBalances(
-  poolName: PoolName,
-): { [token: string]: BigNumber } | null {
-  const tbtcTokenBalance = useTokenBalance(WXDAI)
-  const wtcTokenBalance = useTokenBalance(USDC)
-  const renbtcTokenBalance = useTokenBalance(BSC_DAI)
-  const sbtcTokenBalance = useTokenBalance(BSC_USDC)
-  const btcPoolTokenBalances = useMemo(
+export function useStablePoolTokenBalances(): { [token: string]: BigNumber } {
+  const wxdaiTokenBalance = useTokenBalance(WXDAI)
+  const usdcTokenBalance = useTokenBalance(USDC)
+  const bscdaiTokenBalance = useTokenBalance(BSC_DAI)
+  const bscusdcTokenBalance = useTokenBalance(BSC_USDC)
+  const stablePoolTokenBalances = useMemo(
     () => ({
-      [WXDAI.symbol]: tbtcTokenBalance,
-      [USDC.symbol]: wtcTokenBalance,
-      [BSC_DAI.symbol]: renbtcTokenBalance,
-      [BSC_USDC.symbol]: sbtcTokenBalance,
+      [WXDAI.symbol]: wxdaiTokenBalance,
+      [USDC.symbol]: usdcTokenBalance,
+      [BSC_DAI.symbol]: bscdaiTokenBalance,
+      [BSC_USDC.symbol]: bscusdcTokenBalance,
     }),
-    [tbtcTokenBalance, wtcTokenBalance, renbtcTokenBalance, sbtcTokenBalance],
+    [
+      wxdaiTokenBalance,
+      usdcTokenBalance,
+      bscdaiTokenBalance,
+      bscusdcTokenBalance,
+    ],
   )
 
-  if (poolName === STABLECOIN_POOL_NAME) {
-    return btcPoolTokenBalances
-  }
-  return null
+  return stablePoolTokenBalances
 }

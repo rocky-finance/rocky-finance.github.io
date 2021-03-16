@@ -1,11 +1,7 @@
 import {
-  BSC_DAI,
-  BSC_USDC,
   STABLECOIN_POOL_NAME,
   STABLECOIN_POOL_TOKENS,
   STABLECOIN_SWAP_TOKEN,
-  USDC,
-  WXDAI,
 } from "../constants"
 import { DepositTransaction, TransactionItem } from "../interfaces/transactions"
 import React, { ReactElement, useEffect, useState } from "react"
@@ -24,7 +20,7 @@ import { useActiveWeb3React } from "../hooks"
 import { useApproveAndDeposit } from "../hooks/useApproveAndDeposit"
 import { useSelector } from "react-redux"
 import { useSwapContract } from "../hooks/useContract"
-import { useTokenBalance } from "../state/wallet/hooks"
+import { useStablePoolTokenBalances } from "../state/wallet/hooks"
 
 function DepositStable(): ReactElement | null {
   const { account } = useActiveWeb3React()
@@ -34,6 +30,7 @@ function DepositStable(): ReactElement | null {
   const [tokenFormState, updateTokenFormState] = useTokenFormState(
     STABLECOIN_POOL_TOKENS,
   )
+  const tokenBalances = useStablePoolTokenBalances()
   const { tokenPricesUSD } = useSelector((state: AppState) => state.application)
   const [estDepositLPTokenAmount, setEstDepositLPTokenAmount] = useState(Zero)
   const [priceImpact, setPriceImpact] = useState(Zero)
@@ -82,14 +79,6 @@ function DepositStable(): ReactElement | null {
     }
     void calculateMaxDeposits()
   }, [poolData, tokenFormState, swapContract, userShareData, account])
-
-  // Account Token balances
-  const tokenBalances = {
-    [WXDAI.symbol]: useTokenBalance(WXDAI),
-    [USDC.symbol]: useTokenBalance(USDC),
-    [BSC_DAI.symbol]: useTokenBalance(BSC_DAI),
-    [BSC_USDC.symbol]: useTokenBalance(BSC_USDC),
-  }
 
   // A represention of tokens used for UI
   const tokens = STABLECOIN_POOL_TOKENS.map(
