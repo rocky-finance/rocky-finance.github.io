@@ -14,7 +14,7 @@ import Web3ReactManager from "../components/Web3ReactManager"
 import WithdrawStable from "./WithdrawStable"
 import fetchGasPrices from "../utils/updateGasPrices"
 import fetchTokenPricesUSD from "../utils/updateTokenPrices"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import usePoller from "../hooks/usePoller"
 import Appbar from "../components/material/Appbar"
 import Grid from "@material-ui/core/Grid"
@@ -23,6 +23,8 @@ import { darkTheme, lightTheme } from "../components/material/RockyTheme"
 import { MuiThemeProvider } from "@material-ui/core"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { createMuiTheme } from "@material-ui/core/styles"
+import { updateDarkMode } from "../state/user"
+import { AppState } from "../state/index"
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -41,11 +43,16 @@ export default function App(): ReactElement {
   usePoller(fetchAndUpdateGasPrice, BLOCK_TIME)
   usePoller(fetchAndUpdateTokensPrice, BLOCK_TIME * 3)
 
-  const [theme, setTheme] = useState(lightTheme)
+  // Read current theme from appState
+  const { userDarkMode } = useSelector((state: AppState) => state.user)
+
+  const [theme, setTheme] = useState(userDarkMode ? darkTheme : lightTheme)
 
   const toggleDarkTheme = () => {
     const newPaletteType =
       theme.palette?.type === "light" ? darkTheme : lightTheme
+
+    dispatch(updateDarkMode(newPaletteType === darkTheme))
     setTheme(newPaletteType)
   }
 
