@@ -10,7 +10,7 @@ import {
 import { AppState } from "../state/index"
 import Button from "./Button"
 import { DepositTransaction } from "../interfaces/transactions"
-import HighPriceImpactConfirmation from "./HighPriceImpactConfirmation"
+import HighPriceImpactConfirmation from "./material/HighPriceImpactConfirmation"
 import { commify } from "@ethersproject/units"
 import { formatGasToString } from "../utils/gas"
 import { formatSlippageToString } from "../utils/slippage"

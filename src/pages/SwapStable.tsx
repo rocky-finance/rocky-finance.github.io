@@ -231,9 +231,10 @@ function SwapStable(): ReactElement {
   return (
     <SwapPage
       tokens={tokens}
-      exchangeRateInfo={{
-        pair: `${formState.from.symbol}/${formState.to.symbol}`,
-        exchangeRate: formState.exchangeRate,
+      exchangeInfo={{
+        from: formState.from.symbol,
+        to: formState.to.symbol,
+        rate: formState.exchangeRate,
         priceImpact: formState.priceImpact,
       }}
       fromState={formState.from}

@@ -1,10 +1,8 @@
 import React, { ReactElement, useState } from "react"
 import { formatBNToPercentString, formatBNToString } from "../utils"
 import { BigNumber } from "@ethersproject/bignumber"
-import ConfirmTransaction from "./ConfirmTransaction"
 
-import Modal from "./Modal"
-import ReviewSwap from "./ReviewSwap"
+import ReviewSwap from "./material/ReviewSwap"
 import SwapForm from "./material/SwapForm"
 import { isHighPriceImpact } from "../utils/priceImpact"
 import { logEvent } from "../utils/googleAnalytics"
@@ -43,9 +41,10 @@ interface Props {
     icon: string
     decimals: number
   }>
-  exchangeRateInfo: {
-    pair: string
-    exchangeRate: BigNumber
+  exchangeInfo: {
+    from: string
+    to: string
+    rate: BigNumber
     priceImpact: BigNumber
   }
   error: string | null
@@ -63,7 +62,7 @@ const SwapPage = (props: Props): ReactElement => {
   const { account } = useActiveWeb3React()
   const {
     tokens,
-    exchangeRateInfo,
+    exchangeInfo: exchangeInfo,
     error,
     fromState,
     toState,
@@ -78,14 +77,10 @@ const SwapPage = (props: Props): ReactElement => {
   const classes = useStyles()
 
   const formattedPriceImpact = formatBNToPercentString(
-    exchangeRateInfo.priceImpact,
+    exchangeInfo.priceImpact,
     18,
   )
-  const formattedExchangeRate = formatBNToString(
-    exchangeRateInfo.exchangeRate,
-    18,
-    4,
-  )
+  const formattedExchangeRate = formatBNToString(exchangeInfo.rate, 18, 4)
 
   return (
     <Container maxWidth="md">
@@ -97,7 +92,7 @@ const SwapPage = (props: Props): ReactElement => {
           className={classes.root}
           spacing={2}
         >
-          <Grid item xs={12} sm={6} container>
+          <Grid item xs={12} md={6} container>
             <Paper variant="outlined" className={classes.paper}>
               <SwapForm
                 isSwapFrom={true}
@@ -109,7 +104,7 @@ const SwapPage = (props: Props): ReactElement => {
               />
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={6} container>
+          <Grid item xs={12} md={6} container>
             <Paper variant="outlined" className={classes.paper}>
               <SwapForm
                 isSwapFrom={false}
@@ -121,7 +116,7 @@ const SwapPage = (props: Props): ReactElement => {
             </Paper>
           </Grid>
         </Grid>
-        {account && isHighPriceImpact(exchangeRateInfo.priceImpact) ? (
+        {account && isHighPriceImpact(exchangeInfo.priceImpact) ? (
           <div className="exchangeWarning">
             {t("highPriceImpact", {
               rate: formattedPriceImpact,
@@ -147,7 +142,7 @@ const SwapPage = (props: Props): ReactElement => {
             <Grid item xs>
               <StyledChip
                 onClick={onClickReverseExchangeDirection}
-                label={exchangeRateInfo.pair}
+                label={`${exchangeInfo.from}/${exchangeInfo.to}`}
                 icon={<SwapHorizontalCircleIcon />}
                 variant="outlined"
               />
@@ -160,7 +155,27 @@ const SwapPage = (props: Props): ReactElement => {
           </AdvancedPanel>
         </Grid>
       </Grid>
-      <Modal
+      {currentModal === "review" && (
+        <ReviewSwap
+          open
+          onClose={(): void => setCurrentModal(null)}
+          onConfirm={async (): Promise<void> => {
+            setCurrentModal("confirm")
+            logEvent("swap", {
+              from: fromState.symbol,
+              to: toState.symbol,
+            })
+            await onConfirmTransaction?.()
+            setCurrentModal(null)
+          }}
+          data={{
+            from: fromState,
+            to: toState,
+            exchangeInfo: exchangeInfo,
+          }}
+        />
+      )}
+      {/* <Modal
         isOpen={!!currentModal}
         onClose={(): void => setCurrentModal(null)}
       >
@@ -179,12 +194,12 @@ const SwapPage = (props: Props): ReactElement => {
             data={{
               from: fromState,
               to: toState,
-              exchangeRateInfo,
+              exchangeInfo,
             }}
           />
         ) : null}
         {currentModal === "confirm" ? <ConfirmTransaction /> : null}
-      </Modal>
+      </Modal> */}
     </Container>
   )
 }

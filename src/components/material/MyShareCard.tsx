@@ -90,10 +90,10 @@ function MyShareCard({ data }: Props): ReactElement | null {
                   component="span"
                   style={{ whiteSpace: "nowrap" }}
                 >
-                  {`${coin.name}`}
+                  {coin.name}
                 </Typography>
               </Grid>
-              <Typography variant="body1">{`${coin.value}`}</Typography>
+              <Typography variant="body1">{coin.value}</Typography>
             </Grid>
           ))}
           <Grid item container component={Typography} variant="body1">
