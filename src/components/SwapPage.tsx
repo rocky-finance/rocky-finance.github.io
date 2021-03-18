@@ -20,6 +20,8 @@ import {
 import SwapHorizontalCircleIcon from "@material-ui/icons/SwapHorizontalCircle"
 import { StyledChip } from "./material/StyledChip"
 import AdvancedPanel from "./material/AdvancedPanel"
+import Modal from "./Modal"
+import ConfirmTransaction from "./ConfirmTransaction"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -29,6 +31,11 @@ const useStyles = makeStyles((theme) =>
     paper: {
       padding: theme.spacing(2),
       flexGrow: 1,
+    },
+    warning: {
+      padding: theme.spacing(2),
+      flexGrow: 1,
+      backgroundColor: theme.palette.error.main,
     },
   }),
 )
@@ -117,11 +124,15 @@ const SwapPage = (props: Props): ReactElement => {
           </Grid>
         </Grid>
         {account && isHighPriceImpact(exchangeInfo.priceImpact) ? (
-          <div className="exchangeWarning">
-            {t("highPriceImpact", {
-              rate: formattedPriceImpact,
-            })}
-          </div>
+          <Grid container item>
+            <Paper variant="outlined" className={classes.warning}>
+              <Typography>
+                {t("highPriceImpact", {
+                  rate: formattedPriceImpact,
+                })}
+              </Typography>
+            </Paper>
+          </Grid>
         ) : null}
         <Grid container item>
           <AdvancedPanel
@@ -175,31 +186,14 @@ const SwapPage = (props: Props): ReactElement => {
           }}
         />
       )}
-      {/* <Modal
-        isOpen={!!currentModal}
-        onClose={(): void => setCurrentModal(null)}
-      >
-        {currentModal === "review" ? (
-          <ReviewSwap
-            onClose={(): void => setCurrentModal(null)}
-            onConfirm={async (): Promise<void> => {
-              setCurrentModal("confirm")
-              logEvent("swap", {
-                from: fromState.symbol,
-                to: toState.symbol,
-              })
-              await onConfirmTransaction?.()
-              setCurrentModal(null)
-            }}
-            data={{
-              from: fromState,
-              to: toState,
-              exchangeInfo,
-            }}
-          />
-        ) : null}
-        {currentModal === "confirm" ? <ConfirmTransaction /> : null}
-      </Modal> */}
+      {currentModal === "confirm" && (
+        <Modal
+          isOpen={!!currentModal}
+          onClose={(): void => setCurrentModal(null)}
+        >
+          <ConfirmTransaction />
+        </Modal>
+      )}
     </Container>
   )
 }
