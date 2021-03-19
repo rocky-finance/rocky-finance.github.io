@@ -31,6 +31,7 @@ interface UserState {
   userSwapAdvancedMode: boolean
   userPoolAdvancedMode: boolean
   userDarkMode: boolean
+  dontShowRisk: boolean
   gasCustom?: NumberInputState
   gasPriceSelected: GasPrices
   slippageCustom?: NumberInputState
@@ -44,6 +45,7 @@ export const initialState: UserState = {
   userSwapAdvancedMode: false,
   userPoolAdvancedMode: false,
   userDarkMode: false,
+  dontShowRisk: false,
   gasPriceSelected: GasPrices.Standard,
   slippageSelected: Slippages.OneTenth,
   infiniteApproval: false,
@@ -76,8 +78,10 @@ const userSlice = createSlice({
       state.userPoolAdvancedMode = action.payload
     },
     updateDarkMode(state: UserState, action: PayloadAction<boolean>): void {
-      // this will be phased out in favor of chakra's colorMode
       state.userDarkMode = action.payload
+    },
+    updateDontShowRisk(state: UserState, action: PayloadAction<boolean>): void {
+      state.dontShowRisk = action.payload
     },
     updateGasPriceCustom(
       state: UserState,
@@ -140,6 +144,7 @@ export const {
   updateSwapAdvancedMode,
   updatePoolAdvancedMode,
   updateDarkMode,
+  updateDontShowRisk,
   updateGasPriceCustom,
   updateGasPriceSelected,
   updateSlippageCustom,

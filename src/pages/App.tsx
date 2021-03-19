@@ -25,6 +25,7 @@ import CssBaseline from "@material-ui/core/CssBaseline"
 import { createMuiTheme } from "@material-ui/core/styles"
 import { updateDarkMode } from "../state/user"
 import { AppState } from "../state/index"
+import RiskDialog from "../components/material/RiskDialog"
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -108,6 +109,7 @@ export default function App(): ReactElement {
               })}
             </Switch>
           </Grid>
+          <RiskDialog />
         </MuiThemeProvider>
       </ToastsProvider>
     </Web3ReactManager>
