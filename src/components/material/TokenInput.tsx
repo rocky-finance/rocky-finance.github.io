@@ -31,13 +31,15 @@ interface Props {
   icon: string
   name: string
   max?: string
+  label?: string
   inputValue: string
   disabled?: boolean
   onChange: (value: string) => void
-  exceedsWallet: (tokenSymbol: string) => boolean
+  exceedsWallet?: (tokenSymbol: string) => boolean
 }
 
 export default function TokenInput({
+  label,
   symbol,
   icon,
   name,
@@ -77,14 +79,16 @@ export default function TokenInput({
   }
 
   function hasError(symbol: string): boolean {
-    return exceedsWallet(symbol)
+    return exceedsWallet ? exceedsWallet(symbol) : false
   }
 
   return (
     <FormControl fullWidth error={hasError(symbol)}>
-      <InputLabel htmlFor={`amount-${symbol}`} variant="outlined">
-        {t("balance")}: {max}
-      </InputLabel>
+      {label && (
+        <InputLabel htmlFor={`amount-${symbol}`} variant="outlined">
+          {label}
+        </InputLabel>
+      )}
       <Grid
         container
         direction="row"
@@ -95,7 +99,7 @@ export default function TokenInput({
         className={classes.input}
         autoCorrect="off"
         type="text"
-        label={`${t("balance")}: ${String(max)}`}
+        label={label}
         fullWidth
         value={inputValue}
         placeholder="0.0"

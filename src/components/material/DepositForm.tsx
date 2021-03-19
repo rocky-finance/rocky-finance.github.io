@@ -65,6 +65,7 @@ export default function DepositForm(props: Props): ReactElement {
               <ListItem key={index} disableGutters>
                 <TokenInput
                   {...token}
+                  label={`${t("balance")}: ${String(token.max)}`}
                   exceedsWallet={exceedsWallet}
                   disabled={token.isZeroBalance}
                   onChange={(value): void =>

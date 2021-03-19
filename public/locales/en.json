@@ -37,7 +37,7 @@
   "harvest": "Harvest",
   "highPriceImpact": "Warning: High Price Impact! {{rate}}",
   "highPriceImpactConfirmation": "Warning: There is a high Price Impact on this transaction due either to the transaction's size or insufficient liquidity, which will result in a loss of funds. Please confirm that you understand before submitting your transaction.",
-  "iConfirm": "I CONFIRM",
+  "iConfirm": "CONFIRM",
   "infiniteApproval": "Infinite Approval",
   "infiniteApprovalTooltip": "Allow Rocky to spend all of the selected tokens now and in the future. You will not need to approve again.",
   "inputNotValid": "Not a valid input value",
@@ -103,5 +103,6 @@
   "withdrawPercentage": "Withdraw percentage",
   "yes": "Yes",
   "youWillReceive": "You will receive",
-  "yourStake": "Your stake"
+  "yourStake": "Your stake",
+  "combo": "Mixed"
 }

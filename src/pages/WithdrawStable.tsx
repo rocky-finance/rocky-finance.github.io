@@ -1,6 +1,8 @@
 import React, { ReactElement, useEffect, useState } from "react"
 import { STABLECOIN_POOL_NAME, STABLECOIN_POOL_TOKENS } from "../constants"
-import WithdrawPage, { ReviewWithdrawData } from "../components/WithdrawPage"
+import WithdrawPage, {
+  ReviewWithdrawData,
+} from "../components/material/WithdrawPage"
 import { commify, formatUnits, parseUnits } from "@ethersproject/units"
 
 import { AppState } from "../state"

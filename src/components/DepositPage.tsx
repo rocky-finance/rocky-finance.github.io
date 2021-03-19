@@ -84,7 +84,7 @@ const DepositPage = (props: Props): ReactElement => {
   const [currentModal, setCurrentModal] = useState<string | null>(null)
 
   return (
-    <Container maxWidth="md" className="deposit">
+    <Container maxWidth="md">
       <Grid container direction="column" spacing={2}>
         {myShareData?.lpTokenBalance.gt(0) && (
           <Grid container item>
@@ -122,7 +122,7 @@ const DepositPage = (props: Props): ReactElement => {
             </Grid>
           ) : null}
           {poolData ? (
-            <Grid item xs={12} md container>
+            <Grid item xs={12} container>
               <Paper variant="outlined" className={classes.paper}>
                 <PoolInfoCard data={poolData} />
               </Paper>

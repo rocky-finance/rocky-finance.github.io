@@ -50,18 +50,14 @@ function ReviewTransaction(inProps: Props): ReactElement {
   const { gasStandard, gasFast, gasInstant } = useSelector(
     (state: AppState) => state.application,
   )
-  
+
   const deadline = formatDeadlineToNumber(
     transactionDeadlineSelected,
     transactionDeadlineCustom,
   )
 
   return (
-    <CustomDialog
-      maxWidth="xs"
-      fullWidth
-      {...other}
-    >
+    <CustomDialog maxWidth="xs" fullWidth {...other}>
       <Grid container direction="column" spacing={2}>
         {children}
         <Grid item container alignItems="center">

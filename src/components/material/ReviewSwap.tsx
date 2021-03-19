@@ -55,16 +55,13 @@ interface Props {
 function ReviewSwap({ onClose, onSwap, data, open }: Props): ReactElement {
   const { t } = useTranslation()
   const classes = useStyles()
-  
-  const [
-    confirmed,
-    setConfirmed,
-  ] = useState(false)
-  
+
+  const [confirmed, setConfirmed] = useState(false)
+
   const fromToken = TOKENS_MAP[data.from.symbol]
   const toToken = TOKENS_MAP[data.to.symbol]
   const needsConfirm = isHighPriceImpact(data.exchangeInfo.priceImpact)
-  
+
   const swapRate = () => {
     console.log("TODO: ReviewSwap.swapRate")
   }
@@ -73,9 +70,7 @@ function ReviewSwap({ onClose, onSwap, data, open }: Props): ReactElement {
     <ReviewTransaction
       needsConfirm={needsConfirm}
       confirmed={confirmed}
-      onConfirm={(): void =>
-        setConfirmed((prevState) => !prevState)
-      }
+      onConfirm={(): void => setConfirmed((prevState) => !prevState)}
       open={open}
       title={t("reviewSwap")}
       action={
@@ -91,13 +86,7 @@ function ReviewSwap({ onClose, onSwap, data, open }: Props): ReactElement {
       onClose={onClose}
     >
       <Grid item container direction="column" xs>
-        <Grid
-          item
-          container
-          direction="row"
-          alignItems="center"
-          wrap="nowrap"
-        >
+        <Grid item container direction="row" alignItems="center" wrap="nowrap">
           <Grid item container direction="row">
             <img src={fromToken.icon} alt="icon" className={classes.icon} />
             <Typography variant="body1">{data.from.value}</Typography>
@@ -116,13 +105,7 @@ function ReviewSwap({ onClose, onSwap, data, open }: Props): ReactElement {
         <ArrowDownwardIcon />
       </Grid>
       <Grid item container direction="column" xs>
-        <Grid
-          item
-          container
-          direction="row"
-          alignItems="center"
-          wrap="nowrap"
-        >
+        <Grid item container direction="row" alignItems="center" wrap="nowrap">
           <Grid item container direction="row">
             <img src={toToken.icon} alt="icon" className={classes.icon} />
             <Typography variant="body1">{data.to.value}</Typography>

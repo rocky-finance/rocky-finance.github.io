@@ -1,8 +1,5 @@
 import React, { ReactElement, useState } from "react"
-import {
-  formatBNToPercentString,
-  formatBNToString,
-} from "../../utils"
+import { formatBNToPercentString, formatBNToString } from "../../utils"
 import { isHighPriceImpact } from "../../utils/priceImpact"
 import { useTranslation } from "react-i18next"
 import {
@@ -43,23 +40,19 @@ interface Props {
   data: DepositTransaction
 }
 
-function ReviewDeposit({ onClose, onDeposit, data, open }: Props): ReactElement {
+function ReviewDeposit(props: Props): ReactElement {
+  const { onClose, onDeposit, data, open } = props
   const { t } = useTranslation()
   const classes = useStyles()
-  
-  const [
-    confirmed,
-    setConfirmed,
-  ] = useState(false)
+
+  const [confirmed, setConfirmed] = useState(false)
   const needsConfirm = isHighPriceImpact(data.priceImpact)
 
   return (
     <ReviewTransaction
       needsConfirm={needsConfirm}
       confirmed={confirmed}
-      onConfirm={(): void =>
-        setConfirmed((prevState) => !prevState)
-      }
+      onConfirm={(): void => setConfirmed((prevState) => !prevState)}
       open={open}
       title={t("reviewDeposit")}
       action={
@@ -101,13 +94,7 @@ function ReviewDeposit({ onClose, onDeposit, data, open }: Props): ReactElement 
             </Grid>
           </Grid>
         ))}
-        <Grid
-          item
-          container
-          direction="row"
-          alignItems="center"
-          wrap="nowrap"
-        >
+        <Grid item container direction="row" alignItems="center" wrap="nowrap">
           <Grid item container direction="row">
             <Typography variant="body1">{t("total")}</Typography>
           </Grid>
@@ -124,13 +111,7 @@ function ReviewDeposit({ onClose, onDeposit, data, open }: Props): ReactElement 
       <Grid item component={Divider} className={classes.divider} />
       <Grid item container direction="column" xs>
         <Typography gutterBottom>{t("receiving")}</Typography>
-        <Grid
-          item
-          container
-          direction="row"
-          alignItems="center"
-          wrap="nowrap"
-        >
+        <Grid item container direction="row" alignItems="center" wrap="nowrap">
           <Grid item container direction="row">
             <img
               src={data.to.item.token.icon}
@@ -155,13 +136,7 @@ function ReviewDeposit({ onClose, onDeposit, data, open }: Props): ReactElement 
             {data.to.item.token.symbol}
           </Grid>
         </Grid>
-        <Grid
-          item
-          container
-          direction="row"
-          alignItems="center"
-          wrap="nowrap"
-        >
+        <Grid item container direction="row" alignItems="center" wrap="nowrap">
           <Grid item container direction="row">
             <Typography variant="body1">{t("shareOfPool")}</Typography>
           </Grid>
