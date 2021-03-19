@@ -12,6 +12,13 @@ describe("_applySlippage", () => {
   )
   const customNumberState = createNumberInputState("3.05") // custom slippage 3.05%
 
+  it("Calculates 3% subtracted", () => {
+    const expectedResult = input.mul(97).div(100)
+    expect(_applySlippage(input, Slippages.Three, customNumberState)).toEqual(
+      expectedResult,
+    )
+  })
+
   it("Calculates 1% subtracted", () => {
     const expectedResult = input.mul(99).div(100)
     expect(_applySlippage(input, Slippages.One, customNumberState)).toEqual(
@@ -34,6 +41,13 @@ describe("_applySlippage", () => {
     expect(_applySlippage(input, Slippages.Custom, customNumberState)).toEqual(
       expectedResult,
     )
+  })
+
+  it("Calculates 3% added", () => {
+    const expectedResult = input.mul(103).div(100)
+    expect(
+      _applySlippage(input, Slippages.Three, customNumberState, true),
+    ).toEqual(expectedResult)
   })
 
   it("Calculates 1% added", () => {
