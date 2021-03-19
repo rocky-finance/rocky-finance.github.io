@@ -138,6 +138,7 @@ function ReviewSwap({ onClose, onSwap, data, open }: Props): ReactElement {
           </Typography>
         </Grid>
       </Grid>
+      <Grid item component={Divider} className={classes.divider} />
     </ReviewTransaction>
   )
 }

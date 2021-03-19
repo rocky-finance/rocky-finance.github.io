@@ -139,6 +139,8 @@ const SwapPage = (props: Props): ReactElement => {
             actionComponent={
               <Button
                 fullWidth
+                color="secondary"
+                disableElevation
                 variant="contained"
                 onClick={(): void => {
                   setCurrentModal("review")
