@@ -69,6 +69,7 @@ const DialogActions = withStyles((theme: Theme) => ({
 export interface CustomDialogProps extends DialogProps {
   title?: string
   action?: React.ReactNode
+  close?: string
   open: boolean
   onClose: () => void
   children: React.ReactNode
@@ -78,7 +79,7 @@ const CustomDialog = React.forwardRef(function CustomDialog(
   inProps: CustomDialogProps,
   ref,
 ) {
-  const { title, action, children, onClose, ...other } = inProps
+  const { title, action, close, children, onClose, ...other } = inProps
   const { t } = useTranslation()
 
   return (
@@ -96,8 +97,13 @@ const CustomDialog = React.forwardRef(function CustomDialog(
       <DialogContent dividers>{children}</DialogContent>
       <DialogActions>
         {action}
-        <Button autoFocus onClick={onClose} color="primary" variant="contained">
-          {t("cancel")}
+        <Button
+          onClick={onClose}
+          color="primary"
+          variant="contained"
+          disableElevation
+        >
+          {close ? close : t("cancel")}
         </Button>
       </DialogActions>
     </Dialog>
