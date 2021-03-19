@@ -169,7 +169,7 @@ const SwapPage = (props: Props): ReactElement => {
         <ReviewSwap
           open
           onClose={(): void => setCurrentModal(null)}
-          onConfirm={async (): Promise<void> => {
+          onSwap={async (): Promise<void> => {
             setCurrentModal("confirm")
             logEvent("swap", {
               from: fromState.symbol,

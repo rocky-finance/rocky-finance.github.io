@@ -193,7 +193,7 @@ const DepositPage = (props: Props): ReactElement => {
         <ReviewDeposit
           open
           onClose={(): void => setCurrentModal(null)}
-          onConfirm={async (): Promise<void> => {
+          onDeposit={async (): Promise<void> => {
             setCurrentModal("confirm")
             logEvent("deposit", (poolData && { pool: poolData?.name }) || {})
             await onConfirmTransaction?.()
