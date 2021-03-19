@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../state"
 import { AppState } from "../state"
 import { BigNumber } from "@ethersproject/bignumber"
-import ConfirmTransaction from "./ConfirmTransaction"
+import ConfirmTransaction from "./material/ConfirmTransaction"
 import DeadlineField from "./material/DeadlineField"
 import GasField from "./material/GasField"
 import { HistoricalPoolDataType } from "../hooks/useHistoricalPoolData"
@@ -266,7 +266,7 @@ const WithdrawPage = (props: Props): ReactElement => {
             ></div>{" "}
             <PoolInfoCard data={poolData} />
           </div>
-          <Modal
+          {/* <Modal
             isOpen={!!currentModal}
             onClose={(): void => setCurrentModal(null)}
           >
@@ -287,7 +287,7 @@ const WithdrawPage = (props: Props): ReactElement => {
               />
             ) : null}
             {currentModal === "confirm" ? <ConfirmTransaction /> : null}
-          </Modal>
+          </Modal> */}
         </div>
       )}
     </Container>

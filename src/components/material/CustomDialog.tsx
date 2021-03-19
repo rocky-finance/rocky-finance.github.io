@@ -67,7 +67,7 @@ const DialogActions = withStyles((theme: Theme) => ({
 }))(MuiDialogActions)
 
 interface CustomDialogProps extends DialogProps {
-  title: string
+  title?: string
   action?: React.ReactNode
   open: boolean
   onClose: () => void
@@ -88,9 +88,11 @@ const CustomDialog = React.forwardRef(function CustomDialog(
       ref={ref}
       {...other}
     >
-      <DialogTitle id="customized-dialog-title" onClose={onClose}>
-        {title}
-      </DialogTitle>
+      {title && (
+        <DialogTitle id="customized-dialog-title" onClose={onClose}>
+          {title}
+        </DialogTitle>
+      )}
       <DialogContent dividers>{children}</DialogContent>
       <DialogActions>
         {action}

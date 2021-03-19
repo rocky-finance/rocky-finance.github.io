@@ -1,9 +1,10 @@
 import React, { ReactElement, useState } from "react"
-import { formatBNToString, formatDeadlineToNumber } from "../../utils"
-
+import {
+  formatBNToPercentString,
+  formatBNToString,
+  formatDeadlineToNumber,
+} from "../../utils"
 import { AppState } from "../../state/index"
-import { BigNumber } from "@ethersproject/bignumber"
-import { TOKENS_MAP } from "../../constants"
 import { formatGasToString } from "../../utils/gas"
 import { formatSlippageToString } from "../../utils/slippage"
 import { isHighPriceImpact } from "../../utils/priceImpact"
@@ -19,9 +20,9 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core"
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward"
-import SwapHorizontalCircleIcon from "@material-ui/icons/SwapHorizontalCircle"
 import HighPriceImpactConfirmation from "./HighPriceImpactConfirmation"
+import { DepositTransaction } from "../../interfaces/transactions"
+import { commify } from "@ethersproject/units"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -46,16 +47,7 @@ interface Props {
   open: boolean
   onClose: () => void
   onConfirm: () => void
-  data: {
-    from: { symbol: string; value: string }
-    to: { symbol: string; value: string }
-    exchangeInfo: {
-      from: string
-      to: string
-      rate: BigNumber
-      priceImpact: BigNumber
-    }
-  }
+  data: DepositTransaction
 }
 
 function ReviewSwap({ onClose, onConfirm, data, open }: Props): ReactElement {
@@ -76,22 +68,16 @@ function ReviewSwap({ onClose, onConfirm, data, open }: Props): ReactElement {
     hasConfirmedHighPriceImpact,
     setHasConfirmedHighPriceImpact,
   ] = useState(false)
-  const fromToken = TOKENS_MAP[data.from.symbol]
-  const toToken = TOKENS_MAP[data.to.symbol]
-  const isHighPriceImpactTxn = isHighPriceImpact(data.exchangeInfo.priceImpact)
+  const isHighPriceImpactTxn = isHighPriceImpact(data.priceImpact)
   const deadline = formatDeadlineToNumber(
     transactionDeadlineSelected,
     transactionDeadlineCustom,
   )
 
-  const swapRate = () => {
-    console.log("TODO: ReviewSwap.swapRate")
-  }
-
   return (
     <CustomDialog
       open={open}
-      title={t("reviewSwap")}
+      title={t("reviewDeposit")}
       action={
         <Button
           disabled={isHighPriceImpactTxn && !hasConfirmedHighPriceImpact}
@@ -99,7 +85,7 @@ function ReviewSwap({ onClose, onConfirm, data, open }: Props): ReactElement {
           color="secondary"
           variant="contained"
         >
-          {t("confirmSwap")}
+          {t("confirmDeposit")}
         </Button>
       }
       onClose={onClose}
@@ -108,6 +94,32 @@ function ReviewSwap({ onClose, onConfirm, data, open }: Props): ReactElement {
     >
       <Grid container direction="column" spacing={2}>
         <Grid item container direction="column" xs>
+          <Typography gutterBottom>{t("depositing")}</Typography>
+          {data.from.items.map(({ token, amount }) => (
+            <Grid
+              key={token.symbol}
+              item
+              container
+              direction="row"
+              alignItems="center"
+              wrap="nowrap"
+            >
+              <Grid item container direction="row">
+                <img src={token.icon} alt="icon" className={classes.icon} />
+                <Typography variant="body1">
+                  {commify(formatBNToString(amount, token.decimals))}
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                component={Typography}
+                variant="body1"
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {token.symbol}
+              </Grid>
+            </Grid>
+          ))}
           <Grid
             item
             container
@@ -116,8 +128,7 @@ function ReviewSwap({ onClose, onConfirm, data, open }: Props): ReactElement {
             wrap="nowrap"
           >
             <Grid item container direction="row">
-              <img src={fromToken.icon} alt="icon" className={classes.icon} />
-              <Typography variant="body1">{data.from.value}</Typography>
+              <Typography variant="body1">{t("total")}</Typography>
             </Grid>
             <Grid
               item
@@ -125,53 +136,94 @@ function ReviewSwap({ onClose, onConfirm, data, open }: Props): ReactElement {
               variant="body1"
               style={{ whiteSpace: "nowrap" }}
             >
-              {data.from.symbol}
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item container direction="column" xs>
-          <ArrowDownwardIcon />
-        </Grid>
-        <Grid item container direction="column" xs>
-          <Grid
-            item
-            container
-            direction="row"
-            alignItems="center"
-            wrap="nowrap"
-          >
-            <Grid item container direction="row">
-              <img src={toToken.icon} alt="icon" className={classes.icon} />
-              <Typography variant="body1">{data.to.value}</Typography>
-            </Grid>
-            <Grid
-              item
-              component={Typography}
-              variant="body1"
-              style={{ whiteSpace: "nowrap" }}
-            >
-              {data.to.symbol}
+              {commify(formatBNToString(data.from.totalAmount, 18))}
             </Grid>
           </Grid>
         </Grid>
         <Grid item component={Divider} className={classes.divider} />
-        <Grid item container alignItems="center">
-          <Grid item xs>
-            <Typography variant="body1" component="span">
-              {t("price")}
-            </Typography>
-            <Button size="small" onClick={swapRate}>
-              <SwapHorizontalCircleIcon />
-            </Button>
+        <Grid item container direction="column" xs>
+          <Typography gutterBottom>{t("receiving")}</Typography>
+          <Grid
+            item
+            container
+            direction="row"
+            alignItems="center"
+            wrap="nowrap"
+          >
+            <Grid item container direction="row">
+              <img
+                src={data.to.item.token.icon}
+                alt="icon"
+                className={classes.icon}
+              />
+              <Typography variant="body1">
+                {commify(
+                  formatBNToString(
+                    data.to.item.amount,
+                    data.to.item.token.decimals,
+                  ),
+                )}
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              component={Typography}
+              variant="body1"
+              style={{ whiteSpace: "nowrap" }}
+            >
+              {data.to.item.token.symbol}
+            </Grid>
           </Grid>
-          <Grid item>
-            <Typography variant="body1">
-              {`${formatBNToString(data.exchangeInfo.rate, 18, 4)} ${
-                data.exchangeInfo.from
-              }/${data.exchangeInfo.to}`}
-            </Typography>
+          <Grid
+            item
+            container
+            direction="row"
+            alignItems="center"
+            wrap="nowrap"
+          >
+            <Grid item container direction="row">
+              <Typography variant="body1">{t("shareOfPool")}</Typography>
+            </Grid>
+            <Grid
+              item
+              component={Typography}
+              variant="body1"
+              style={{ whiteSpace: "nowrap" }}
+            >
+              {formatBNToPercentString(data.shareOfPool, 18)}
+            </Grid>
           </Grid>
         </Grid>
+        <Grid item component={Divider} className={classes.divider} />
+        <Grid item container direction="column" xs>
+          <Typography gutterBottom>{t("rates")}</Typography>
+          {[...data.from.items, data.to.item].map(
+            ({ token, singleTokenPriceUSD }) => (
+              <Grid
+                key={token.symbol}
+                item
+                container
+                direction="row"
+                alignItems="center"
+                wrap="nowrap"
+              >
+                <Grid item container direction="row">
+                  <img src={token.icon} alt="icon" className={classes.icon} />
+                  <Typography variant="body1">1 {token.symbol} =</Typography>
+                </Grid>
+                <Grid
+                  item
+                  component={Typography}
+                  variant="body1"
+                  style={{ whiteSpace: "nowrap" }}
+                >
+                  ${commify(formatBNToString(singleTokenPriceUSD, 18, 2))}
+                </Grid>
+              </Grid>
+            ),
+          )}
+        </Grid>
+        <Grid item component={Divider} className={classes.divider} />
         <Grid item container alignItems="center">
           <Grid item component={Typography} variant="body1">
             {t("gas")}

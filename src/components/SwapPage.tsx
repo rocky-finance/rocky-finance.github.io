@@ -20,8 +20,7 @@ import {
 import SwapHorizontalCircleIcon from "@material-ui/icons/SwapHorizontalCircle"
 import { StyledChip } from "./material/StyledChip"
 import AdvancedPanel from "./material/AdvancedPanel"
-import Modal from "./Modal"
-import ConfirmTransaction from "./ConfirmTransaction"
+import ConfirmTransaction from "./material/ConfirmTransaction"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -187,12 +186,7 @@ const SwapPage = (props: Props): ReactElement => {
         />
       )}
       {currentModal === "confirm" && (
-        <Modal
-          isOpen={!!currentModal}
-          onClose={(): void => setCurrentModal(null)}
-        >
-          <ConfirmTransaction />
-        </Modal>
+        <ConfirmTransaction open onClose={(): void => setCurrentModal(null)} />
       )}
     </Container>
   )

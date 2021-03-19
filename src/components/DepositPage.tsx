@@ -1,15 +1,14 @@
 import { PoolDataType, UserShareType } from "../hooks/usePoolData"
 import React, { ReactElement, useState } from "react"
-import ConfirmTransaction from "./ConfirmTransaction"
+import ConfirmTransaction from "./material/ConfirmTransaction"
 import { DepositTransaction } from "../interfaces/transactions"
 import { HistoricalPoolDataType } from "../hooks/useHistoricalPoolData"
 import LPStakingBanner from "./material/LPStakingBanner"
-import Modal from "./Modal"
 import MyActivityCard from "./MyActivityCard"
 import MyShareCard from "./material/MyShareCard"
 import PoolInfoCard from "./material/PoolInfoCard"
 import { REFS } from "../constants"
-import ReviewDeposit from "./ReviewDeposit"
+import ReviewDeposit from "./material/ReviewDeposit"
 import { formatBNToPercentString } from "../utils"
 import { logEvent } from "../utils/googleAnalytics"
 import { useTranslation } from "react-i18next"
@@ -190,24 +189,22 @@ const DepositPage = (props: Props): ReactElement => {
           </AdvancedPanel>
         </Grid>
       </Grid>
-      <Modal
-        isOpen={!!currentModal}
-        onClose={(): void => setCurrentModal(null)}
-      >
-        {currentModal === "review" ? (
-          <ReviewDeposit
-            transactionData={transactionData}
-            onConfirm={async (): Promise<void> => {
-              setCurrentModal("confirm")
-              logEvent("deposit", (poolData && { pool: poolData?.name }) || {})
-              await onConfirmTransaction?.()
-              setCurrentModal(null)
-            }}
-            onClose={(): void => setCurrentModal(null)}
-          />
-        ) : null}
-        {currentModal === "confirm" ? <ConfirmTransaction /> : null}
-      </Modal>
+      {currentModal === "review" && (
+        <ReviewDeposit
+          open
+          onClose={(): void => setCurrentModal(null)}
+          onConfirm={async (): Promise<void> => {
+            setCurrentModal("confirm")
+            logEvent("deposit", (poolData && { pool: poolData?.name }) || {})
+            await onConfirmTransaction?.()
+            setCurrentModal(null)
+          }}
+          data={transactionData}
+        />
+      )}
+      {currentModal === "confirm" && (
+        <ConfirmTransaction open onClose={(): void => setCurrentModal(null)} />
+      )}
     </Container>
   )
 }
