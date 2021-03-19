@@ -21,6 +21,9 @@ import {
 } from "@material-ui/core"
 import AdvancedPanel from "./AdvancedPanel"
 import WithdrawForm from "./WithdrawForm"
+import ConfirmTransaction from "./ConfirmTransaction"
+import { logEvent } from "../../utils/googleAnalytics"
+import ReviewWithdraw from "./ReviewWithdraw"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -48,8 +51,8 @@ export interface ReviewWithdrawData {
   }[]
   rates: {
     name: string
+    icon: string
     value: string
-    rate: string
   }[]
   slippage: string
   priceImpact: BigNumber
@@ -151,6 +154,8 @@ const WithdrawPage = (props: Props): ReactElement => {
                 <Button
                   fullWidth
                   variant="contained"
+                  color="secondary"
+                  disableElevation
                   onClick={onSubmit}
                   disabled={!canWithdraw}
                 >
@@ -181,28 +186,28 @@ const WithdrawPage = (props: Props): ReactElement => {
               </Grid>
             </AdvancedPanel>
           </Grid>
-          {/* <Modal
-            isOpen={!!currentModal}
-            onClose={(): void => setCurrentModal(null)}
-          >
-            {currentModal === "review" ? (
-              <ReviewWithdraw
-                data={reviewData}
-                gas={gasPriceSelected}
-                onConfirm={async (): Promise<void> => {
-                  setCurrentModal("confirm")
-                  logEvent(
-                    "withdraw",
-                    (poolData && { pool: poolData?.name }) || {},
-                  )
-                  await onConfirmTransaction?.()
-                  setCurrentModal(null)
-                }}
-                onClose={(): void => setCurrentModal(null)}
-              />
-            ) : null}
-            {currentModal === "confirm" ? <ConfirmTransaction /> : null}
-          </Modal> */}
+          {currentModal === "review" && (
+            <ReviewWithdraw
+              open
+              data={reviewData}
+              onWithdraw={async (): Promise<void> => {
+                setCurrentModal("confirm")
+                logEvent(
+                  "withdraw",
+                  (poolData && { pool: poolData?.name }) || {},
+                )
+                await onConfirmTransaction?.()
+                setCurrentModal(null)
+              }}
+              onClose={(): void => setCurrentModal(null)}
+            />
+          )}
+          {currentModal === "confirm" && (
+            <ConfirmTransaction
+              open
+              onClose={(): void => setCurrentModal(null)}
+            />
+          )}
         </Grid>
       )}
     </Container>

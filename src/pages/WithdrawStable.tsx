@@ -118,11 +118,8 @@ function WithdrawStable(): ReactElement {
       if (tokenPricesUSD != null) {
         reviewWithdrawData.rates.push({
           name,
-          value: formatUnits(
-            withdrawFormState.tokenInputs[symbol].valueSafe,
-            decimals,
-          ),
-          rate: commify(tokenPricesUSD[symbol]?.toFixed(2)),
+          value: commify(tokenPricesUSD[symbol]?.toFixed(2)),
+          icon,
         })
       }
     }

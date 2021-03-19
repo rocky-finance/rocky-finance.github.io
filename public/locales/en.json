@@ -70,6 +70,7 @@
   "receiving": "Receiving",
   "reviewDeposit": "Review Deposit",
   "reviewSwap": "Review Swap",
+  "reviewWithdrawal": "Review Withdrawal",
   "risk": "Risk",
   "riskAdminKeys": "TODO: tell about how keys are handled",
   "riskAudits": "The Rocky smart contracts audition !TODO!",
