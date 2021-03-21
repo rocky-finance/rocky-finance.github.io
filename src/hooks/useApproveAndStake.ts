@@ -8,7 +8,7 @@ import { getFormattedTimeString } from "../utils/dateTime"
 import { updateLastTransactionTimes } from "../state/application"
 import { useActiveWeb3React } from "."
 import { useDispatch } from "react-redux"
-import { useToast } from "./useToast"
+import { useSnackbar } from "notistack"
 
 interface ApproveAndStakeStateArgument {
   pid: number
@@ -22,7 +22,7 @@ export function useApproveAndStake(): (
   const masterChefContract = useRockyMasterChefContract()
   const tokenContracts = useAllContracts()
   const { account } = useActiveWeb3React()
-  const { addToast, clearToasts } = useToast()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
   return async function useApproveAndStake(
     args: ApproveAndStakeStateArgument,
@@ -45,19 +45,23 @@ export function useApproveAndStake(): (
     try {
       balance = await tokenContract.balanceOf(account)
       if (balance.lt(stakingValue)) {
-        addToast({
-          type: "error",
-          title: `${getFormattedTimeString()} You don't have enough tokens`,
-        })
+        enqueueSnackbar(
+          `${getFormattedTimeString()} You don't have enough tokens`,
+          {
+            variant: "error",
+          },
+        )
         return
       }
     } catch (e) {
       console.error(e)
-      clearToasts()
-      addToast({
-        type: "error",
-        title: `${getFormattedTimeString()} Unable to complete your transaction`,
-      })
+      closeSnackbar()
+      enqueueSnackbar(
+        `${getFormattedTimeString()} Unable to complete your transaction`,
+        {
+          variant: "error",
+        },
+      )
       return
     }
 
@@ -70,28 +74,33 @@ export function useApproveAndStake(): (
         true, // Set infinite approval to true as the chef is not upgradeable.
         {
           onTransactionStart: () => {
-            return addToast(
-              {
-                type: "pending",
-                title: `${getFormattedTimeString()} Approving spend for ${
-                  POOL_TOKEN.name
-                }`,
-              },
-              {
-                autoDismiss: false, // TODO: be careful of orphan toasts on error
-              },
-            )
-          },
-          onTransactionSuccess: () => {
-            return addToast({
-              type: "success",
-              title: `${getFormattedTimeString()} Successfully approved spend for ${
+            enqueueSnackbar(
+              `${getFormattedTimeString()} Approving spend for ${
                 POOL_TOKEN.name
               }`,
-            })
+              {
+                variant: "info",
+                persist: true, // TODO: be careful of orphan toasts on error
+              },
+            )
+            return undefined
+          },
+          onTransactionSuccess: () => {
+            enqueueSnackbar(
+              `${getFormattedTimeString()} Successfully approved spend for ${
+                POOL_TOKEN.name
+              }`,
+              {
+                variant: "success",
+              },
+            )
+            return undefined
           },
           onTransactionError: () => {
-            throw new Error("Your transaction could not be completed")
+            enqueueSnackbar("Your transaction could not be completed", {
+              variant: "error",
+            })
+            return undefined
           },
         },
       )
@@ -99,10 +108,12 @@ export function useApproveAndStake(): (
     try {
       await approveSingleToken()
 
-      const clearMessage = addToast({
-        type: "pending",
-        title: `${getFormattedTimeString()} Starting your stake...`,
-      })
+      const pendingMessage = enqueueSnackbar(
+        `${getFormattedTimeString()} Starting your stake...`,
+        {
+          variant: "info",
+        },
+      )
 
       const spendTransaction = await masterChefContract.deposit(
         contract_pid,
@@ -115,19 +126,23 @@ export function useApproveAndStake(): (
           [TRANSACTION_TYPES.DEPOSIT]: Date.now(),
         }),
       )
-      clearMessage()
-      addToast({
-        type: "success",
-        title: `${getFormattedTimeString()} Liquidity staked, you rock!`,
-      })
+      closeSnackbar(pendingMessage)
+      enqueueSnackbar(
+        `${getFormattedTimeString()} Liquidity staked, you rock!`,
+        {
+          variant: "success",
+        },
+      )
       return Promise.resolve()
     } catch (e) {
       console.error(e)
-      clearToasts()
-      addToast({
-        type: "error",
-        title: `${getFormattedTimeString()} Unable to complete your transaction`,
-      })
+      closeSnackbar()
+      enqueueSnackbar(
+        `${getFormattedTimeString()} Unable to complete your transaction`,
+        {
+          variant: "error",
+        },
+      )
     }
   }
 }

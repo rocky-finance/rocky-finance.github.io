@@ -5,13 +5,13 @@ import { updateLastTransactionTimes } from "../state/application"
 import { useActiveWeb3React } from "."
 import { useDispatch } from "react-redux"
 import { useRockyMasterChefContract } from "./useContract"
-import { useToast } from "./useToast"
+import { useSnackbar } from "notistack"
 
 export function useHarvest(): (pid: number) => Promise<void> {
   const dispatch = useDispatch()
   const masterChefContract = useRockyMasterChefContract()
   const { account } = useActiveWeb3React()
-  const { addToast, clearToasts } = useToast()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
   return async function useHarvest(pid: number): Promise<void> {
     if (!account) throw new Error("Wallet must be connected")
@@ -28,17 +28,16 @@ export function useHarvest(): (pid: number) => Promise<void> {
         account,
       )
       if (pending.eq(0)) {
-        addToast({
-          type: "error",
-          title: `${getFormattedTimeString()} No ROCKY pending`,
+        enqueueSnackbar(`${getFormattedTimeString()} No ROCKY pending`, {
+          variant: "error",
         })
         return
       }
 
-      const clearMessage = addToast({
-        type: "pending",
-        title: `${getFormattedTimeString()} Starting your harvest...`,
-      })
+      const pendingSnack = enqueueSnackbar(
+        `${getFormattedTimeString()} Starting your harvest...`,
+        { variant: "info" },
+      )
 
       const spendTransaction = await masterChefContract.withdraw(
         contract_pid,
@@ -51,19 +50,19 @@ export function useHarvest(): (pid: number) => Promise<void> {
           [TRANSACTION_TYPES.DEPOSIT]: Date.now(),
         }),
       )
-      clearMessage()
-      addToast({
-        type: "success",
-        title: `${getFormattedTimeString()} Liquidity staked, you rock!`,
-      })
+      closeSnackbar(pendingSnack)
+      enqueueSnackbar(
+        `${getFormattedTimeString()} Liquidity staked, you rock!`,
+        { variant: "success" },
+      )
       return Promise.resolve()
     } catch (e) {
       console.error(e)
-      clearToasts()
-      addToast({
-        type: "error",
-        title: `${getFormattedTimeString()} Unable to complete your transaction`,
-      })
+      closeSnackbar()
+      enqueueSnackbar(
+        `${getFormattedTimeString()} Unable to complete your transaction`,
+        { variant: "error" },
+      )
     }
   }
 }

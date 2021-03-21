@@ -7,7 +7,7 @@ import { getFormattedTimeString } from "../utils/dateTime"
 import { updateLastTransactionTimes } from "../state/application"
 import { useActiveWeb3React } from "."
 import { useDispatch } from "react-redux"
-import { useToast } from "./useToast"
+import { useSnackbar } from "notistack"
 
 interface UnstaketateArgument {
   pid: number
@@ -19,7 +19,7 @@ export function useUnstake(): (args: UnstaketateArgument) => Promise<void> {
   const masterChefContract = useRockyMasterChefContract()
   const tokenContracts = useAllContracts()
   const { account } = useActiveWeb3React()
-  const { addToast, clearToasts } = useToast()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
   return async function useApproveAndStake(
     args: UnstaketateArgument,
@@ -43,27 +43,33 @@ export function useUnstake(): (args: UnstaketateArgument) => Promise<void> {
       const userinfo = await masterChefContract.userInfo(contract_pid, account)
       stakedBalance = userinfo.amount
       if (stakedBalance.lt(unstakingValue)) {
-        addToast({
-          type: "error",
-          title: `${getFormattedTimeString()} You don't have enough tokens staked`,
-        })
+        enqueueSnackbar(
+          `${getFormattedTimeString()} You don't have enough tokens staked`,
+          {
+            variant: "error",
+          },
+        )
         return
       }
     } catch (e) {
       console.error(e)
-      clearToasts()
-      addToast({
-        type: "error",
-        title: `${getFormattedTimeString()} Unable to complete your transaction`,
-      })
+      closeSnackbar()
+      enqueueSnackbar(
+        `${getFormattedTimeString()} Unable to complete your transaction`,
+        {
+          variant: "error",
+        },
+      )
       return
     }
 
     try {
-      const clearMessage = addToast({
-        type: "pending",
-        title: `${getFormattedTimeString()} Starting your unstake...`,
-      })
+      const pendingMessage = enqueueSnackbar(
+        `${getFormattedTimeString()} Starting your unstake...`,
+        {
+          variant: "info",
+        },
+      )
 
       const spendTransaction = await masterChefContract.withdraw(
         contract_pid,
@@ -76,19 +82,23 @@ export function useUnstake(): (args: UnstaketateArgument) => Promise<void> {
           [TRANSACTION_TYPES.DEPOSIT]: Date.now(),
         }),
       )
-      clearMessage()
-      addToast({
-        type: "success",
-        title: `${getFormattedTimeString()} Liquidity unstaked, goodbye!`,
-      })
+      closeSnackbar(pendingMessage)
+      enqueueSnackbar(
+        `${getFormattedTimeString()} Liquidity unstaked, goodbye!`,
+        {
+          variant: "success",
+        },
+      )
       return Promise.resolve()
     } catch (e) {
       console.error(e)
-      clearToasts()
-      addToast({
-        type: "error",
-        title: `${getFormattedTimeString()} Unable to complete your transaction`,
-      })
+      closeSnackbar()
+      enqueueSnackbar(
+        `${getFormattedTimeString()} Unable to complete your transaction`,
+        {
+          variant: "error",
+        },
+      )
     }
   }
 }

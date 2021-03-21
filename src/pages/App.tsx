@@ -9,7 +9,6 @@ import DepositStable from "./DepositStable"
 import Risk from "./Risk"
 import Stake from "./Stake"
 import SwapStable from "./SwapStable"
-import ToastsProvider from "../providers/ToastsProvider"
 import Web3ReactManager from "../components/Web3ReactManager"
 import WithdrawStable from "./WithdrawStable"
 import fetchGasPrices from "../utils/updateGasPrices"
@@ -26,6 +25,7 @@ import { createMuiTheme } from "@material-ui/core/styles"
 import { updateDarkMode } from "../state/user"
 import { AppState } from "../state/index"
 import RiskDialog from "../components/material/RiskDialog"
+import { SnackbarProvider } from "notistack"
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
@@ -84,7 +84,7 @@ export default function App(): ReactElement {
 
   return (
     <Web3ReactManager>
-      <ToastsProvider>
+      <SnackbarProvider>
         <MuiThemeProvider theme={muiTheme}>
           <CssBaseline />
           <Grid direction="column" container>
@@ -111,7 +111,7 @@ export default function App(): ReactElement {
           </Grid>
           <RiskDialog />
         </MuiThemeProvider>
-      </ToastsProvider>
+      </SnackbarProvider>
     </Web3ReactManager>
   )
 }

@@ -27,8 +27,10 @@ export default async function checkAndApproveTokenForTrade(
     onTransactionStart?: (
       transaction?: ContractTransaction,
     ) => (() => void) | undefined
-    onTransactionSuccess?: (transaction: ContractReceipt) => () => void
-    onTransactionError?: (error: Error | string) => () => void
+    onTransactionSuccess?: (
+      transaction: ContractReceipt,
+    ) => (() => void) | undefined
+    onTransactionError?: (error: Error | string) => (() => void) | undefined
   } = {},
 ): Promise<void> {
   if (srcTokenContract == null) return
