@@ -27,6 +27,9 @@ import ReviewWithdraw from "./ReviewWithdraw"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    container: {
+      marginTop: theme.spacing(2),
+    },
     root: {
       flexGrow: 1,
     },
@@ -105,7 +108,7 @@ const WithdrawPage = (props: Props): ReactElement => {
     !formStateData.error && !formStateData.lpTokenAmountToSpend.isZero()
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className={classes.container}>
       {noShare ? (
         <NoShareContent />
       ) : (

@@ -24,6 +24,9 @@ import ConfirmTransaction from "./material/ConfirmTransaction"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    container: {
+      marginTop: theme.spacing(2),
+    },
     root: {
       flexGrow: 1,
     },
@@ -89,7 +92,7 @@ const SwapPage = (props: Props): ReactElement => {
   const formattedExchangeRate = formatBNToString(exchangeInfo.rate, 18, 4)
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className={classes.container}>
       <Grid container direction="column" spacing={2}>
         <Grid
           item

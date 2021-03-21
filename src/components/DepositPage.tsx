@@ -49,6 +49,9 @@ interface Props {
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    container: {
+      marginTop: theme.spacing(2),
+    },
     root: {
       flexGrow: 1,
     },
@@ -84,7 +87,7 @@ const DepositPage = (props: Props): ReactElement => {
   const [currentModal, setCurrentModal] = useState<string | null>(null)
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className={classes.container}>
       <Grid container direction="column" spacing={2}>
         {myShareData?.lpTokenBalance.gt(0) && (
           <Grid container item>

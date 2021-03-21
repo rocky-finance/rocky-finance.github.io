@@ -20,6 +20,9 @@ import {
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    container: {
+      marginTop: theme.spacing(2),
+    },
     root: {
       flexGrow: 1,
     },
@@ -69,7 +72,7 @@ const StakePage = (): ReactElement => {
   }
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className={classes.container}>
       <Grid container direction="column" spacing={2}>
         <Grid
           item
