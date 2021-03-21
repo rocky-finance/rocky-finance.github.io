@@ -1,4 +1,10 @@
-import { Checkbox, createStyles, FormControlLabel, makeStyles, Typography } from "@material-ui/core"
+import {
+  Checkbox,
+  createStyles,
+  FormControlLabel,
+  makeStyles,
+  Typography,
+} from "@material-ui/core"
 import React, { ReactElement, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
@@ -7,10 +13,10 @@ import { AppDispatch, AppState } from "../../state"
 import CustomDialog from "./CustomDialog"
 import { updateDontShowRisk } from "../../state/user"
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     label: {
-      fontWeight: "bold"
+      fontWeight: "bold",
     },
   }),
 )
@@ -23,19 +29,21 @@ function RiskDialog(): ReactElement {
   const { dontShowRisk } = useSelector((state: AppState) => state.user)
   const [showRiskDialog, setShowRiskDialog] = useState(!dontShowRisk)
 
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = React.useState(false)
 
   const onCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateDontShowRisk(event.target.checked))
-    setChecked(event.target.checked);
-  };
+    setChecked(event.target.checked)
+  }
 
   return (
     <CustomDialog
       title={t("risk")}
       close={t("accept")}
       open={showRiskDialog}
-      onClose={()=>{setShowRiskDialog(false)}}
+      onClose={() => {
+        setShowRiskDialog(false)
+      }}
       maxWidth="sm"
       fullWidth
     >

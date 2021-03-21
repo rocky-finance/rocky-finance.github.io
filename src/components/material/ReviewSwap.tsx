@@ -16,6 +16,7 @@ import {
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward"
 import SwapHorizontalCircleIcon from "@material-ui/icons/SwapHorizontalCircle"
 import ReviewTransaction from "./ReviewTransaction"
+import FlexRow from "./FlexRow"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -86,57 +87,50 @@ function ReviewSwap({ onClose, onSwap, data, open }: Props): ReactElement {
       onClose={onClose}
     >
       <Grid item container direction="column" xs>
-        <Grid item container direction="row" alignItems="center" wrap="nowrap">
-          <Grid item container direction="row">
-            <img src={fromToken.icon} alt="icon" className={classes.icon} />
-            <Typography variant="body1">{data.from.value}</Typography>
-          </Grid>
-          <Grid
-            item
-            component={Typography}
-            variant="body1"
-            style={{ whiteSpace: "nowrap" }}
-          >
-            {data.from.symbol}
-          </Grid>
-        </Grid>
+        <FlexRow
+          justify="space-between"
+          left={
+            <Grid item container direction="row">
+              <img src={fromToken.icon} alt="icon" className={classes.icon} />
+              <Typography variant="body1">{data.from.value}</Typography>
+            </Grid>
+          }
+          right={data.from.symbol}
+        />
       </Grid>
       <Grid item container direction="column" xs>
         <ArrowDownwardIcon />
       </Grid>
       <Grid item container direction="column" xs>
-        <Grid item container direction="row" alignItems="center" wrap="nowrap">
-          <Grid item container direction="row">
-            <img src={toToken.icon} alt="icon" className={classes.icon} />
-            <Typography variant="body1">{data.to.value}</Typography>
-          </Grid>
-          <Grid
-            item
-            component={Typography}
-            variant="body1"
-            style={{ whiteSpace: "nowrap" }}
-          >
-            {data.to.symbol}
-          </Grid>
-        </Grid>
+        <FlexRow
+          justify="space-between"
+          left={
+            <Grid item container direction="row">
+              <img src={toToken.icon} alt="icon" className={classes.icon} />
+              <Typography variant="body1">{data.to.value}</Typography>
+            </Grid>
+          }
+          right={data.to.symbol}
+        />
       </Grid>
       <Grid item component={Divider} className={classes.divider} />
       <Grid item container alignItems="center">
-        <Grid item xs>
-          <Typography variant="body1" component="span">
-            {t("price")}
-          </Typography>
-          <Button size="small" onClick={swapRate}>
-            <SwapHorizontalCircleIcon />
-          </Button>
-        </Grid>
-        <Grid item>
-          <Typography variant="body1">
-            {`${formatBNToString(data.exchangeInfo.rate, 18, 4)} ${
-              data.exchangeInfo.from
-            }/${data.exchangeInfo.to}`}
-          </Typography>
-        </Grid>
+        <FlexRow
+          justify="space-between"
+          left={
+            <Grid item xs>
+              <Typography variant="body1" component="span">
+                {t("price")}
+              </Typography>
+              <Button size="small" onClick={swapRate}>
+                <SwapHorizontalCircleIcon />
+              </Button>
+            </Grid>
+          }
+          right={`${formatBNToString(data.exchangeInfo.rate, 18, 4)} ${
+            data.exchangeInfo.from
+          }/${data.exchangeInfo.to}`}
+        />
       </Grid>
       <Grid item component={Divider} className={classes.divider} />
     </ReviewTransaction>

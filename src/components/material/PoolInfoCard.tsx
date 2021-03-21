@@ -13,6 +13,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core"
+import FlexRow from "./FlexRow"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -79,69 +80,95 @@ export default function PoolInfoCard({ data }: Props): ReactElement {
   return (
     <Box>
       <Grid container spacing={2} justify="space-between">
-        <Grid item container direction="column" spacing={1} xs={12} sm={6}>
+        <Grid item container direction="column" xs={12} md={6}>
           <Grid item container direction="column">
             <Grid item container component={Typography} variant="subtitle1">
               {formattedData.name}
             </Grid>
             <Grid item component={Divider} className={classes.divider} />
           </Grid>
-          <Grid item container>
-            <Grid item xs={12} component={Typography} variant="body1">
-              {`${t("fee")}: `} {formattedData.swapFee}
-            </Grid>
-            <Grid item xs={12} component={Typography} variant="body1">
-              {`${t("virtualPrice")}: `} {formattedData.virtualPrice}
-            </Grid>
-            <Grid item xs={12} component={Typography} variant="body1">
-              {`${t("totalLocked")}: `} {formattedData.reserve}
-            </Grid>
-            {/* <Grid item xs={12} component={Typography} variant="body1">
-              {`${t("totalAPY")}: `} {formattedData.poolAPY}
-            </Grid> */}
-            <Grid item xs={12} component={Typography} variant="body1">
-              {`${t("poolAPY")}: `} {formattedData.poolAPY}
-            </Grid>
-            <Grid item xs={12} component={Typography} variant="body1">
-              {`${t("rewardAPY")}: `} {formattedData.rewardAPY}
-            </Grid>
-            {/* <Grid item xs={12} component={Typography} variant="body1">
-              {`${t("dailyVolume")}: `} {formattedData.volume}
-            </Grid> */}
+          <Grid item container direction="column" spacing={1}>
+            <FlexRow
+              justify="space-between"
+              left={`${t("fee")}:`}
+              right={formattedData.swapFee}
+              fullWidth
+            />
+            <FlexRow
+              justify="space-between"
+              left={`${t("virtualPrice")}:`}
+              right={formattedData.virtualPrice}
+              fullWidth
+            />
+            <FlexRow
+              justify="space-between"
+              left={`${t("totalLocked")}:`}
+              right={formattedData.reserve}
+              fullWidth
+            />
+            {/* <FlexRow
+              justify="space-between"
+              left={`${t("totalAPY")}:`}
+              right={formattedData.poolAPY}
+              fullWidth
+            /> */}
+            <FlexRow
+              justify="space-between"
+              left={`${t("poolAPY")}:`}
+              right={formattedData.poolAPY}
+              fullWidth
+            />
+            <FlexRow
+              justify="space-between"
+              left={`${t("rewardAPY")}:`}
+              right={formattedData.rewardAPY}
+              fullWidth
+            />
+            {/* <FlexRow
+              justify="space-between"
+              left={`${t("dailyVolume")}:`}
+              right={formattedData.volume}
+              fullWidth
+            /> */}
           </Grid>
         </Grid>
-        <Grid item container direction="column" spacing={1} xs={12} sm={6}>
+        <Grid item container direction="column" xs={12} md={6}>
           <Grid item container direction="column">
             <Grid item container component={Typography} variant="subtitle1">
               {t("currencyReserves")}
             </Grid>
             <Grid item component={Divider} className={classes.divider} />
           </Grid>
-          <Grid item container xs md spacing={2} justify="space-between">
-            {formattedData.tokens.map((token) => (
-              <Grid key={token.symbol} item container direction="column" xs>
-                <Grid
-                  item
-                  container
-                  direction="row"
-                  alignItems="center"
-                  wrap="nowrap"
-                >
-                  <img src={token.icon} alt="icon" className={classes.icon} />
-                  <Typography
-                    variant="body1"
-                    component="span"
-                    style={{ whiteSpace: "nowrap" }}
+          <Grid item container direction="column" spacing={2}>
+            <Grid item container xs md spacing={2} justify="space-between">
+              {formattedData.tokens.map((token) => (
+                <Grid key={token.symbol} item container direction="column" xs>
+                  <Grid
+                    item
+                    container
+                    direction="row"
+                    alignItems="center"
+                    wrap="nowrap"
                   >
-                    {`${token.name} ${token.percent}`}
-                  </Typography>
+                    <img src={token.icon} alt="icon" className={classes.icon} />
+                    <Typography
+                      variant="body1"
+                      component="span"
+                      style={{ whiteSpace: "nowrap" }}
+                    >
+                      {`${token.name} ${token.percent}`}
+                    </Typography>
+                  </Grid>
+                  <Typography variant="body1">{`${token.value}`}</Typography>
                 </Grid>
-                <Typography variant="body1">{`${token.value}`}</Typography>
-              </Grid>
-            ))}
-            <Grid item xs={12} component={Typography} variant="body1">
-              {`$${formattedData.reserve} ${t("inTotal")}`}
+              ))}
             </Grid>
+            <FlexRow
+              justify="space-between"
+              left={`${t("totalReverves")}:`}
+              right={`$${formattedData.reserve}`}
+              fullWidth
+            />
           </Grid>
         </Grid>
       </Grid>

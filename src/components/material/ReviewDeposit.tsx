@@ -13,6 +13,7 @@ import {
 import { DepositTransaction } from "../../interfaces/transactions"
 import { commify } from "@ethersproject/units"
 import ReviewTransaction from "./ReviewTransaction"
+import FlexRow from "./FlexRow"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -70,112 +71,74 @@ function ReviewDeposit(props: Props): ReactElement {
       <Grid item container direction="column" xs>
         <Typography gutterBottom>{t("depositing")}</Typography>
         {data.from.items.map(({ token, amount }) => (
-          <Grid
+          <FlexRow
             key={token.symbol}
-            item
-            container
-            direction="row"
-            alignItems="center"
-            wrap="nowrap"
-          >
-            <Grid item container direction="row">
-              <img src={token.icon} alt="icon" className={classes.icon} />
-              <Typography variant="body1">
-                {commify(formatBNToString(amount, token.decimals))}
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              component={Typography}
-              variant="body1"
-              style={{ whiteSpace: "nowrap" }}
-            >
-              {token.symbol}
-            </Grid>
-          </Grid>
+            justify="space-between"
+            left={
+              <Grid item container>
+                <img src={token.icon} alt="icon" className={classes.icon} />
+                <Typography variant="body1">
+                  {commify(formatBNToString(amount, token.decimals))}
+                </Typography>
+              </Grid>
+            }
+            right={token.symbol}
+          />
         ))}
-        <Grid item container direction="row" alignItems="center" wrap="nowrap">
-          <Grid item container direction="row">
-            <Typography variant="body1">{t("total")}</Typography>
-          </Grid>
-          <Grid
-            item
-            component={Typography}
-            variant="body1"
-            style={{ whiteSpace: "nowrap" }}
-          >
-            {commify(formatBNToString(data.from.totalAmount, 18))}
-          </Grid>
-        </Grid>
+        <FlexRow
+          justify="space-between"
+          left={t("total")}
+          right={commify(formatBNToString(data.from.totalAmount, 18))}
+        />
       </Grid>
       <Grid item component={Divider} className={classes.divider} />
       <Grid item container direction="column" xs>
         <Typography gutterBottom>{t("receiving")}</Typography>
-        <Grid item container direction="row" alignItems="center" wrap="nowrap">
-          <Grid item container direction="row">
-            <img
-              src={data.to.item.token.icon}
-              alt="icon"
-              className={classes.icon}
-            />
-            <Typography variant="body1">
-              {commify(
-                formatBNToString(
-                  data.to.item.amount,
-                  data.to.item.token.decimals,
-                ),
-              )}
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            component={Typography}
-            variant="body1"
-            style={{ whiteSpace: "nowrap" }}
-          >
-            {data.to.item.token.symbol}
-          </Grid>
-        </Grid>
-        <Grid item container direction="row" alignItems="center" wrap="nowrap">
-          <Grid item container direction="row">
-            <Typography variant="body1">{t("shareOfPool")}</Typography>
-          </Grid>
-          <Grid
-            item
-            component={Typography}
-            variant="body1"
-            style={{ whiteSpace: "nowrap" }}
-          >
-            {formatBNToPercentString(data.shareOfPool, 18)}
-          </Grid>
-        </Grid>
+        <FlexRow
+          justify="space-between"
+          left={
+            <Grid item container direction="row">
+              <img
+                src={data.to.item.token.icon}
+                alt="icon"
+                className={classes.icon}
+              />
+              <Typography variant="body1">
+                {commify(
+                  formatBNToString(
+                    data.to.item.amount,
+                    data.to.item.token.decimals,
+                  ),
+                )}
+              </Typography>
+            </Grid>
+          }
+          right={data.to.item.token.symbol}
+        />
+        <FlexRow
+          justify="space-between"
+          left={t("shareOfPool")}
+          right={formatBNToPercentString(data.shareOfPool, 18)}
+        />
       </Grid>
       <Grid item component={Divider} className={classes.divider} />
       <Grid item container direction="column" xs>
         <Typography gutterBottom>{t("rates")}</Typography>
         {[...data.from.items, data.to.item].map(
           ({ token, singleTokenPriceUSD }) => (
-            <Grid
+            <FlexRow
               key={token.symbol}
-              item
-              container
-              direction="row"
-              alignItems="center"
-              wrap="nowrap"
-            >
-              <Grid item container direction="row">
-                <img src={token.icon} alt="icon" className={classes.icon} />
-                <Typography variant="body1">1 {token.symbol} =</Typography>
-              </Grid>
-              <Grid
-                item
-                component={Typography}
-                variant="body1"
-                style={{ whiteSpace: "nowrap" }}
-              >
-                ${commify(formatBNToString(singleTokenPriceUSD, 18, 2))}
-              </Grid>
-            </Grid>
+              justify="space-between"
+              left={
+                <Grid item container>
+                  <img src={token.icon} alt="icon" className={classes.icon} />
+                  <Typography variant="body1">1 {token.symbol} =</Typography>
+                </Grid>
+              }
+              right={`$${commify(
+                formatBNToString(singleTokenPriceUSD, 18, 2),
+              )}`}
+            />
           ),
         )}
       </Grid>

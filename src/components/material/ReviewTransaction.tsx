@@ -9,14 +9,9 @@ import { useTranslation } from "react-i18next"
 import CustomDialog from "./CustomDialog"
 import { CustomDialogProps } from "./CustomDialog"
 
-import {
-  createStyles,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core"
+import { createStyles, Grid, makeStyles, Paper } from "@material-ui/core"
 import HighPriceImpactConfirmation from "./HighPriceImpactConfirmation"
+import FlexRow from "./FlexRow"
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -60,40 +55,25 @@ function ReviewTransaction(inProps: Props): ReactElement {
     <CustomDialog maxWidth="xs" fullWidth {...other}>
       <Grid container direction="column" spacing={2}>
         {children}
-        <Grid item container alignItems="center">
-          <Grid item component={Typography} variant="body1">
-            {t("gas")}
-          </Grid>
-          <Grid item container alignItems="center" xs justify="flex-end">
-            <Typography variant="body1">
-              {`${formatGasToString(
-                { gasStandard, gasFast, gasInstant },
-                gasPriceSelected,
-                gasCustom,
-              )} GWEI`}
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid item container alignItems="center">
-          <Grid item component={Typography} variant="body1">
-            {t("maxSlippage")}
-          </Grid>
-          <Grid item container alignItems="center" xs justify="flex-end">
-            <Typography variant="body1">
-              {formatSlippageToString(slippageSelected, slippageCustom)}%
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid item container alignItems="center">
-          <Grid item component={Typography} variant="body1">
-            {t("deadline")}
-          </Grid>
-          <Grid item container alignItems="center" xs justify="flex-end">
-            <Typography variant="body1">
-              {`${deadline} ${t("minutes")}`}
-            </Typography>
-          </Grid>
-        </Grid>
+        <FlexRow
+          justify="space-between"
+          left={t("gas")}
+          right={`${formatGasToString(
+            { gasStandard, gasFast, gasInstant },
+            gasPriceSelected,
+            gasCustom,
+          )} GWEI`}
+        />
+        <FlexRow
+          justify="space-between"
+          left={t("maxSlippage")}
+          right={`${formatSlippageToString(slippageSelected, slippageCustom)}%`}
+        />
+        <FlexRow
+          justify="space-between"
+          left={t("deadline")}
+          right={`${deadline} ${t("minutes")}`}
+        />
         {needsConfirm && (
           <Paper variant="outlined" className={classes.paper}>
             <HighPriceImpactConfirmation
