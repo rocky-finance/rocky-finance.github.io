@@ -135,6 +135,8 @@ const DepositPage = (props: Props): ReactElement => {
               <Button
                 fullWidth
                 variant="contained"
+                color="secondary"
+                disableElevation
                 onClick={(): void => {
                   setCurrentModal("review")
                 }}

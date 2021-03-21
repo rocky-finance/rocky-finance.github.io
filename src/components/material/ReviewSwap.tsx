@@ -80,6 +80,7 @@ function ReviewSwap({ onClose, onSwap, data, open }: Props): ReactElement {
           onClick={onSwap}
           color="secondary"
           variant="contained"
+          disableElevation
         >
           {t("confirmSwap")}
         </Button>

@@ -62,6 +62,7 @@ function ReviewDeposit(props: Props): ReactElement {
           onClick={onDeposit}
           color="secondary"
           variant="contained"
+          disableElevation
         >
           {t("confirmDeposit")}
         </Button>

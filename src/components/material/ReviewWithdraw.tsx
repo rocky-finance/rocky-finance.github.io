@@ -59,6 +59,7 @@ function ReviewSwap({ onClose, onWithdraw, data, open }: Props): ReactElement {
           onClick={onWithdraw}
           color="secondary"
           variant="contained"
+          disableElevation
         >
           {t("confirmWithdraw")}
         </Button>
