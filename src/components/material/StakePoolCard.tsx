@@ -65,18 +65,19 @@ const StakePool = (props: Props): ReactElement => {
 
   return (
     <FormControl autoCorrect="false" fullWidth variant="outlined">
-      <Grid container>
-        <Grid item container spacing={1}>
-          <Grid container item alignItems="center">
-            <img
-              className="icon"
-              alt="icon"
-              src={data.token.icon}
-              width="36"
-              height="36"
-            />
-            <Typography variant="h4">{data.title}</Typography>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid container item alignItems="center">
+          <img
+            className="icon"
+            alt="icon"
+            src={data.token.icon}
+            width="36"
+            height="36"
+          />
+          <Typography variant="h4">{data.title}</Typography>
+        </Grid>
+        <Grid item container component={Divider} className={classes.divider} />
+        <Grid item container spacing={2}>
           <FlexRow
             justify="space-between"
             left={`${t("apy")}:`}
@@ -92,8 +93,27 @@ const StakePool = (props: Props): ReactElement => {
             left={`${t("yourStake")}:`}
             right={`${data.pool.stake.user} ${data.token.symbol} ($XX.XX)`}
           />
+          <Grid item container component={Divider} className={classes.divider} />
+          <FlexRow
+            justify="space-between"
+            left={`${t("pendingRewards")}:`}
+            right={`${data.pool.rewards.value} ${data.pool.rewards.symbol} ($XX.XX)`}
+          />
+          <Grid
+            item
+            xs
+          >
+            <Button
+              fullWidth
+              onClick={onHarvest}
+              color="secondary"
+              variant="contained"
+              disableElevation
+            >
+              {t("harvest")}
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item container component={Divider} className={classes.divider} />
         <Grid
           container
           item
@@ -101,24 +121,6 @@ const StakePool = (props: Props): ReactElement => {
           direction="column"
           component={FormGroup}
         >
-          <Grid item container>
-            <FlexRow
-              justify="space-between"
-              left={`${t("pendingRewards")}:`}
-              right={`${data.pool.rewards.value} ${data.pool.rewards.symbol} ($XX.XX)`}
-            />
-            <Grid
-              item
-              xs
-              component={Button}
-              onClick={onHarvest}
-              color="secondary"
-              variant="contained"
-              disableElevation
-            >
-              {t("harvest")}
-            </Grid>
-          </Grid>
           <Grid item container>
             <Grid
               item
