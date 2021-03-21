@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react"
-import StakePage from "../components/StakePage"
+import StakePage from "../components/material/StakePage"
 
 function Stake(): ReactElement {
   return <StakePage />

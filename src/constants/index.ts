@@ -1,6 +1,6 @@
-import appLogo from "../assets/icons/logo.svg"
 import daiLogo from "../assets/icons/dai.svg"
 import usdcLogo from "../assets/icons/usdc.svg"
+import rockyLogo from "../assets/icons/rocky.svg"
 
 export const NetworkContextName = "NETWORK"
 export const BTC_POOL_NAME = "BTC Pool"
@@ -81,7 +81,7 @@ export const ROCKY_TOKEN = new Token(
   "ROCKY",
   "",
   "ROCKY",
-  appLogo,
+  rockyLogo,
 )
 
 // Stablecoins
@@ -198,7 +198,21 @@ export const POOLS = [
       symbol: STABLECOIN_SWAP_TOKEN.symbol,
       name: STABLECOIN_SWAP_TOKEN.name,
       icon: STABLECOIN_SWAP_TOKEN.icon,
-      max: "0",
+      max: "123",
+      isZeroBalance: false,
+    },
+    pool: {
+      apy: "12.32", // percent
+      stake: {
+        total: "8,000,234",
+        user: "100",
+      },
+      rewards: {
+        symbol: "ROCKY",
+        name: "ROCKY",
+        icon: "",
+        value: "0.003",
+      },
     },
   },
   {
@@ -208,6 +222,20 @@ export const POOLS = [
       name: ROCKY_TOKEN.name,
       icon: ROCKY_TOKEN.icon,
       max: "0",
+      isZeroBalance: true,
+    },
+    pool: {
+      apy: "12.32", // percent
+      stake: {
+        total: "8,000,234",
+        user: "100",
+      },
+      rewards: {
+        symbol: "ROCKY",
+        name: "ROCKY",
+        icon: "",
+        value: "0.003",
+      },
     },
   },
 ]
