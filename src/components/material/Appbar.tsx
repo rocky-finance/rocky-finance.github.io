@@ -17,27 +17,32 @@ import Brightness4Icon from "@material-ui/icons/Brightness4"
 const StyledTabs = withStyles(
   (theme) => ({
     root: {
-      alignSelf: "stretch",
-      marginLeft: theme.spacing(2),
-      marginRight: theme.spacing(2),
+      justifyContent: "center",
+      flexBasis: "100%",
+      marginBottom: "-1px",
+    },
+    scroller: {
+      flexGrow: 0,
     },
     indicator: {
       height: "3px",
       backgroundColor: theme.palette.text.primary,
     },
-    scroller: {
-      display: "inline-flex",
-      justifyContent: "center",
-    },
-    fixed: {
-      borderBottom: "1px dashed",
-      borderBottomColor: theme.palette.text.secondary,
+    flexContainer: {
+      height: "100%",
     },
   }),
   { withTheme: true },
 )(Tabs)
 
 const useStyles = makeStyles((theme) => ({
+  tabcontainer: {
+    alignSelf: "stretch",
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    borderBottom: "1px dashed",
+    borderBottomColor: theme.palette.text.secondary,
+  },
   tab: {
     fontWeight: "bold",
   },
@@ -75,28 +80,26 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
             </IconButton>
           </Grid>
         </Grid>
-        <Grid
-          xs={8}
-          item
-          container
-          alignItems="stretch"
-          value={currentTab}
-          centered
-          component={StyledTabs}
-        >
-          {props.routes.map((value) => {
-            return (
-              <Tab
-                key={value}
-                label={t(value)}
-                component={Link}
-                to={`/${value}`}
-                value={`/${value}`}
-                centerRipple
-                classes={{ selected: classes.tab }}
-              />
-            )
-          })}
+        <Grid xs={8} item container className={classes.tabcontainer}>
+          <StyledTabs
+            value={currentTab}
+            variant="scrollable"
+            scrollButtons="on"
+          >
+            {props.routes.map((value) => {
+              return (
+                <Tab
+                  key={value}
+                  label={t(value)}
+                  component={Link}
+                  to={`/${value}`}
+                  value={`/${value}`}
+                  centerRipple
+                  classes={{ selected: classes.tab }}
+                />
+              )
+            })}
+          </StyledTabs>
         </Grid>
         <Grid item xs>
           <Grid container alignItems="center" wrap="nowrap" justify="flex-end">
