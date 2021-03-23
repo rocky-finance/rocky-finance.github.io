@@ -93,16 +93,18 @@ const StakePool = (props: Props): ReactElement => {
             left={`${t("yourStake")}:`}
             right={`${data.pool.stake.user} ${data.token.symbol} ($XX.XX)`}
           />
-          <Grid item container component={Divider} className={classes.divider} />
+          <Grid
+            item
+            container
+            component={Divider}
+            className={classes.divider}
+          />
           <FlexRow
             justify="space-between"
             left={`${t("pendingRewards")}:`}
             right={`${data.pool.rewards.value} ${data.pool.rewards.symbol} ($XX.XX)`}
           />
-          <Grid
-            item
-            xs
-          >
+          <Grid item xs>
             <Button
               fullWidth
               onClick={onHarvest}
