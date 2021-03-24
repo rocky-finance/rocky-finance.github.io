@@ -1,8 +1,11 @@
 // / <reference types="react-scripts" />
 
+// @see https://stackoverflow.com/a/55656415
 declare module "*.svg" {
-  const src: string
-  export default src
+  import React = require("react");
+  export const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  const src: string;
+  export default src;
 }
 
 declare module "*.png" {
