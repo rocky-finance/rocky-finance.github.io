@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid"
 import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
 import { useTranslation } from "react-i18next"
-import logo from "../../assets/icons/logo.svg"
+import { ReactComponent as Logo } from "../../assets/icons/logo.svg"
 import Web3Status from "../../components/material/Web3Status"
 import Brightness7OutlinedIcon from "@material-ui/icons/Brightness7Outlined"
 import Brightness4Icon from "@material-ui/icons/Brightness4"
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "1px dashed",
     borderBottomColor: theme.palette.text.secondary,
     margin: theme.spacing(0, 2),
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       margin: 0,
     },
   },
@@ -56,7 +56,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   icon: {
-    padding: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  logo: {
+    fill: theme.palette.text.primary,
   },
 }))
 
@@ -73,12 +77,12 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
   const currentTab = location.pathname
 
   return (
-    <AppBar position="fixed" color="inherit" elevation={0}>
+    <AppBar position="sticky" color="inherit" elevation={0}>
       <Grid container component={Toolbar} direction="row">
         <Grid item xs={6} sm>
           <Grid container alignItems="center" wrap="nowrap">
             <IconButton edge="start" color="inherit" className={classes.icon}>
-              <img className="logo" alt="logo" src={logo} />
+              <Logo className={classes.logo} />
             </IconButton>
           </Grid>
         </Grid>

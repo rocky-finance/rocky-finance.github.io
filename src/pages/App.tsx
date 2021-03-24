@@ -92,7 +92,6 @@ export default function App(): ReactElement {
               onToggleDark={toggleDarkTheme}
               routes={routes.map((value) => value.id)}
             />
-            <div className={classes.offset} />
             <Switch>
               <Route exact path="/">
                 <Redirect to="/swap" />
