@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react"
 import { Link, useLocation } from "react-router-dom"
 
-import { makeStyles, useTheme, withStyles } from "@material-ui/core"
+import { Box, makeStyles, useTheme, withStyles } from "@material-ui/core"
 import AppBar from "@material-ui/core/AppBar"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
@@ -38,10 +38,12 @@ const StyledTabs = withStyles(
 const useStyles = makeStyles((theme) => ({
   tabcontainer: {
     alignSelf: "stretch",
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
     borderBottom: "1px dashed",
     borderBottomColor: theme.palette.text.secondary,
+    margin: theme.spacing(0, 2),
+    [theme.breakpoints.down('sm')]: {
+      margin: 0,
+    },
   },
   tab: {
     fontWeight: "bold",
@@ -72,53 +74,62 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
 
   return (
     <AppBar position="fixed" color="inherit" elevation={0}>
-      <Grid container component={Toolbar} direction="row" wrap="nowrap">
-        <Grid item xs>
+      <Grid container component={Toolbar} direction="row">
+        <Grid item xs={6} sm>
           <Grid container alignItems="center" wrap="nowrap">
             <IconButton edge="start" color="inherit" className={classes.icon}>
               <img className="logo" alt="logo" src={logo} />
             </IconButton>
           </Grid>
         </Grid>
-        <Grid xs={8} item container className={classes.tabcontainer}>
-          <StyledTabs
-            value={currentTab}
-            variant="scrollable"
-            scrollButtons="on"
-          >
-            {props.routes.map((value) => {
-              return (
-                <Tab
-                  key={value}
-                  label={t(value)}
-                  component={Link}
-                  to={`/${value}`}
-                  value={`/${value}`}
-                  centerRipple
-                  classes={{ selected: classes.tab }}
-                />
-              )
-            })}
-          </StyledTabs>
-        </Grid>
-        <Grid item xs>
-          <Grid container alignItems="center" wrap="nowrap" justify="flex-end">
-            <Web3Status />
-            <IconButton
-              edge="end"
-              color="inherit"
-              aria-label="menu"
-              onClick={props.onToggleDark}
-              className={classes.themer}
+        <Box clone order={{ xs: 3, md: 2 }}>
+          <Grid xs={12} md={8} item container className={classes.tabcontainer}>
+            <StyledTabs
+              value={currentTab}
+              variant="scrollable"
+              scrollButtons="on"
             >
-              {theme.palette.type === "dark" ? (
-                <Brightness4Icon />
-              ) : (
-                <Brightness7OutlinedIcon />
-              )}
-            </IconButton>
+              {props.routes.map((value) => {
+                return (
+                  <Tab
+                    key={value}
+                    label={t(value)}
+                    component={Link}
+                    to={`/${value}`}
+                    value={`/${value}`}
+                    centerRipple
+                    classes={{ selected: classes.tab }}
+                  />
+                )
+              })}
+            </StyledTabs>
           </Grid>
-        </Grid>
+        </Box>
+        <Box clone order={{ xs: 2, md: 3 }}>
+          <Grid item xs={6} sm>
+            <Grid
+              container
+              alignItems="center"
+              wrap="nowrap"
+              justify="flex-end"
+            >
+              <Web3Status />
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="menu"
+                onClick={props.onToggleDark}
+                className={classes.themer}
+              >
+                {theme.palette.type === "dark" ? (
+                  <Brightness4Icon />
+                ) : (
+                  <Brightness7OutlinedIcon />
+                )}
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Box>
       </Grid>
     </AppBar>
   )
