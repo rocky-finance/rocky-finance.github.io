@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux"
 import usePoller from "../hooks/usePoller"
 import Appbar from "../components/material/Appbar"
 import Grid from "@material-ui/core/Grid"
-import { makeStyles } from "@material-ui/core"
 import { darkTheme, lightTheme } from "../components/material/RockyTheme"
 import { MuiThemeProvider } from "@material-ui/core"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -27,12 +26,7 @@ import { AppState } from "../state/index"
 import RiskDialog from "../components/material/RiskDialog"
 import { SnackbarProvider } from "notistack"
 
-const useStyles = makeStyles((theme) => ({
-  offset: theme.mixins.toolbar,
-}))
-
 export default function App(): ReactElement {
-  const classes = useStyles()
   const dispatch = useDispatch<AppDispatch>()
 
   const fetchAndUpdateGasPrice = useCallback(() => {

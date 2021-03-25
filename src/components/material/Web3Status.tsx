@@ -32,7 +32,11 @@ const StyledChip = withStyles(
   { withTheme: true },
 )(Chip)
 
-const Web3Status = (): ReactElement => {
+interface Props {
+  className: string
+}
+
+const Web3Status = (props: Props): ReactElement => {
   const { account } = useWeb3React()
   const { t } = useTranslation()
   const [open, setOpen] = React.useState(false)
@@ -55,7 +59,7 @@ const Web3Status = (): ReactElement => {
   }
 
   return (
-    <Grid>
+    <Grid {...props}>
       <StyledChip
         onClick={handleClickOpen}
         label={address}

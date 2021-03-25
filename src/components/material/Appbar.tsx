@@ -55,12 +55,20 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.primary,
     },
   },
-  icon: {
-    paddingTop: 0,
-    paddingBottom: 0,
-  },
   logo: {
     fill: theme.palette.text.primary,
+    width: "30px",
+    height: "30px",
+  },
+  first: {
+    [theme.breakpoints.down("sm")]: {
+      flex: "0 1 auto",
+    },
+  },
+  status: {
+    [theme.breakpoints.down("sm")]: {
+      margin: "auto",
+    },
   },
 }))
 
@@ -79,9 +87,9 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
   return (
     <AppBar position="sticky" color="inherit" elevation={0}>
       <Grid container component={Toolbar} direction="row">
-        <Grid item xs={6} sm>
+        <Grid item xs={6} sm className={classes.first}>
           <Grid container alignItems="center" wrap="nowrap">
-            <IconButton edge="start" color="inherit" className={classes.icon}>
+            <IconButton edge="start" color="inherit">
               <Logo className={classes.logo} />
             </IconButton>
           </Grid>
@@ -110,14 +118,14 @@ export default function Appbar(props: AppbarProps): ReactElement<AppbarProps> {
           </Grid>
         </Box>
         <Box clone order={{ xs: 2, md: 3 }}>
-          <Grid item xs={6} sm>
+          <Grid item xs sm>
             <Grid
               container
               alignItems="center"
               wrap="nowrap"
               justify="flex-end"
             >
-              <Web3Status />
+              <Web3Status className={classes.status} />
               <IconButton
                 edge="end"
                 color="inherit"
