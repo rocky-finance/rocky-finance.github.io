@@ -1,17 +1,18 @@
-import React from "react"
 import {
-  createStyles,
   Theme,
-  withStyles,
   WithStyles,
+  createStyles,
+  withStyles,
 } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
-import Dialog, { DialogProps } from "@material-ui/core/Dialog"
-import MuiDialogTitle from "@material-ui/core/DialogTitle"
-import MuiDialogContent from "@material-ui/core/DialogContent"
-import MuiDialogActions from "@material-ui/core/DialogActions"
-import IconButton from "@material-ui/core/IconButton"
 import CloseIcon from "@material-ui/icons/Close"
+import Dialog from "@material-ui/core/Dialog"
+import { DialogProps } from "@material-ui/core/Dialog"
+import IconButton from "@material-ui/core/IconButton"
+import MuiDialogActions from "@material-ui/core/DialogActions"
+import MuiDialogContent from "@material-ui/core/DialogContent"
+import MuiDialogTitle from "@material-ui/core/DialogTitle"
+import React from "react"
 import Typography from "@material-ui/core/Typography"
 import { useTranslation } from "react-i18next"
 

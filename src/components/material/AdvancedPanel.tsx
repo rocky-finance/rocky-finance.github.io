@@ -1,24 +1,25 @@
+import {
+  Divider,
+  Grid,
+  Paper,
+  createStyles,
+  makeStyles,
+} from "@material-ui/core"
 import React, { ReactElement } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch } from "../../state"
+import { AppState } from "../../state"
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
 import DeadlineField from "./DeadlineField"
 import GasField from "./GasField"
 import InfiniteApprovalField from "./InfiniteApprovalField"
-import SlippageField from "./SlippageField"
-import {
-  createStyles,
-  Divider,
-  Grid,
-  makeStyles,
-  Paper,
-} from "@material-ui/core"
-import { useTranslation } from "react-i18next"
-import { StyledChip } from "./StyledChip"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { updateSwapAdvancedMode } from "../../state/user"
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, AppState } from "../../state"
-import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
+import SlippageField from "./SlippageField"
+import { StyledChip } from "./StyledChip"
 import classNames from "classnames"
+import { updateSwapAdvancedMode } from "../../state/user"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

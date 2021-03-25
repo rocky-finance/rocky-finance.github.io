@@ -1,26 +1,26 @@
+import React, { ReactElement, useEffect, useState } from "react"
 import {
   STABLECOIN_POOL_NAME,
   STABLECOIN_POOL_TOKENS,
   STABLECOIN_SWAP_TOKEN,
 } from "../constants"
-import { DepositTransaction, TransactionItem } from "../interfaces/transactions"
-import React, { ReactElement, useEffect, useState } from "react"
 import { TokensStateType, useTokenFormState } from "../hooks/useTokenFormState"
 import { formatBNToString, shiftBNDecimals } from "../utils"
 import usePoolData, { PoolDataType } from "../hooks/usePoolData"
-
 import { AppState } from "../state"
 import { BigNumber } from "@ethersproject/bignumber"
 import DepositPage from "../components/DepositPage"
+import { DepositTransaction } from "../interfaces/transactions"
 import { TokenPricesUSD } from "../state/application"
+import { TransactionItem } from "../interfaces/transactions"
 import { Zero } from "@ethersproject/constants"
 import { calculatePriceImpact } from "../utils/priceImpact"
 import { parseUnits } from "@ethersproject/units"
 import { useActiveWeb3React } from "../hooks"
 import { useApproveAndDeposit } from "../hooks/useApproveAndDeposit"
 import { useSelector } from "react-redux"
-import { useSwapContract } from "../hooks/useContract"
 import { useStablePoolTokenBalances } from "../state/wallet/hooks"
+import { useSwapContract } from "../hooks/useContract"
 
 function DepositStable(): ReactElement | null {
   const { account } = useActiveWeb3React()

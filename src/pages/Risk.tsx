@@ -1,10 +1,7 @@
-// import "./Risk.scss"
-
 import React, { ReactElement } from "react"
-import { REFS } from "../constants"
-
-import { useTranslation } from "react-i18next"
 import { Container } from "@material-ui/core"
+import { REFS } from "../constants"
+import { useTranslation } from "react-i18next"
 
 function Risk(): ReactElement {
   const { t } = useTranslation()

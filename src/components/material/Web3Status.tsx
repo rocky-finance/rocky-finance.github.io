@@ -1,12 +1,11 @@
 import React, { ReactElement } from "react"
-
-import { withStyles } from "@material-ui/core/styles"
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet"
+import Chip from "@material-ui/core/Chip"
 import ConnectWallet from "./ConnectWallet"
+import Grid from "@material-ui/core/Grid"
 import { useTranslation } from "react-i18next"
 import { useWeb3React } from "@web3-react/core"
-import Chip from "@material-ui/core/Chip"
-import Grid from "@material-ui/core/Grid"
-import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet"
+import { withStyles } from "@material-ui/core/styles"
 
 // Todo: Link profile image to real account image
 

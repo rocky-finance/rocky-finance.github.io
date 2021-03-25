@@ -1,7 +1,7 @@
-import { Typography } from "@material-ui/core"
 import React, { ReactElement } from "react"
-import { useTranslation } from "react-i18next"
 import CustomDialog from "./CustomDialog"
+import { Typography } from "@material-ui/core"
+import { useTranslation } from "react-i18next"
 
 interface Props {
   open: boolean

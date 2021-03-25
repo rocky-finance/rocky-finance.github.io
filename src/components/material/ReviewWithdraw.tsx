@@ -1,17 +1,16 @@
-import React, { ReactElement, useState } from "react"
-
-import { isHighPriceImpact } from "../../utils/priceImpact"
-import { useTranslation } from "react-i18next"
 import {
   Button,
-  createStyles,
   Divider,
   Grid,
-  makeStyles,
   Typography,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
+import React, { ReactElement, useState } from "react"
 import ReviewTransaction from "./ReviewTransaction"
 import { ReviewWithdrawData } from "./WithdrawPage"
+import { isHighPriceImpact } from "../../utils/priceImpact"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

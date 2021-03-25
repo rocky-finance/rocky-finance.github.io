@@ -1,12 +1,3 @@
-import React, { ReactElement } from "react"
-import { useDispatch, useSelector } from "react-redux"
-
-import { AppDispatch } from "../../state"
-import { AppState } from "../../state/index"
-import { PayloadAction } from "@reduxjs/toolkit"
-import { updateInfiniteApproval } from "../../state/user"
-import { useTranslation } from "react-i18next"
-import CustomPopover from "./CustomPopover"
 import {
   Box,
   Checkbox,
@@ -15,6 +6,14 @@ import {
   FormGroup,
   Typography,
 } from "@material-ui/core"
+import React, { ReactElement } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch } from "../../state"
+import { AppState } from "../../state/index"
+import CustomPopover from "./CustomPopover"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { updateInfiniteApproval } from "../../state/user"
+import { useTranslation } from "react-i18next"
 
 export default function InfiniteApprovalField(): ReactElement {
   const { t } = useTranslation()

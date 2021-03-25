@@ -1,30 +1,30 @@
-import React, { ReactElement } from "react"
-import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core"
-import { injected, walletconnect, walletlink } from "../../connectors"
-
-import coinbasewalletIcon from "../../assets/icons/coinbasewallet.svg"
-import { logEvent } from "../../utils/googleAnalytics"
-import metamaskIcon from "../../assets/icons/metamask.svg"
-import { useTranslation } from "react-i18next"
-import walletconnectIcon from "../../assets/icons/walletconnect.svg"
 import {
   Button,
   ButtonGroup,
-  createStyles,
   Dialog,
   DialogActions,
   DialogContent,
   Icon,
   IconButton,
   Link,
-  makeStyles,
   Theme,
   Typography,
-  withStyles,
   WithStyles,
+  createStyles,
+  makeStyles,
+  withStyles,
 } from "@material-ui/core"
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core"
+import { injected, walletconnect, walletlink } from "../../connectors"
 import CloseIcon from "@material-ui/icons/Close"
 import MuiDialogTitle from "@material-ui/core/DialogTitle"
+import React from "react"
+import { ReactElement } from "react"
+import coinbasewalletIcon from "../../assets/icons/coinbasewallet.svg"
+import { logEvent } from "../../utils/googleAnalytics"
+import metamaskIcon from "../../assets/icons/metamask.svg"
+import { useTranslation } from "react-i18next"
+import walletconnectIcon from "../../assets/icons/walletconnect.svg"
 
 const titleStyles = (theme: Theme) =>
   createStyles({

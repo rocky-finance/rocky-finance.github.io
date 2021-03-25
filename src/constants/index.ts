@@ -1,6 +1,6 @@
 import daiLogo from "../assets/icons/dai.svg"
-import usdcLogo from "../assets/icons/usdc.svg"
 import rockyLogo from "../assets/icons/rocky.svg"
+import usdcLogo from "../assets/icons/usdc.svg"
 
 export const NetworkContextName = "NETWORK"
 export const BTC_POOL_NAME = "BTC Pool"

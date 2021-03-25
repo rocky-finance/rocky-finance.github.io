@@ -1,17 +1,15 @@
+import { Grid, Paper, createStyles, makeStyles } from "@material-ui/core"
 import React, { ReactElement } from "react"
-import { formatDeadlineToNumber } from "../../utils"
-
 import { AppState } from "../../state/index"
+import CustomDialog from "./CustomDialog"
+import { CustomDialogProps } from "./CustomDialog"
+import FlexRow from "./FlexRow"
+import HighPriceImpactConfirmation from "./HighPriceImpactConfirmation"
+import { formatDeadlineToNumber } from "../../utils"
 import { formatGasToString } from "../../utils/gas"
 import { formatSlippageToString } from "../../utils/slippage"
 import { useSelector } from "react-redux"
 import { useTranslation } from "react-i18next"
-import CustomDialog from "./CustomDialog"
-import { CustomDialogProps } from "./CustomDialog"
-
-import { createStyles, Grid, makeStyles, Paper } from "@material-ui/core"
-import HighPriceImpactConfirmation from "./HighPriceImpactConfirmation"
-import FlexRow from "./FlexRow"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

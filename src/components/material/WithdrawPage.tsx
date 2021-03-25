@@ -1,29 +1,28 @@
+import {
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  createStyles,
+  makeStyles,
+} from "@material-ui/core"
 import { PoolDataType, UserShareType } from "../../hooks/usePoolData"
 import React, { ReactElement, useState } from "react"
-
+import AdvancedPanel from "./AdvancedPanel"
 import { BigNumber } from "@ethersproject/bignumber"
+import ConfirmTransaction from "./ConfirmTransaction"
 import { HistoricalPoolDataType } from "../../hooks/useHistoricalPoolData"
 import MyActivityCard from "../MyActivityCard"
 import MyShareCard from "./MyShareCard"
 import NoShareContent from "../NoShareContent"
 import PoolInfoCard from "./PoolInfoCard"
+import ReviewWithdraw from "./ReviewWithdraw"
+import WithdrawForm from "./WithdrawForm"
 import { WithdrawFormState } from "../../hooks/useWithdrawFormState"
 import { formatBNToPercentString } from "../../utils"
-import { useTranslation } from "react-i18next"
-import {
-  Button,
-  Container,
-  createStyles,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core"
-import AdvancedPanel from "./AdvancedPanel"
-import WithdrawForm from "./WithdrawForm"
-import ConfirmTransaction from "./ConfirmTransaction"
 import { logEvent } from "../../utils/googleAnalytics"
-import ReviewWithdraw from "./ReviewWithdraw"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

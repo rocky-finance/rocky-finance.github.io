@@ -1,18 +1,5 @@
-import React, { ReactElement } from "react"
-import {
-  Slippages,
-  updateSlippageCustom,
-  updateSlippageSelected,
-} from "../../state/user"
-import { useDispatch, useSelector } from "react-redux"
-
-import { AppDispatch } from "../../state"
-import { AppState } from "../../state/index"
-import { PayloadAction } from "@reduxjs/toolkit"
-import { useTranslation } from "react-i18next"
 import {
   Box,
-  createStyles,
   Divider,
   FormControl,
   FormGroup,
@@ -22,9 +9,21 @@ import {
   List,
   ListItem,
   ListItemText,
-  makeStyles,
   OutlinedInput,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
+import React, { ReactElement } from "react"
+import {
+  Slippages,
+  updateSlippageCustom,
+  updateSlippageSelected,
+} from "../../state/user"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch } from "../../state"
+import { AppState } from "../../state/index"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

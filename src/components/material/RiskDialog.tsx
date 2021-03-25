@@ -1,17 +1,18 @@
 import {
   Checkbox,
-  createStyles,
   FormControlLabel,
-  makeStyles,
   Typography,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
 import React, { ReactElement, useState } from "react"
-import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
-import { REFS } from "../../constants"
-import { AppDispatch, AppState } from "../../state"
+import { AppDispatch } from "../../state"
+import { AppState } from "../../state"
 import CustomDialog from "./CustomDialog"
+import { REFS } from "../../constants"
 import { updateDontShowRisk } from "../../state/user"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles(() =>
   createStyles({

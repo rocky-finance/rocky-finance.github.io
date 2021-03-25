@@ -1,26 +1,25 @@
+import {
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  createStyles,
+  makeStyles,
+} from "@material-ui/core"
 import React, { ReactElement, useState } from "react"
 import { formatBNToPercentString, formatBNToString } from "../utils"
+import AdvancedPanel from "./material/AdvancedPanel"
 import { BigNumber } from "@ethersproject/bignumber"
-
+import ConfirmTransaction from "./material/ConfirmTransaction"
 import ReviewSwap from "./material/ReviewSwap"
+import { StyledChip } from "./material/StyledChip"
 import SwapForm from "./material/SwapForm"
+import SwapHorizontalCircleIcon from "@material-ui/icons/SwapHorizontalCircle"
 import { isHighPriceImpact } from "../utils/priceImpact"
 import { logEvent } from "../utils/googleAnalytics"
 import { useActiveWeb3React } from "../hooks"
 import { useTranslation } from "react-i18next"
-import {
-  Button,
-  Container,
-  createStyles,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core"
-import SwapHorizontalCircleIcon from "@material-ui/icons/SwapHorizontalCircle"
-import { StyledChip } from "./material/StyledChip"
-import AdvancedPanel from "./material/AdvancedPanel"
-import ConfirmTransaction from "./material/ConfirmTransaction"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

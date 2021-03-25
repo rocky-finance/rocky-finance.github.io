@@ -1,8 +1,4 @@
-import React, { ReactElement } from "react"
-
-import { useTranslation } from "react-i18next"
 import {
-  createStyles,
   Divider,
   FormControl,
   FormGroup,
@@ -12,14 +8,17 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  makeStyles,
   MenuItem,
   OutlinedInput,
   Select,
   Typography,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
+import React, { ReactElement } from "react"
 import TokenInput from "./TokenInput"
 import { WithdrawFormState } from "../../hooks/useWithdrawFormState"
+import { useTranslation } from "react-i18next"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Props {

@@ -1,29 +1,30 @@
-import { PoolDataType, UserShareType } from "../hooks/usePoolData"
+import {
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  createStyles,
+  makeStyles,
+} from "@material-ui/core"
 import React, { ReactElement, useState } from "react"
+import AdvancedPanel from "./material/AdvancedPanel"
+import { BigNumber } from "@ethersproject/bignumber"
 import ConfirmTransaction from "./material/ConfirmTransaction"
+import DepositForm from "./material/DepositForm"
 import { DepositTransaction } from "../interfaces/transactions"
 import { HistoricalPoolDataType } from "../hooks/useHistoricalPoolData"
 import LPStakingBanner from "./material/LPStakingBanner"
 import MyActivityCard from "./MyActivityCard"
 import MyShareCard from "./material/MyShareCard"
+import { PoolDataType } from "../hooks/usePoolData"
 import PoolInfoCard from "./material/PoolInfoCard"
 import { REFS } from "../constants"
 import ReviewDeposit from "./material/ReviewDeposit"
+import { UserShareType } from "../hooks/usePoolData"
 import { formatBNToPercentString } from "../utils"
 import { logEvent } from "../utils/googleAnalytics"
 import { useTranslation } from "react-i18next"
-import {
-  Button,
-  Container,
-  createStyles,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core"
-import AdvancedPanel from "./material/AdvancedPanel"
-import DepositForm from "./material/DepositForm"
-import { BigNumber } from "@ethersproject/bignumber"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Props {

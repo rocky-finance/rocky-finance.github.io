@@ -1,17 +1,17 @@
-import React, { ReactElement, useState } from "react"
-import TokenInput from "./TokenInput"
-import { useTranslation } from "react-i18next"
 import {
   Button,
-  createStyles,
   Divider,
   FormControl,
   FormGroup,
   Grid,
-  makeStyles,
   Typography,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
+import React, { ReactElement, useState } from "react"
 import FlexRow from "./FlexRow"
+import TokenInput from "./TokenInput"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

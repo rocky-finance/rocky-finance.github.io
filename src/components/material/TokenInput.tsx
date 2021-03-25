@@ -1,10 +1,5 @@
-import React, { ReactElement } from "react"
-
-import { TOKENS_MAP } from "../../constants"
-import { useTranslation } from "react-i18next"
 import {
   Button,
-  createStyles,
   Divider,
   FormControl,
   FormHelperText,
@@ -12,9 +7,13 @@ import {
   InputAdornment,
   InputLabel,
   ListItemIcon,
-  makeStyles,
   OutlinedInput,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
+import React, { ReactElement } from "react"
+import { TOKENS_MAP } from "../../constants"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles(() =>
   createStyles({

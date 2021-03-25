@@ -1,22 +1,21 @@
-import React, { ReactElement, useState } from "react"
-import { formatBNToString } from "../../utils"
-
-import { BigNumber } from "@ethersproject/bignumber"
-import { TOKENS_MAP } from "../../constants"
-import { isHighPriceImpact } from "../../utils/priceImpact"
-import { useTranslation } from "react-i18next"
 import {
   Button,
-  createStyles,
   Divider,
   Grid,
-  makeStyles,
   Typography,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
+import React, { ReactElement, useState } from "react"
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward"
-import SwapHorizontalCircleIcon from "@material-ui/icons/SwapHorizontalCircle"
-import ReviewTransaction from "./ReviewTransaction"
+import { BigNumber } from "@ethersproject/bignumber"
 import FlexRow from "./FlexRow"
+import ReviewTransaction from "./ReviewTransaction"
+import SwapHorizontalCircleIcon from "@material-ui/icons/SwapHorizontalCircle"
+import { TOKENS_MAP } from "../../constants"
+import { formatBNToString } from "../../utils"
+import { isHighPriceImpact } from "../../utils/priceImpact"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

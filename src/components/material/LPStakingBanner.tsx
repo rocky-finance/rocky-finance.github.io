@@ -1,13 +1,12 @@
-import React, { ReactElement } from "react"
-
-import { useTranslation } from "react-i18next"
 import {
-  createStyles,
   Link,
-  makeStyles,
   Paper,
   Typography,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
+import React, { ReactElement } from "react"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

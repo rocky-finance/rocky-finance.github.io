@@ -1,17 +1,17 @@
-import { POOLS } from "../../constants"
+import {
+  Container,
+  Grid,
+  Paper,
+  createStyles,
+  makeStyles,
+} from "@material-ui/core"
 import React, { ReactElement } from "react"
+import { POOLS } from "../../constants"
 import StakePool from "./StakePoolCard"
 import { logEvent } from "../../utils/googleAnalytics"
 import { useApproveAndStake } from "../../hooks/useApproveAndStake"
 import { useHarvest } from "../../hooks/useHarvest"
 import { useUnstake } from "../../hooks/useUnstake"
-import {
-  Container,
-  createStyles,
-  Grid,
-  makeStyles,
-  Paper,
-} from "@material-ui/core"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // interface Props {

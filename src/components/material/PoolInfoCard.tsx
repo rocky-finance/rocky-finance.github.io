@@ -1,19 +1,18 @@
+import {
+  Box,
+  Divider,
+  Grid,
+  Typography,
+  createStyles,
+  makeStyles,
+} from "@material-ui/core"
 import { POOL_FEE_PRECISION, TOKENS_MAP } from "../../constants"
 import React, { ReactElement } from "react"
 import { formatBNToPercentString, formatBNToString } from "../../utils"
-
+import FlexRow from "./FlexRow"
 import { PoolDataType } from "../../hooks/usePoolData"
 import { commify } from "@ethersproject/units"
 import { useTranslation } from "react-i18next"
-import {
-  Box,
-  createStyles,
-  Divider,
-  Grid,
-  makeStyles,
-  Typography,
-} from "@material-ui/core"
-import FlexRow from "./FlexRow"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

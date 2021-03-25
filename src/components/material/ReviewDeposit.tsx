@@ -1,19 +1,19 @@
-import React, { ReactElement, useState } from "react"
-import { formatBNToPercentString, formatBNToString } from "../../utils"
-import { isHighPriceImpact } from "../../utils/priceImpact"
-import { useTranslation } from "react-i18next"
 import {
   Button,
-  createStyles,
   Divider,
   Grid,
-  makeStyles,
   Typography,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
+import React, { ReactElement, useState } from "react"
+import { formatBNToPercentString, formatBNToString } from "../../utils"
 import { DepositTransaction } from "../../interfaces/transactions"
-import { commify } from "@ethersproject/units"
-import ReviewTransaction from "./ReviewTransaction"
 import FlexRow from "./FlexRow"
+import ReviewTransaction from "./ReviewTransaction"
+import { commify } from "@ethersproject/units"
+import { isHighPriceImpact } from "../../utils/priceImpact"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles((theme) =>
   createStyles({

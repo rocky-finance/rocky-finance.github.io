@@ -1,7 +1,6 @@
-import React, { ReactElement } from "react"
-
-import { useTranslation } from "react-i18next"
 import { Box, Checkbox, FormControlLabel, Typography } from "@material-ui/core"
+import React, { ReactElement } from "react"
+import { useTranslation } from "react-i18next"
 
 interface Props {
   checked: boolean

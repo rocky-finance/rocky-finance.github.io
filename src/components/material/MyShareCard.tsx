@@ -1,22 +1,21 @@
+import {
+  Box,
+  Divider,
+  Grid,
+  LinearProgress,
+  Theme,
+  Typography,
+  createStyles,
+  makeStyles,
+  withStyles,
+} from "@material-ui/core"
 import React, { ReactElement } from "react"
 import { formatBNToPercent, formatBNToString } from "../../utils"
-
+import FlexRow from "./FlexRow"
 import { TOKENS_MAP } from "../../constants"
 import { UserShareType } from "../../hooks/usePoolData"
 import { commify } from "@ethersproject/units"
 import { useTranslation } from "react-i18next"
-import {
-  Box,
-  createStyles,
-  Divider,
-  Grid,
-  LinearProgress,
-  makeStyles,
-  Theme,
-  Typography,
-  withStyles,
-} from "@material-ui/core"
-import FlexRow from "./FlexRow"
 
 const BorderLinearProgress = withStyles((theme: Theme) =>
   createStyles({

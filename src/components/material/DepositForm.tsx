@@ -1,17 +1,16 @@
-import React, { ReactElement } from "react"
-
-import { useTranslation } from "react-i18next"
 import {
-  createStyles,
   Divider,
   FormControl,
   FormGroup,
   List,
   ListItem,
-  makeStyles,
   Typography,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
+import React, { ReactElement } from "react"
 import TokenInput from "./TokenInput"
+import { useTranslation } from "react-i18next"
 
 interface Props {
   tokens: Array<{

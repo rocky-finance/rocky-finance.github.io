@@ -1,14 +1,6 @@
-import React, { ReactElement } from "react"
-
-import { BigNumber } from "@ethersproject/bignumber"
-import { formatBNToString } from "../../utils"
-import { formatUnits } from "@ethersproject/units"
-import { useTranslation } from "react-i18next"
-import CustomPopover from "./CustomPopover"
 import {
   Box,
   Button,
-  createStyles,
   Divider,
   FormControl,
   FormGroup,
@@ -18,10 +10,17 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  makeStyles,
   OutlinedInput,
   Typography,
+  createStyles,
+  makeStyles,
 } from "@material-ui/core"
+import React, { ReactElement } from "react"
+import { BigNumber } from "@ethersproject/bignumber"
+import CustomPopover from "./CustomPopover"
+import { formatBNToString } from "../../utils"
+import { formatUnits } from "@ethersproject/units"
+import { useTranslation } from "react-i18next"
 
 interface Props {
   isSwapFrom: boolean
