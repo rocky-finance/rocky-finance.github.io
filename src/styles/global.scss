@@ -38,9 +38,9 @@ body {
 }
 */
 :root {
-  --background-main: url("../assets/bg_light.svg") center/auto 60%
-  no-repeat fixed;
-  
+  --background-main: url("../assets/bg_light.svg") center/auto 60% no-repeat
+    fixed;
+
   /*
   --background: #ffffff;
   --background-element: rgba(255, 255, 255, 0.75);
@@ -70,8 +70,7 @@ body {
 
 // Dark mode themes
 body.dark {
-  --background-main: url("../assets/bg.svg") center/auto 60% no-repeat
-    fixed;
+  --background-main: url("../assets/bg.svg") center/auto 60% no-repeat fixed;
   /*
   --background: #000;
   --background-element: rgba(0, 0, 0, 0.35);
