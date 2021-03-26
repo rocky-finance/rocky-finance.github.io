@@ -24,9 +24,9 @@ interface ApproveAndDepositStateArgument {
 export function useApproveAndDeposit(
   poolName: PoolName,
 ): (state: ApproveAndDepositStateArgument) => Promise<void> {
-  const dispatch = useDispatch()
   const swapContract = useSwapContract(poolName)
   const tokenContracts = useAllContracts()
+  const dispatch = useDispatch()
   const { account } = useActiveWeb3React()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { gasStandard, gasFast, gasInstant } = useSelector(
