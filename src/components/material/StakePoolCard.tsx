@@ -122,13 +122,7 @@ const StakePool = (props: Props): ReactElement => {
           </Button>
         </Grid>
       </Grid>
-      <Grid
-        container
-        item
-        spacing={2}
-        direction="column"
-        component={FormGroup}
-      >
+      <Grid container item spacing={2} direction="column" component={FormGroup}>
         <Grid item container>
           <Grid
             item
