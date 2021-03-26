@@ -16,10 +16,12 @@ import { useTranslation } from "react-i18next"
 const useStyles = makeStyles((theme) =>
   createStyles({
     divider: {
-      margin: theme.spacing(1, 0),
       background: "none",
       borderBottom: "1px dashed",
       borderBottomColor: theme.palette.text.secondary,
+    },
+    title: {
+      marginLeft: theme.spacing(2),
     },
   }),
 )
@@ -64,115 +66,118 @@ const StakePool = (props: Props): ReactElement => {
   const [withdrawAmount, setWithdrawAmount] = useState("0")
 
   return (
-    <FormControl autoCorrect="false" fullWidth variant="outlined">
-      <Grid container spacing={2}>
-        <Grid container item alignItems="center">
-          <img
-            className="icon"
-            alt="icon"
-            src={data.token.icon}
-            width="36"
-            height="36"
-          />
-          <Typography variant="h4">{data.title}</Typography>
-        </Grid>
+    <Grid
+      component={FormControl}
+      container
+      direction="column"
+      spacing={2}
+      autoCorrect="false"
+      fullWidth
+      variant="outlined"
+    >
+      <Grid container item alignItems="center">
+        <img alt="icon" src={data.token.icon} width="36" height="36" />
+        <Typography variant="h4" className={classes.title}>
+          {data.title}
+        </Typography>
+      </Grid>
+      <Grid item container direction="column">
         <Grid item container component={Divider} className={classes.divider} />
-        <Grid item container spacing={2}>
-          <FlexRow
-            justify="space-between"
-            left={`${t("apy")}:`}
-            right={`${data.pool.apy}%`}
-          />
-          <FlexRow
-            justify="space-between"
-            left={`${t("totalStaked")}:`}
-            right={`${data.pool.stake.total} ${data.token.symbol}`}
-          />
-          <FlexRow
-            justify="space-between"
-            left={`${t("yourStake")}:`}
-            right={`${data.pool.stake.user} ${data.token.symbol} ($XX.XX)`}
+      </Grid>
+      <Grid item container direction="column" spacing={1}>
+        <FlexRow
+          justify="space-between"
+          left={`${t("apy")}:`}
+          right={`${data.pool.apy}%`}
+        />
+        <FlexRow
+          justify="space-between"
+          left={`${t("totalStaked")}:`}
+          right={`${data.pool.stake.total} ${data.token.symbol}`}
+        />
+        <FlexRow
+          justify="space-between"
+          left={`${t("yourStake")}:`}
+          right={`${data.pool.stake.user} ${data.token.symbol} ($XX.XX)`}
+        />
+      </Grid>
+      <Grid item container direction="column">
+        <Grid item container component={Divider} className={classes.divider} />
+      </Grid>
+      <Grid item container spacing={1}>
+        <FlexRow
+          justify="space-between"
+          left={`${t("pendingRewards")}:`}
+          right={`${data.pool.rewards.value} ${data.pool.rewards.symbol} ($XX.XX)`}
+        />
+        <Grid item xs>
+          <Button
+            fullWidth
+            onClick={onHarvest}
+            color="secondary"
+            variant="contained"
+            disableElevation
+          >
+            {t("harvest")}
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid
+        container
+        item
+        spacing={2}
+        direction="column"
+        component={FormGroup}
+      >
+        <Grid item container>
+          <Grid
+            item
+            component={TokenInput}
+            {...data.token}
+            inputValue={depositAmount}
+            label={`${t("balance")}: ${String(data.token.max)}`}
+            exceedsWallet={exceedsWallet}
+            disabled={data.token.isZeroBalance}
+            onChange={setDepositAmount}
           />
           <Grid
             item
-            container
-            component={Divider}
-            className={classes.divider}
-          />
-          <FlexRow
-            justify="space-between"
-            left={`${t("pendingRewards")}:`}
-            right={`${data.pool.rewards.value} ${data.pool.rewards.symbol} ($XX.XX)`}
-          />
-          <Grid item xs>
-            <Button
-              fullWidth
-              onClick={onHarvest}
-              color="secondary"
-              variant="contained"
-              disableElevation
-            >
-              {t("harvest")}
-            </Button>
+            xs
+            component={Button}
+            onClick={() => onDeposit(depositAmount)}
+            color="secondary"
+            variant="contained"
+            disableElevation
+            disabled={depositAmount == "0"}
+          >
+            {t("deposit")}
           </Grid>
         </Grid>
-        <Grid
-          container
-          item
-          spacing={2}
-          direction="column"
-          component={FormGroup}
-        >
-          <Grid item container>
-            <Grid
-              item
-              component={TokenInput}
-              {...data.token}
-              inputValue={depositAmount}
-              label={`${t("balance")}: ${String(data.token.max)}`}
-              exceedsWallet={exceedsWallet}
-              disabled={data.token.isZeroBalance}
-              onChange={setDepositAmount}
-            />
-            <Grid
-              item
-              xs
-              component={Button}
-              onClick={() => onDeposit(depositAmount)}
-              color="secondary"
-              variant="contained"
-              disableElevation
-              disabled={depositAmount == "0"}
-            >
-              {t("deposit")}
-            </Grid>
-          </Grid>
-          <Grid item container>
-            <Grid
-              item
-              component={TokenInput}
-              {...data.token}
-              inputValue={withdrawAmount}
-              label={`${t("balance")}: ${String(data.token.max)}`}
-              exceedsWallet={exceedsWallet}
-              disabled={data.token.isZeroBalance}
-              onChange={setWithdrawAmount}
-            />
-            <Grid
-              item
-              xs
-              component={Button}
-              onClick={() => onWithdraw(withdrawAmount)}
-              color="secondary"
-              variant="contained"
-              disabled={withdrawAmount == "0"}
-            >
-              {t("withdraw")}
-            </Grid>
+        <Grid item container>
+          <Grid
+            item
+            component={TokenInput}
+            {...data.token}
+            inputValue={withdrawAmount}
+            label={`${t("balance")}: ${String(data.token.max)}`}
+            exceedsWallet={exceedsWallet}
+            disabled={data.token.isZeroBalance}
+            onChange={setWithdrawAmount}
+          />
+          <Grid
+            item
+            xs
+            component={Button}
+            onClick={() => onWithdraw(withdrawAmount)}
+            color="secondary"
+            variant="contained"
+            disabled={withdrawAmount == "0"}
+          >
+            {t("withdraw")}
           </Grid>
         </Grid>
       </Grid>
-    </FormControl>
+    </Grid>
   )
 }
 
