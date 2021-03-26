@@ -16,9 +16,9 @@ import { useTranslation } from "react-i18next"
 const useStyles = makeStyles((theme) =>
   createStyles({
     divider: {
-      background: "none",
       borderBottom: "1px dashed",
       borderBottomColor: theme.palette.text.secondary,
+      background: "none",
     },
     title: {
       marginLeft: theme.spacing(2),
@@ -104,7 +104,7 @@ const StakePool = (props: Props): ReactElement => {
       <Grid item container direction="column">
         <Grid item container component={Divider} className={classes.divider} />
       </Grid>
-      <Grid item container spacing={1}>
+      <Grid item container spacing={2}>
         <FlexRow
           justify="space-between"
           left={`${t("pendingRewards")}:`}
