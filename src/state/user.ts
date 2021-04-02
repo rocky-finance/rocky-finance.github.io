@@ -44,7 +44,9 @@ interface UserState {
 export const initialState: UserState = {
   userSwapAdvancedMode: false,
   userPoolAdvancedMode: false,
-  userDarkMode: false,
+  userDarkMode:
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches,
   dontShowRisk: false,
   gasPriceSelected: GasPrices.Standard,
   slippageSelected: Slippages.OneTenth,
