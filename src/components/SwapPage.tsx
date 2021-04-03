@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Container,
   Grid,
@@ -37,6 +38,15 @@ const useStyles = makeStyles((theme) =>
       padding: theme.spacing(2),
       flexGrow: 1,
       backgroundColor: theme.palette.error.main,
+    },
+    price: {
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: theme.spacing(1),
+        textAlign: "left",
+      },
+      [theme.breakpoints.up("sm")]: {
+        textAlign: "center",
+      },
     },
   }),
 )
@@ -161,11 +171,13 @@ const SwapPage = (props: Props): ReactElement => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item className="cost" xs={1}>
-              <Typography color="inherit" component="div" align="center">
-                {`${t("price")}: ${formattedExchangeRate}`}
-              </Typography>
-            </Grid>
+            <Box clone order={{ xs: -1, sm: 0 }}>
+              <Grid item className={classes.price} xs={12} sm={1}>
+                <Typography color="inherit" component="div">
+                  {`${t("price")}: ${formattedExchangeRate}`}
+                </Typography>
+              </Grid>
+            </Box>
           </AdvancedPanel>
         </Grid>
       </Grid>
