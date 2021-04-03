@@ -1,30 +1,26 @@
+import React, { ReactElement, useEffect, useState } from "react"
 import {
-  BSC_DAI,
-  BSC_USDC,
   STABLECOIN_POOL_NAME,
   STABLECOIN_POOL_TOKENS,
   STABLECOIN_SWAP_TOKEN,
-  USDC,
-  WXDAI,
 } from "../constants"
-import { DepositTransaction, TransactionItem } from "../interfaces/transactions"
-import React, { ReactElement, useEffect, useState } from "react"
 import { TokensStateType, useTokenFormState } from "../hooks/useTokenFormState"
 import { formatBNToString, shiftBNDecimals } from "../utils"
 import usePoolData, { PoolDataType } from "../hooks/usePoolData"
-
 import { AppState } from "../state"
 import { BigNumber } from "@ethersproject/bignumber"
 import DepositPage from "../components/DepositPage"
+import { DepositTransaction } from "../interfaces/transactions"
 import { TokenPricesUSD } from "../state/application"
+import { TransactionItem } from "../interfaces/transactions"
 import { Zero } from "@ethersproject/constants"
 import { calculatePriceImpact } from "../utils/priceImpact"
 import { parseUnits } from "@ethersproject/units"
 import { useActiveWeb3React } from "../hooks"
 import { useApproveAndDeposit } from "../hooks/useApproveAndDeposit"
 import { useSelector } from "react-redux"
+import { useStablePoolTokenBalances } from "../state/wallet/hooks"
 import { useSwapContract } from "../hooks/useContract"
-import { useTokenBalance } from "../state/wallet/hooks"
 
 function DepositStable(): ReactElement | null {
   const { account } = useActiveWeb3React()
@@ -34,6 +30,7 @@ function DepositStable(): ReactElement | null {
   const [tokenFormState, updateTokenFormState] = useTokenFormState(
     STABLECOIN_POOL_TOKENS,
   )
+  const tokenBalances = useStablePoolTokenBalances()
   const { tokenPricesUSD } = useSelector((state: AppState) => state.application)
   const [estDepositLPTokenAmount, setEstDepositLPTokenAmount] = useState(Zero)
   const [priceImpact, setPriceImpact] = useState(Zero)
@@ -82,13 +79,7 @@ function DepositStable(): ReactElement | null {
     }
     void calculateMaxDeposits()
   }, [poolData, tokenFormState, swapContract, userShareData, account])
-  // Account Token balances
-  const tokenBalances = {
-    [WXDAI.symbol]: useTokenBalance(WXDAI),
-    [USDC.symbol]: useTokenBalance(USDC),
-    [BSC_DAI.symbol]: useTokenBalance(BSC_DAI),
-    [BSC_USDC.symbol]: useTokenBalance(BSC_USDC),
-  }
+
   // A represention of tokens used for UI
   const tokens = STABLECOIN_POOL_TOKENS.map(
     ({ symbol, name, icon, decimals }) => ({
@@ -96,16 +87,13 @@ function DepositStable(): ReactElement | null {
       name,
       icon,
       max: formatBNToString(tokenBalances[symbol], decimals),
+      isZeroBalance: tokenBalances[symbol].isZero(),
       inputValue: tokenFormState[symbol].valueRaw,
     }),
   )
 
-  const exceedsWallet = STABLECOIN_POOL_TOKENS.some(({ symbol }) => {
-    const exceedsBoolean = tokenBalances[symbol].lt(
-      BigNumber.from(tokenFormState[symbol].valueSafe),
-    )
-    return exceedsBoolean
-  })
+  const exceedsWallet = (symbol: string) =>
+    tokenBalances[symbol].lt(BigNumber.from(tokenFormState[symbol].valueSafe))
 
   async function onConfirmTransaction(): Promise<void> {
     await approveAndDeposit(tokenFormState)
@@ -120,9 +108,11 @@ function DepositStable(): ReactElement | null {
       ),
     )
   }
+
   function updateTokenFormValue(symbol: string, value: string): void {
     updateTokenFormState({ [symbol]: value })
   }
+
   const depositTransaction = buildTransactionData(
     tokenFormState,
     poolData,
@@ -130,6 +120,14 @@ function DepositStable(): ReactElement | null {
     estDepositLPTokenAmount,
     tokenPricesUSD,
   )
+
+  const canDeposit =
+    !STABLECOIN_POOL_TOKENS.some(({ symbol }) => {
+      const exceedsBoolean = tokenBalances[symbol].lt(
+        BigNumber.from(tokenFormState[symbol].valueSafe),
+      )
+      return exceedsBoolean
+    }) && depositTransaction.to.totalAmount.gt(0)
 
   return (
     <DepositPage
@@ -142,6 +140,7 @@ function DepositStable(): ReactElement | null {
       historicalPoolData={null}
       myShareData={userShareData}
       transactionData={depositTransaction}
+      canDeposit={canDeposit}
     />
   )
 }

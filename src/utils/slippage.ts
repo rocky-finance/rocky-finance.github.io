@@ -27,6 +27,9 @@ export function _applySlippage(
   } else if (slippageSelected === Slippages.OneTenth) {
     denominator = 1000
     numerator = denominator + (add ? 1 : -1)
+  } else if (slippageSelected === Slippages.Three) {
+    denominator = 100
+    numerator = denominator + (add ? 3 : -3)
   } else {
     // default to 1%
     denominator = 100
@@ -61,6 +64,8 @@ export function formatSlippageToString(
     return formatUnits(BigNumber.from(100), 3)
   } else if (slippageSelected === Slippages.One) {
     return formatUnits(BigNumber.from(100), 2)
+  } else if (slippageSelected === Slippages.Three) {
+    return formatUnits(BigNumber.from(300), 2)
   } else {
     return "N/A"
   }

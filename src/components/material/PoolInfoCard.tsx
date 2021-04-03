@@ -1,0 +1,176 @@
+import {
+  Box,
+  Divider,
+  Grid,
+  Typography,
+  createStyles,
+  makeStyles,
+} from "@material-ui/core"
+import { POOL_FEE_PRECISION, TOKENS_MAP } from "../../constants"
+import React, { ReactElement } from "react"
+import { formatBNToPercentString, formatBNToString } from "../../utils"
+import FlexRow from "./FlexRow"
+import { PoolDataType } from "../../hooks/usePoolData"
+import { commify } from "@ethersproject/units"
+import { useTranslation } from "react-i18next"
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    divider: {
+      margin: theme.spacing(1, 0),
+      background: "none",
+      borderBottom: "1px dashed",
+      borderBottomColor: theme.palette.text.secondary,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      flexGrow: 1,
+    },
+    icon: {
+      marginRight: theme.spacing(1),
+    },
+  }),
+)
+
+interface Props {
+  data: PoolDataType | null
+}
+
+export default function PoolInfoCard({ data }: Props): ReactElement {
+  const { t } = useTranslation()
+  const classes = useStyles()
+
+  const swapFee = data?.swapFee
+    ? formatBNToPercentString(data.swapFee, POOL_FEE_PRECISION)
+    : null
+  const adminFee = data?.adminFee
+    ? formatBNToPercentString(data.adminFee, POOL_FEE_PRECISION)
+    : null
+  const formattedData = {
+    name: data?.name,
+    swapFee,
+    virtualPrice: data?.virtualPrice
+      ? commify(formatBNToString(data.virtualPrice, 18, 5))
+      : null,
+    reserve: data?.reserve
+      ? commify(formatBNToString(data.reserve, 18, 2))
+      : "0",
+    adminFee: swapFee && adminFee ? `${adminFee} of ${swapFee}` : null,
+    poolAPY: data?.poolAPY
+      ? `${commify(formatBNToString(data.poolAPY, 18, 2))}%`
+      : "0%",
+    rewardAPY: data?.rewardAPY
+      ? `${commify(formatBNToString(data.rewardAPY, 18, 2))}%`
+      : "0%",
+    volume: data?.volume,
+    tokens:
+      data?.tokens.map((coin) => {
+        const token = TOKENS_MAP[coin.symbol]
+        return {
+          symbol: token.symbol,
+          name: token.name,
+          icon: token.icon,
+          percent: coin.percent,
+          value: commify(formatBNToString(coin.value, 18, 6)),
+        }
+      }) || [],
+  }
+
+  return (
+    <Box>
+      <Grid container spacing={2} justify="space-between">
+        <Grid item container direction="column" xs={12} md={6}>
+          <Grid item container direction="column">
+            <Grid item container component={Typography} variant="subtitle1">
+              {formattedData.name}
+            </Grid>
+            <Grid item component={Divider} className={classes.divider} />
+          </Grid>
+          <Grid item container direction="column" spacing={1}>
+            <FlexRow
+              justify="space-between"
+              left={`${t("fee")}:`}
+              right={formattedData.swapFee}
+              fullWidth
+            />
+            <FlexRow
+              justify="space-between"
+              left={`${t("virtualPrice")}:`}
+              right={formattedData.virtualPrice}
+              fullWidth
+            />
+            <FlexRow
+              justify="space-between"
+              left={`${t("totalLocked")}:`}
+              right={formattedData.reserve}
+              fullWidth
+            />
+            {/* <FlexRow
+              justify="space-between"
+              left={`${t("totalAPY")}:`}
+              right={formattedData.poolAPY}
+              fullWidth
+            /> */}
+            <FlexRow
+              justify="space-between"
+              left={`${t("poolAPY")}:`}
+              right={formattedData.poolAPY}
+              fullWidth
+            />
+            <FlexRow
+              justify="space-between"
+              left={`${t("rewardAPY")}:`}
+              right={formattedData.rewardAPY}
+              fullWidth
+            />
+            {/* <FlexRow
+              justify="space-between"
+              left={`${t("dailyVolume")}:`}
+              right={formattedData.volume}
+              fullWidth
+            /> */}
+          </Grid>
+        </Grid>
+        <Grid item container direction="column" xs={12} md={6}>
+          <Grid item container direction="column">
+            <Grid item container component={Typography} variant="subtitle1">
+              {t("currencyReserves")}
+            </Grid>
+            <Grid item component={Divider} className={classes.divider} />
+          </Grid>
+          <Grid item container direction="column" spacing={2}>
+            <Grid item container xs md spacing={2} justify="space-between">
+              {formattedData.tokens.map((token) => (
+                <Grid key={token.symbol} item container direction="column" xs>
+                  <Grid
+                    item
+                    container
+                    direction="row"
+                    alignItems="center"
+                    wrap="nowrap"
+                  >
+                    <img src={token.icon} alt="icon" className={classes.icon} />
+                    <Typography
+                      variant="body1"
+                      component="span"
+                      style={{ whiteSpace: "nowrap" }}
+                    >
+                      {`${token.name} ${token.percent}`}
+                    </Typography>
+                  </Grid>
+                  <Typography variant="body1">{`${token.value}`}</Typography>
+                </Grid>
+              ))}
+            </Grid>
+            <FlexRow
+              justify="space-between"
+              left={`${t("totalReverves")}:`}
+              right={`$${formattedData.reserve}`}
+              fullWidth
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
+  )
+}

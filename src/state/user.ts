@@ -15,12 +15,14 @@ export enum GasPrices {
 
 export enum Slippages {
   One = "ONE",
+  Three = "THREE",
   OneTenth = "ONE_TENTH",
   Custom = "CUSTOM",
 }
 
 export enum Deadlines {
   Ten = "TEN",
+  Twenty = "TWENTY",
   Thirty = "THIRTY",
   Custom = "CUSTOM",
 }
@@ -29,6 +31,7 @@ interface UserState {
   userSwapAdvancedMode: boolean
   userPoolAdvancedMode: boolean
   userDarkMode: boolean
+  dontShowRisk: boolean
   gasCustom?: NumberInputState
   gasPriceSelected: GasPrices
   slippageCustom?: NumberInputState
@@ -41,7 +44,10 @@ interface UserState {
 export const initialState: UserState = {
   userSwapAdvancedMode: false,
   userPoolAdvancedMode: false,
-  userDarkMode: false,
+  userDarkMode:
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches,
+  dontShowRisk: false,
   gasPriceSelected: GasPrices.Standard,
   slippageSelected: Slippages.OneTenth,
   infiniteApproval: false,
@@ -74,8 +80,10 @@ const userSlice = createSlice({
       state.userPoolAdvancedMode = action.payload
     },
     updateDarkMode(state: UserState, action: PayloadAction<boolean>): void {
-      // this will be phased out in favor of chakra's colorMode
       state.userDarkMode = action.payload
+    },
+    updateDontShowRisk(state: UserState, action: PayloadAction<boolean>): void {
+      state.dontShowRisk = action.payload
     },
     updateGasPriceCustom(
       state: UserState,
@@ -138,6 +146,7 @@ export const {
   updateSwapAdvancedMode,
   updatePoolAdvancedMode,
   updateDarkMode,
+  updateDontShowRisk,
   updateGasPriceCustom,
   updateGasPriceSelected,
   updateSlippageCustom,

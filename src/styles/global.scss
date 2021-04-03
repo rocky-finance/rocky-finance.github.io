@@ -9,10 +9,10 @@
 * {
   box-sizing: border-box;
 }
-
+/*
 p,
 span {
-  font-family: $font-family;
+  font-family: $font-body;
   line-height: 20px;
   size: 16px;
 }
@@ -22,21 +22,29 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: $font-family-title;
+  font-family: $font-headline;
 }
-
+*/
 svg,
 img {
   // TODO: get rid of this once chakra is more integrated
   display: inline !important;
 }
-
+/*
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+*/
 :root {
+  --background-main: url("../assets/bg_light.svg") center/auto 60% no-repeat
+    fixed;
+
+  /*
   --background: #ffffff;
   --background-element: rgba(255, 255, 255, 0.75);
   --background-element-hover: rgba(255, 255, 255, 0.88);
-  --background-main: #ffffff url("../assets/bg_light.svg") center/auto 60%
-    no-repeat fixed;
   --background-logo: #{$primary};
   --outline: #000;
 
@@ -57,15 +65,16 @@ img {
     transparent 80%
   );
   --active-li-text: #{$text-white};
+  */
 }
 
 // Dark mode themes
 body.dark {
+  --background-main: url("../assets/bg.svg") center/auto 60% no-repeat fixed;
+  /*
   --background: #000;
   --background-element: rgba(0, 0, 0, 0.35);
   --background-element-hover: rgba(0, 0, 0, 0.8);
-  --background-main: #000 url("../assets/bg.svg") center/auto 60% no-repeat
-    fixed;
   --background-logo: #{$primary};
   --outline: #fff;
 
@@ -86,4 +95,32 @@ body.dark {
     transparent 80%
   );
   --active-li-text: #{$text-black};
+  */
 }
+/*
+//https://uigradients.com/#ColorsOfSky
+
+//linear-gradient(#141E30, #243B55)
+//linear-gradient(to right, #E0EAFC, #CFDEF3)
+$bg-color: hsl(0,0,98);
+$dot-color: hsl(1,1,50);
+
+// Dimensions
+$dot-size: 1px;
+$dot-space: 22px;
+
+body {
+	background:
+		linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
+		linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+		$dot-color;
+	background-size: $dot-space $dot-space;
+}
+*/
+/*
+body {
+  background: #fff;
+  background-image: linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, .1) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+*/

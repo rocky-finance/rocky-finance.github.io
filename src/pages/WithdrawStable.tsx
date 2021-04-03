@@ -1,6 +1,8 @@
 import React, { ReactElement, useEffect, useState } from "react"
 import { STABLECOIN_POOL_NAME, STABLECOIN_POOL_TOKENS } from "../constants"
-import WithdrawPage, { ReviewWithdrawData } from "../components/WithdrawPage"
+import WithdrawPage, {
+  ReviewWithdrawData,
+} from "../components/material/WithdrawPage"
 import { commify, formatUnits, parseUnits } from "@ethersproject/units"
 
 import { AppState } from "../state"
@@ -116,11 +118,8 @@ function WithdrawStable(): ReactElement {
       if (tokenPricesUSD != null) {
         reviewWithdrawData.rates.push({
           name,
-          value: formatUnits(
-            withdrawFormState.tokenInputs[symbol].valueSafe,
-            decimals,
-          ),
-          rate: commify(tokenPricesUSD[symbol]?.toFixed(2)),
+          value: commify(tokenPricesUSD[symbol]?.toFixed(2)),
+          icon,
         })
       }
     }

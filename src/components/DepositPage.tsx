@@ -1,245 +1,217 @@
-import "./DepositPage.scss"
-
-import { Button, Center } from "@chakra-ui/react"
-import { PoolDataType, UserShareType } from "../hooks/usePoolData"
+import {
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  createStyles,
+  makeStyles,
+} from "@material-ui/core"
 import React, { ReactElement, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-
-import { AppDispatch } from "../state"
-import { AppState } from "../state"
+import AdvancedPanel from "./material/AdvancedPanel"
 import { BigNumber } from "@ethersproject/bignumber"
-import ConfirmTransaction from "./ConfirmTransaction"
-import DeadlineField from "./DeadlineField"
+import ConfirmTransaction from "./material/ConfirmTransaction"
+import DepositForm from "./material/DepositForm"
 import { DepositTransaction } from "../interfaces/transactions"
-import GasField from "./GasField"
 import { HistoricalPoolDataType } from "../hooks/useHistoricalPoolData"
-import InfiniteApprovalField from "./InfiniteApprovalField"
-import LPStakingBanner from "./LPStakingBanner"
-import Modal from "./Modal"
+import LPStakingBanner from "./material/LPStakingBanner"
 import MyActivityCard from "./MyActivityCard"
-import MyShareCard from "./MyShareCard"
-import { PayloadAction } from "@reduxjs/toolkit"
-import PoolInfoCard from "./PoolInfoCard"
+import MyShareCard from "./material/MyShareCard"
+import { PoolDataType } from "../hooks/usePoolData"
+import PoolInfoCard from "./material/PoolInfoCard"
 import { REFS } from "../constants"
-import ReviewDeposit from "./ReviewDeposit"
-import SlippageField from "./SlippageField"
-import TokenInput from "./TokenInput"
-import TopMenu from "./TopMenu"
-import classNames from "classnames"
+import ReviewDeposit from "./material/ReviewDeposit"
+import { UserShareType } from "../hooks/usePoolData"
 import { formatBNToPercentString } from "../utils"
 import { logEvent } from "../utils/googleAnalytics"
-import { updatePoolAdvancedMode } from "../state/user"
 import { useTranslation } from "react-i18next"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Props {
   title: string
-  onConfirmTransaction: () => Promise<void>
-  onChangeTokenInputValue: (tokenSymbol: string, value: string) => void
   tokens: Array<{
     symbol: string
     name: string
     icon: string
     max: string
+    isZeroBalance: boolean
     inputValue: string
   }>
-  exceedsWallet: boolean
   selected?: { [key: string]: any }
   poolData: PoolDataType | null
   historicalPoolData: HistoricalPoolDataType | null
   myShareData: UserShareType | null
   transactionData: DepositTransaction
+  canDeposit: boolean
+  onConfirmTransaction: () => Promise<void>
+  onChangeTokenInputValue: (tokenSymbol: string, value: string) => void
+  exceedsWallet: (tokenSymbol: string) => boolean
 }
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    container: {
+      marginTop: theme.spacing(2),
+    },
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      flexGrow: 1,
+    },
+    bonus: {
+      color: theme.palette.success.main,
+    },
+    warn: {
+      color: theme.palette.warning.main,
+    },
+  }),
+)
 
 /* eslint-enable @typescript-eslint/no-explicit-any */
 const DepositPage = (props: Props): ReactElement => {
   const { t } = useTranslation()
+  const classes = useStyles()
   const {
     tokens,
-    exceedsWallet,
     poolData,
     historicalPoolData,
     myShareData,
     transactionData,
+    canDeposit,
+    exceedsWallet,
     onChangeTokenInputValue,
     onConfirmTransaction,
   } = props
 
   const [currentModal, setCurrentModal] = useState<string | null>(null)
 
-  const dispatch = useDispatch<AppDispatch>()
-  const { userPoolAdvancedMode: advanced } = useSelector(
-    (state: AppState) => state.user,
-  )
-  const validDepositAmount = transactionData.to.totalAmount.gt(0)
-
   return (
-    <div className="deposit">
-      <TopMenu activeTab={"deposit"} />
-      {myShareData?.lpTokenBalance.gt(0) && <LPStakingBanner />}
-
-      <div className="content">
-        <div className="left">
-          <div className="form">
-            <h3>{t("addLiquidity")}</h3>
-            {exceedsWallet ? (
-              <div className="error">{t("depositBalanceExceeded")}</div>
-            ) : null}
-            {tokens.map((token, index) => (
-              <div key={index}>
-                <TokenInput
-                  {...token}
-                  onChange={(value): void =>
-                    onChangeTokenInputValue(token.symbol, value)
-                  }
-                />
-                {index === tokens.length - 1 ? (
-                  ""
-                ) : (
-                  <div className="divider"></div>
-                )}
-              </div>
-            ))}
-            <div className={classNames("transactionInfoContainer", "show")}>
-              <div className="transactionInfo">
-                {poolData?.keepApr && (
-                  <div className="transactionInfoItem">
-                    <a
-                      href={REFS.TRANSACTION_INFO}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span>{t("totalAPY")}: </span>
-                    </a>{" "}
-                    <span className="value">
-                      {formatBNToPercentString(
-                        poolData.totalAPY
-                          ? poolData.totalAPY
-                          : BigNumber.from(0),
-                        18,
-                      )}
-                    </span>
-                  </div>
-                )}
-                <div className="transactionInfoItem">
-                  {transactionData.priceImpact.gte(0) ? (
-                    <span className="bonus">{`${t("bonus")}: `}</span>
-                  ) : (
-                    <span className="slippage">{t("priceImpact")}</span>
-                  )}
-                  <span
-                    className={
-                      "value " +
-                      (transactionData.priceImpact.gte(0)
-                        ? "bonus"
-                        : "slippage")
-                    }
-                  >
-                    {" "}
-                    {formatBNToPercentString(
+    <Container maxWidth="md" className={classes.container}>
+      <Grid container direction="column" spacing={2}>
+        {myShareData?.lpTokenBalance.gt(0) && (
+          <Grid container item>
+            <Grid item xs={12} component={LPStakingBanner} />
+          </Grid>
+        )}
+        <Grid
+          item
+          container
+          direction="row"
+          className={classes.root}
+          spacing={2}
+        >
+          <Grid item xs={12} md container>
+            <Paper variant="outlined" className={classes.paper}>
+              <DepositForm
+                exceedsWallet={exceedsWallet}
+                tokens={tokens}
+                onChangeTokenInputValue={onChangeTokenInputValue}
+              />
+            </Paper>
+          </Grid>
+          {myShareData ? (
+            <Grid item xs={12} md={6} container>
+              <Paper variant="outlined" className={classes.paper}>
+                <MyShareCard data={myShareData} />
+              </Paper>
+            </Grid>
+          ) : null}
+          {historicalPoolData ? (
+            <Grid item xs={12} container>
+              <Paper variant="outlined" className={classes.paper}>
+                <MyActivityCard historicalPoolData={historicalPoolData} />
+              </Paper>
+            </Grid>
+          ) : null}
+          {poolData ? (
+            <Grid item xs={12} container>
+              <Paper variant="outlined" className={classes.paper}>
+                <PoolInfoCard data={poolData} />
+              </Paper>
+            </Grid>
+          ) : null}
+        </Grid>
+        <Grid container item>
+          <AdvancedPanel
+            actionComponent={
+              <Button
+                fullWidth
+                variant="contained"
+                color="secondary"
+                disableElevation
+                onClick={(): void => {
+                  setCurrentModal("review")
+                }}
+                disabled={!canDeposit}
+              >
+                {t("deposit")}
+              </Button>
+            }
+          >
+            <Grid item xs>
+              <Typography
+                color="inherit"
+                component="div"
+                className={
+                  transactionData.priceImpact.gte(0)
+                    ? classes.bonus
+                    : classes.warn
+                }
+              >
+                {transactionData.priceImpact.gte(0)
+                  ? `${t("bonus")}: ${formatBNToPercentString(
                       transactionData.priceImpact,
                       18,
                       4,
+                    )}`
+                  : `${t("priceImpact")}: ${formatBNToPercentString(
+                      transactionData.priceImpact,
+                      18,
+                      4,
+                    )}`}
+              </Typography>
+            </Grid>
+            {poolData?.keepApr && (
+              <Grid item xs>
+                <Typography color="inherit" component="div">
+                  <a
+                    href={REFS.TRANSACTION_INFO}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>{`${t("totalAPY")}: `}</span>
+                  </a>
+                  <span className="value">
+                    {formatBNToPercentString(
+                      poolData.totalAPY ? poolData.totalAPY : BigNumber.from(0),
+                      18,
                     )}
                   </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="advancedOptions">
-            <span
-              className="title"
-              onClick={(): PayloadAction<boolean> =>
-                dispatch(updatePoolAdvancedMode(!advanced))
-              }
-            >
-              {t("advancedOptions")}
-              <svg
-                className={classNames("triangle", { upsideDown: advanced })}
-                width="16"
-                height="10"
-                viewBox="0 0 16 10"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M14.8252 0C16.077 0 16.3783 0.827943 15.487 1.86207L8.80565 9.61494C8.35999 10.1321 7.63098 10.1246 7.19174 9.61494L0.510262 1.86207C-0.376016 0.833678 -0.0777447 0 1.17205 0L14.8252 0Z"
-                  fill="#000000"
-                />
-              </svg>
-            </span>
-            <div className="divider"></div>
-            <div className={"tableContainer" + classNames({ show: advanced })}>
-              <div className="parameter">
-                <InfiniteApprovalField />
-              </div>
-              <div className="parameter">
-                <SlippageField />
-              </div>
-              <div className="parameter">
-                <DeadlineField />
-              </div>
-              <div className="parameter">
-                <GasField />
-              </div>
-            </div>
-          </div>
-          <Center width="100%" py={6}>
-            <Button
-              variant="primary"
-              size="lg"
-              width="240px"
-              onClick={(): void => {
-                setCurrentModal("review")
-              }}
-              disabled={!validDepositAmount}
-            >
-              {t("deposit")}
-            </Button>
-          </Center>
-        </div>
-        <div className="infoPanels">
-          <MyShareCard data={myShareData} />
-          <div
-            style={{
-              display: myShareData ? "block" : "none",
-            }}
-            className="divider"
-          ></div>{" "}
-          <MyActivityCard historicalPoolData={historicalPoolData} />
-          <div
-            style={{
-              display: historicalPoolData ? "block" : "none",
-            }}
-            className="divider"
-          ></div>{" "}
-          <PoolInfoCard data={poolData} />
-        </div>
-        <Modal
-          isOpen={!!currentModal}
+                </Typography>
+              </Grid>
+            )}
+          </AdvancedPanel>
+        </Grid>
+      </Grid>
+      {currentModal === "review" && (
+        <ReviewDeposit
+          open
           onClose={(): void => setCurrentModal(null)}
-        >
-          {currentModal === "review" ? (
-            <ReviewDeposit
-              transactionData={transactionData}
-              onConfirm={async (): Promise<void> => {
-                setCurrentModal("confirm")
-                logEvent(
-                  "deposit",
-                  (poolData && { pool: poolData?.name }) || {},
-                )
-                await onConfirmTransaction?.()
-                setCurrentModal(null)
-              }}
-              onClose={(): void => setCurrentModal(null)}
-            />
-          ) : null}
-          {currentModal === "confirm" ? <ConfirmTransaction /> : null}
-        </Modal>
-      </div>
-    </div>
+          onDeposit={async (): Promise<void> => {
+            setCurrentModal("confirm")
+            logEvent("deposit", (poolData && { pool: poolData?.name }) || {})
+            await onConfirmTransaction?.()
+            setCurrentModal(null)
+          }}
+          data={transactionData}
+        />
+      )}
+      {currentModal === "confirm" && (
+        <ConfirmTransaction open onClose={(): void => setCurrentModal(null)} />
+      )}
+    </Container>
   )
 }
 

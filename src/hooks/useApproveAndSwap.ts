@@ -21,7 +21,7 @@ import { updateLastTransactionTimes } from "../state/application"
 import { useActiveWeb3React } from "."
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
-import { useToast } from "./useToast"
+import { useSnackbar } from "notistack"
 
 interface ApproveAndSwapStateArgument {
   fromTokenSymbol: string
@@ -37,7 +37,7 @@ export function useApproveAndSwap(
   const swapContract = useSwapContract(poolName)
   const tokenContracts = useAllContracts()
   const { account } = useActiveWeb3React()
-  const { addToast, clearToasts } = useToast()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { gasStandard, gasFast, gasInstant } = useSelector(
     (state: AppState) => state.application,
   )
@@ -76,28 +76,33 @@ export function useApproveAndSwap(
         infiniteApproval,
         {
           onTransactionStart: () => {
-            return addToast(
-              {
-                type: "pending",
-                title: `${getFormattedTimeString()} Approving spend for ${
-                  fromToken.name
-                }`,
-              },
-              {
-                autoDismiss: false, // TODO: be careful of orphan toasts on error
-              },
-            )
-          },
-          onTransactionSuccess: () => {
-            return addToast({
-              type: "success",
-              title: `${getFormattedTimeString()} Successfully approved spend for ${
+            enqueueSnackbar(
+              `${getFormattedTimeString()} Approving spend for ${
                 fromToken.name
               }`,
-            })
+              {
+                variant: "info",
+                persist: true, // TODO: be careful of orphan toasts on error
+              },
+            )
+            return undefined
+          },
+          onTransactionSuccess: () => {
+            enqueueSnackbar(
+              `${getFormattedTimeString()} Successfully approved spend for ${
+                fromToken.name
+              }`,
+              {
+                variant: "success",
+              },
+            )
+            return undefined
           },
           onTransactionError: () => {
-            throw new Error("Your transaction could not be completed")
+            enqueueSnackbar("Your transaction could not be completed", {
+              variant: "error",
+            })
+            return undefined
           },
         },
       )
@@ -107,10 +112,12 @@ export function useApproveAndSwap(
 
       minToMint = subtractSlippage(minToMint, slippageSelected, slippageCustom)
       console.debug(`MinToMint 2: ${minToMint.toString()}`)
-      const clearMessage = addToast({
-        type: "pending",
-        title: `${getFormattedTimeString()} Starting your Swap...`,
-      })
+      const pendingMessage = enqueueSnackbar(
+        `${getFormattedTimeString()} Starting your Swap...`,
+        {
+          variant: "info",
+        },
+      )
       let gasPrice
       if (gasPriceSelected === GasPrices.Custom) {
         gasPrice = gasCustom?.valueSafe
@@ -148,19 +155,20 @@ export function useApproveAndSwap(
           [TRANSACTION_TYPES.SWAP]: Date.now(),
         }),
       )
-      clearMessage()
-      addToast({
-        type: "success",
-        title: `${getFormattedTimeString()} Swap completed, giddyup! 🤠`,
+      closeSnackbar(pendingMessage)
+      enqueueSnackbar(`${getFormattedTimeString()} Swap completed!`, {
+        variant: "success",
       })
       return Promise.resolve()
     } catch (e) {
       console.error(e)
-      clearToasts()
-      addToast({
-        type: "error",
-        title: `${getFormattedTimeString()} Unable to complete your transaction`,
-      })
+      closeSnackbar()
+      enqueueSnackbar(
+        `${getFormattedTimeString()} Unable to complete your transaction`,
+        {
+          variant: "error",
+        },
+      )
     }
   }
 }

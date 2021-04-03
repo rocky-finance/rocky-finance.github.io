@@ -1,20 +1,29 @@
 import "../styles/global.scss"
 
-import React, { ReactElement, Suspense, useCallback } from "react"
-import { Route, Switch } from "react-router-dom"
+import React, { ReactElement, useCallback, useState } from "react"
+import { Redirect, Route, Switch } from "react-router-dom"
+import { darkTheme, lightTheme } from "../components/material/RockyTheme"
+import { useDispatch, useSelector } from "react-redux"
 
 import { AppDispatch } from "../state"
+import { AppState } from "../state/index"
+import Appbar from "../components/material/Appbar"
 import { BLOCK_TIME } from "../constants"
+import CssBaseline from "@material-ui/core/CssBaseline"
 import DepositStable from "./DepositStable"
+import Grid from "@material-ui/core/Grid"
+import { MuiThemeProvider } from "@material-ui/core"
 import Risk from "./Risk"
+import RiskDialog from "../components/material/RiskDialog"
+import { SnackbarProvider } from "notistack"
 import Stake from "./Stake"
 import SwapStable from "./SwapStable"
-import ToastsProvider from "../providers/ToastsProvider"
 import Web3ReactManager from "../components/Web3ReactManager"
 import WithdrawStable from "./WithdrawStable"
+import { createMuiTheme } from "@material-ui/core/styles"
 import fetchGasPrices from "../utils/updateGasPrices"
 import fetchTokenPricesUSD from "../utils/updateTokenPrices"
-import { useDispatch } from "react-redux"
+import { updateDarkMode } from "../state/user"
 import usePoller from "../hooks/usePoller"
 
 export default function App(): ReactElement {
@@ -29,19 +38,73 @@ export default function App(): ReactElement {
   usePoller(fetchAndUpdateGasPrice, BLOCK_TIME)
   usePoller(fetchAndUpdateTokensPrice, BLOCK_TIME * 3)
 
+  // Read current theme from appState
+  const { userDarkMode } = useSelector((state: AppState) => state.user)
+
+  const [theme, setTheme] = useState(userDarkMode ? darkTheme : lightTheme)
+
+  const toggleDarkTheme = () => {
+    const newPaletteType =
+      theme.palette?.type === "light" ? darkTheme : lightTheme
+
+    dispatch(updateDarkMode(newPaletteType === darkTheme))
+    setTheme(newPaletteType)
+  }
+
+  const muiTheme = createMuiTheme(theme)
+
+  const routes = [
+    {
+      id: "swap",
+      component: SwapStable,
+    },
+    {
+      id: "deposit",
+      component: DepositStable,
+    },
+    {
+      id: "stake",
+      component: Stake,
+    },
+    {
+      id: "withdraw",
+      component: WithdrawStable,
+    },
+    {
+      id: "risk",
+      component: Risk,
+    },
+  ]
+
   return (
-    <Suspense fallback={null}>
-      <Web3ReactManager>
-        <ToastsProvider>
-          <Switch>
-            <Route exact path="/" component={SwapStable} />
-            <Route exact path="/deposit" component={DepositStable} />
-            <Route exact path="/withdraw" component={WithdrawStable} />
-            <Route exact path="/stake" component={Stake} />
-            <Route exact path="/risk" component={Risk} />
-          </Switch>
-        </ToastsProvider>
-      </Web3ReactManager>
-    </Suspense>
+    <Web3ReactManager>
+      <SnackbarProvider>
+        <MuiThemeProvider theme={muiTheme}>
+          <CssBaseline />
+          <Grid direction="column" container>
+            <Appbar
+              onToggleDark={toggleDarkTheme}
+              routes={routes.map((value) => value.id)}
+            />
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/swap" />
+              </Route>
+              {routes.map((value) => {
+                return (
+                  <Route
+                    key={value.id}
+                    exact
+                    path={`/${value.id}`}
+                    component={value.component}
+                  />
+                )
+              })}
+            </Switch>
+          </Grid>
+          <RiskDialog />
+        </MuiThemeProvider>
+      </SnackbarProvider>
+    </Web3ReactManager>
   )
 }

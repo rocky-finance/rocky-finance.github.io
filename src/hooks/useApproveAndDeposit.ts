@@ -15,7 +15,7 @@ import { updateLastTransactionTimes } from "../state/application"
 import { useActiveWeb3React } from "."
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
-import { useToast } from "./useToast"
+import { useSnackbar } from "notistack"
 
 interface ApproveAndDepositStateArgument {
   [tokenSymbol: string]: NumberInputState
@@ -24,11 +24,11 @@ interface ApproveAndDepositStateArgument {
 export function useApproveAndDeposit(
   poolName: PoolName,
 ): (state: ApproveAndDepositStateArgument) => Promise<void> {
-  const dispatch = useDispatch()
   const swapContract = useSwapContract(poolName)
   const tokenContracts = useAllContracts()
+  const dispatch = useDispatch()
   const { account } = useActiveWeb3React()
-  const { addToast, clearToasts } = useToast()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { gasStandard, gasFast, gasInstant } = useSelector(
     (state: AppState) => state.application,
   )
@@ -64,28 +64,31 @@ export function useApproveAndDeposit(
         infiniteApproval,
         {
           onTransactionStart: () => {
-            return addToast(
+            enqueueSnackbar(
+              `${getFormattedTimeString()} Approving spend for ${token.name}`,
               {
-                type: "pending",
-                title: `${getFormattedTimeString()} Approving spend for ${
-                  token.name
-                }`,
-              },
-              {
-                autoDismiss: false, // TODO: be careful of orphan toasts on error
+                variant: "info",
+                persist: true, // TODO: be careful of orphan toasts on error
               },
             )
+            return undefined
           },
           onTransactionSuccess: () => {
-            return addToast({
-              type: "success",
-              title: `${getFormattedTimeString()} Successfully approved spend for ${
+            enqueueSnackbar(
+              `${getFormattedTimeString()} Successfully approved spend for ${
                 token.name
               }`,
-            })
+              {
+                variant: "success",
+              },
+            )
+            return undefined
           },
           onTransactionError: () => {
-            throw new Error("Your transaction could not be completed")
+            enqueueSnackbar("Your transaction could not be completed", {
+              variant: "error",
+            })
+            return undefined
           },
         },
       )
@@ -116,10 +119,12 @@ export function useApproveAndDeposit(
       }
 
       minToMint = subtractSlippage(minToMint, slippageSelected, slippageCustom)
-      const clearMessage = addToast({
-        type: "pending",
-        title: `${getFormattedTimeString()} Starting your deposit...`,
-      })
+      const pendingMessage = enqueueSnackbar(
+        `${getFormattedTimeString()} Starting your deposit...`,
+        {
+          variant: "info",
+        },
+      )
       let gasPrice
       if (gasPriceSelected === GasPrices.Custom) {
         gasPrice = gasCustom?.valueSafe
@@ -151,19 +156,20 @@ export function useApproveAndDeposit(
           [TRANSACTION_TYPES.DEPOSIT]: Date.now(),
         }),
       )
-      clearMessage()
-      addToast({
-        type: "success",
-        title: `${getFormattedTimeString()} Liquidity added, giddyup! 🤠`,
+      closeSnackbar(pendingMessage)
+      enqueueSnackbar(`${getFormattedTimeString()} Liquidity added!`, {
+        variant: "success",
       })
       return Promise.resolve()
     } catch (e) {
       console.error(e)
-      clearToasts()
-      addToast({
-        type: "error",
-        title: `${getFormattedTimeString()} Unable to complete your transaction`,
-      })
+      closeSnackbar()
+      enqueueSnackbar(
+        `${getFormattedTimeString()} Unable to complete your transaction`,
+        {
+          variant: "error",
+        },
+      )
     }
   }
 }

@@ -1,5 +1,5 @@
-import appLogo from "../assets/icons/logo.svg"
 import daiLogo from "../assets/icons/dai.svg"
+import rockyLogo from "../assets/icons/rocky.svg"
 import usdcLogo from "../assets/icons/usdc.svg"
 
 export const NetworkContextName = "NETWORK"
@@ -81,7 +81,7 @@ export const ROCKY_TOKEN = new Token(
   "ROCKY",
   "",
   "ROCKY",
-  appLogo,
+  rockyLogo,
 )
 
 // Stablecoins
@@ -189,3 +189,53 @@ export enum REFS {
   AUDITS_INFO = "https://github.com/saddle-finance/saddle-audits",
   GAS_FETCH = "https://www.gasnow.org/api/v3/gas/price?utm_source=saddle",
 }
+
+/* eslint-enable @typescript-eslint/no-explicit-any */
+export const POOLS = [
+  {
+    title: "USD LP",
+    token: {
+      symbol: STABLECOIN_SWAP_TOKEN.symbol,
+      name: STABLECOIN_SWAP_TOKEN.name,
+      icon: STABLECOIN_SWAP_TOKEN.icon,
+      max: "123",
+      isZeroBalance: false,
+    },
+    pool: {
+      apy: "12.32", // percent
+      stake: {
+        total: "8,000,234",
+        user: "100",
+      },
+      rewards: {
+        symbol: "ROCKY",
+        name: "ROCKY",
+        icon: "",
+        value: "0.003",
+      },
+    },
+  },
+  {
+    title: "ROCKY",
+    token: {
+      symbol: ROCKY_TOKEN.symbol,
+      name: ROCKY_TOKEN.name,
+      icon: ROCKY_TOKEN.icon,
+      max: "0",
+      isZeroBalance: true,
+    },
+    pool: {
+      apy: "12.32", // percent
+      stake: {
+        total: "8,000,234",
+        user: "100",
+      },
+      rewards: {
+        symbol: "ROCKY",
+        name: "ROCKY",
+        icon: "",
+        value: "0.003",
+      },
+    },
+  },
+]
